@@ -1,0 +1,64 @@
+name: Historical no-leak validation
+
+on:
+  workflow_dispatch:
+    inputs:
+      as_of:
+        description: "Historical cutoff (YYYY-MM-DD)"
+        required: true
+        default: "2025-08-15"
+      reveal:
+        description: "Create a separate post-cutoff result file"
+        type: boolean
+        required: true
+        default: false
+      skip_qwen:
+        description: "Skip Qwen for a faster CPU run"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+jobs:
+  backtest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    env:
+      ENABLE_HF_SENTIMENT: "1"
+      ENABLE_QWEN: ${{ inputs.skip_qwen == true && '0' || '1' }}
+      QWEN_DAILY_LIMIT: "6"
+      TOKENIZERS_PARALLELISM: "false"
+      HF_HOME: ${{ github.workspace }}/.cache/huggingface
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+      - uses: actions/cache@v4
+        with:
+          path: .cache/huggingface
+          key: hf-stocklab-v2-${{ runner.os }}-${{ hashFiles('requirements-models.txt', 'config/settings.json') }}
+          restore-keys: hf-stocklab-v2-${{ runner.os }}-
+      - run: pip install -r requirements.txt -r requirements-models.txt
+      - name: Build snapshot without outcome leakage
+        shell: bash
+        run: |
+          ARGS=(--as-of "${{ inputs.as_of }}")
+          if [[ "${{ inputs.reveal }}" == "true" ]]; then ARGS+=(--reveal); fi
+          if [[ "${{ inputs.skip_qwen }}" == "true" ]]; then ARGS+=(--skip-qwen); fi
+          python scripts/backtest.py "${ARGS[@]}"
+      - run: python scripts/quality_check.py
+      - name: Commit requested snapshot/result
+        run: |
+          git config user.name "stocklab-bot"
+          git config user.email "stocklab-bot@users.noreply.github.com"
+          git add -f data/snapshots data/manifest.json
+          if [[ "${{ inputs.reveal }}" == "true" ]]; then git add -f data/results; fi
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "data: historical validation ${{ inputs.as_of }}"
+          git push
