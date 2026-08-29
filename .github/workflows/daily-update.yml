@@ -1,0 +1,84 @@
+name: Daily free news analysis
+
+on:
+  workflow_dispatch:
+    inputs:
+      skip_qwen:
+        description: "Skip Qwen and use finance classifier + rules only"
+        type: boolean
+        default: false
+
+  schedule:
+    - cron: "20 10 * * 1-5"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: stocklab-daily-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+
+    env:
+      ENABLE_HF_SENTIMENT: "1"
+      ENABLE_QWEN: ${{ inputs.skip_qwen == true && '0' || '1' }}
+      QWEN_DAILY_LIMIT: "8"
+      TOKENIZERS_PARALLELISM: "false"
+      HF_HOME: ${{ github.workspace }}/.cache/huggingface
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+          cache-dependency-path: |
+            requirements.txt
+            requirements-models.txt
+
+      - name: Cache Hugging Face models
+        uses: actions/cache@v4
+        with:
+          path: .cache/huggingface
+          key: hf-stocklab-v2-${{ runner.os }}-${{ hashFiles('requirements-models.txt', 'config/settings.json') }}
+          restore-keys: |
+            hf-stocklab-v2-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -r requirements-models.txt
+
+      - name: Fetch news and analyze stocks
+        run: |
+          python scripts/update_daily.py
+
+      - name: Validate generated data
+        run: |
+          python scripts/quality_check.py
+          pytest -q
+
+      - name: Commit generated data
+        run: |
+          if git diff --quiet -- data; then
+            echo "No data change."
+            exit 0
+          fi
+
+          git config user.name "stocklab-bot"
+          git config user.email "stocklab-bot@users.noreply.github.com"
+
+          git add data
+          git commit -m "data: daily news analysis $(date -u +%F)"
+          git push
