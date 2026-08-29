@@ -1,0 +1,37 @@
+{
+  "schema_version": "2.0",
+  "timezone": "Asia/Taipei",
+  "daily_top_n": 5,
+  "minimum_top_pick_composite": 55,
+  "minimum_top_pick_completeness": 58,
+  "maximum_top_pick_risk": 72,
+  "minimum_top_pick_news_relevance": 0.55,
+  "price_lookback_days": 380,
+  "news_lookback_days": 7,
+  "historical_news_lookback_days": 14,
+  "max_news_per_stock": 12,
+  "qwen_max_news_per_stock": 1,
+  "sentiment_model": "bardsai/finance-sentiment-zh-fast",
+  "llm_model": "Qwen/Qwen3-0.6B",
+  "enable_sentiment_model": true,
+  "enable_qwen": true,
+  "fallback_model": "transparent-rule-v2",
+  "score_weights": {
+    "news": 0.33,
+    "technical": 0.24,
+    "fundamental": 0.15,
+    "institutional": 0.1,
+    "completeness": 0.08,
+    "risk_penalty": 0.18
+  },
+  "validation_horizons": [
+    1,
+    5,
+    20
+  ],
+  "benchmark_symbol": "0050",
+  "favorites": {
+    "storage": "localStorage + optional Google Sheets Apps Script",
+    "max_items": 100
+  }
+}
