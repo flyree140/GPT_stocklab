@@ -9,8 +9,15 @@ on:
         default: false
 
   schedule:
-    - cron: "20 10 * * 1-5"
+  # 每天台灣時間 18:37，收盤後更新新聞與分析
+  - cron: "37 12 * * *"
+    timezone: "Asia/Taipei"
 
+  # 每天台灣時間 21:17，再更新一次晚間新聞
+  # 同時作為第一個排程未觸發時的備援
+  - cron: "17 21 * * *"
+    timezone: "Asia/Taipei"
+    
 permissions:
   contents: write
 
@@ -25,7 +32,7 @@ jobs:
 
     env:
       ENABLE_HF_SENTIMENT: "1"
-      ENABLE_QWEN: ${{ inputs.skip_qwen == true && '0' || '1' }}
+      ENABLE_QWEN: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.skip_qwen == 'true' && '0' || '1' }}
       QWEN_DAILY_LIMIT: "8"
       TOKENIZERS_PARALLELISM: "false"
       HF_HOME: ${{ github.workspace }}/.cache/huggingface
@@ -36,7 +43,16 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
+          
+      - name: Show trigger and Taipei clock
+        run: |
+          echo "Event: ${{ github.event_name }}"
+          echo "Schedule: ${{ github.event.schedule }}"
+          echo "UTC:"
+          date
+          echo "Asia/Taipei:"
+          TZ=Asia/Taipei date
+          
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
