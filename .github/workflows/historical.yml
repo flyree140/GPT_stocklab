@@ -1,0 +1,31 @@
+name: Historical StockLab 16 snapshot
+on:
+  workflow_dispatch:
+    inputs:
+      as_of:
+        description: Historical cutoff YYYY-MM-DD
+        required: true
+        type: string
+permissions:
+  contents: write
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      ENABLE_QWEN: '0'
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11', cache: pip}
+      - run: pip install -r requirements.txt
+      - run: python -m stocklab16.build --as-of "${{ inputs.as_of }}"
+      - run: python -m stocklab16.quality && pytest -q
+      - run: |
+          git config user.name stocklab-bot
+          git config user.email stocklab-bot@users.noreply.github.com
+          git add data
+          git commit -m "data: historical ${{ inputs.as_of }}" || exit 0
+          git pull --rebase origin main
+          git push origin HEAD:main

@@ -1,0 +1,35 @@
+name: Deploy StockLab 16 Pages
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['index.html','assets/**','data/**','.github/workflows/pages.yml']
+  workflow_run:
+    workflows: ['Daily StockLab 16 research','Historical StockLab 16 snapshot']
+    types: [completed]
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: true
+jobs:
+  deploy:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: main}
+      - run: |
+          mkdir _site
+          cp index.html .nojekyll _site/
+          cp -R assets data _site/
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with: {path: _site}
+      - uses: actions/deploy-pages@v4
+        id: deployment
