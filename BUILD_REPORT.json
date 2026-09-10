@@ -1,0 +1,54 @@
+{
+  "version": "16.0",
+  "checks": [
+    {
+      "command": "/opt/pyvenv/bin/python -m compileall -q stocklab16",
+      "passed": true,
+      "seconds": 0.636,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node --check assets/app.mjs",
+      "passed": true,
+      "seconds": 0.022,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node --check assets/charts.mjs",
+      "passed": true,
+      "seconds": 0.022,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "node --check assets/engine.mjs",
+      "passed": true,
+      "seconds": 0.031,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": "/opt/pyvenv/bin/python -m stocklab16.quality",
+      "passed": true,
+      "seconds": 0.716,
+      "stdout": "QUALITY PASSED\n",
+      "stderr": ""
+    },
+    {
+      "command": "/opt/pyvenv/bin/python -m pytest -q",
+      "passed": true,
+      "seconds": 1.8,
+      "stdout": "...                                                                      [100%]\n3 passed in 0.03s\n",
+      "stderr": ""
+    },
+    {
+      "command": "node tests/test_engine.mjs",
+      "passed": true,
+      "seconds": 0.04,
+      "stdout": "engine tests passed\n",
+      "stderr": ""
+    }
+  ]
+}
