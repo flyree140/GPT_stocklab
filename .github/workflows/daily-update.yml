@@ -1,0 +1,69 @@
+name: Daily StockLab 16 research
+on:
+  workflow_dispatch:
+    inputs:
+      skip_qwen:
+        description: Skip Qwen and use evidence rules only
+        type: boolean
+        default: false
+      as_of:
+        description: Optional YYYY-MM-DD
+        type: string
+        required: false
+  schedule:
+    - cron: '37 10 * * *' # 18:37 Asia/Taipei
+    - cron: '17 13 * * *' # 21:17 backup
+permissions:
+  contents: write
+concurrency:
+  group: stocklab16-daily
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      ENABLE_QWEN: ${{ inputs.skip_qwen && '0' || '1' }}
+      QWEN_DAILY_LIMIT: '6'
+      HF_HOME: ${{ github.workspace }}/.cache/huggingface
+      FAVORITES_FEED_URL: ${{ secrets.FAVORITES_FEED_URL }}
+      FAVORITES_READ_TOKEN: ${{ secrets.FAVORITES_READ_TOKEN }}
+      DEEP_STOCK_LIMIT: '20'
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            requirements-models.txt
+      - uses: actions/cache@v4
+        with:
+          path: .cache/huggingface
+          key: qwen3-06b-stocklab16-${{ runner.os }}
+      - run: pip install -r requirements.txt
+      - name: Install Qwen dependencies
+        if: ${{ !inputs.skip_qwen }}
+        run: pip install -r requirements-models.txt
+      - name: Refresh full market universe
+        run: python -m stocklab16.universe || true
+      - name: Build daily snapshot
+        shell: bash
+        run: |
+          if [ -n "${{ inputs.as_of }}" ]; then python -m stocklab16.build --as-of "${{ inputs.as_of }}"; else python -m stocklab16.build; fi
+      - name: Quality and tests
+        run: |
+          python -m stocklab16.quality
+          pytest -q
+          node tests/test_engine.mjs
+      - name: Commit generated data
+        run: |
+          git config user.name stocklab-bot
+          git config user.email stocklab-bot@users.noreply.github.com
+          git add data
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "data: StockLab 16 daily $(TZ=Asia/Taipei date +%F)"
+          git pull --rebase origin main
+          git push origin HEAD:main
