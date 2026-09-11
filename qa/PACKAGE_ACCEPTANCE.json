@@ -1,0 +1,304 @@
+{
+  "scope": "offline release and existing v16 fixture overlay",
+  "no_production_overwrites_in_package": true,
+  "source_checks": [
+    {
+      "command": "/opt/pyvenv/bin/python -m stocklab16.quality",
+      "returncode": 0,
+      "stdout": "{\n  \"ok\": true,\n  \"errors\": [],\n  \"json_count\": 18\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": "/opt/pyvenv/bin/python -m pytest -q",
+      "returncode": 0,
+      "stdout": "..........................................................               [100%]\n58 passed in 0.77s\n",
+      "stderr": ""
+    },
+    {
+      "command": "node tests/test_engine.mjs",
+      "returncode": 0,
+      "stdout": "PASS locked never touches future data\nPASS T+1 valid open\nPASS missing open is not replaced with close\nPASS gap stop uses opening price\nPASS same day ambiguity uses stop first\nPASS corporate action stops simplified model\nPASS not enough future sessions stays open\nPASS costs decrease return\nPASS invalid capital rejected\nPASS fractional holding period rejected\nPASS no compounding overlapping trades\nPASS delete tombstone is returned\nPASS pending local edits are retained\nPASS flat Wilder RSI 50\n{\"node_tests\":14,\"ok\":true}\n",
+      "stderr": ""
+    }
+  ],
+  "fresh_site_http": {
+    "passed": true,
+    "runtime_mode": "demo",
+    "base_path": "/GPT_stocklab/",
+    "routes": [
+      {
+        "path": "index.html",
+        "status": 200,
+        "bytes": 11865
+      },
+      {
+        "path": "tutorial.html",
+        "status": 200,
+        "bytes": 32760
+      },
+      {
+        "path": "runtime.json",
+        "status": 200,
+        "bytes": 76
+      },
+      {
+        "path": "assets/styles.css",
+        "status": 200,
+        "bytes": 25893
+      },
+      {
+        "path": "assets/favicon.svg",
+        "status": 200,
+        "bytes": 270
+      },
+      {
+        "path": "assets/app.mjs",
+        "status": 200,
+        "bytes": 31041
+      },
+      {
+        "path": "assets/charts.mjs",
+        "status": 200,
+        "bytes": 7990
+      },
+      {
+        "path": "assets/engine.mjs",
+        "status": 200,
+        "bytes": 6083
+      },
+      {
+        "path": "assets/favicon.svg",
+        "status": 200,
+        "bytes": 270
+      },
+      {
+        "path": "assets/styles.css",
+        "status": 200,
+        "bytes": 25893
+      },
+      {
+        "path": "assets/app.mjs",
+        "status": 200,
+        "bytes": 31041
+      },
+      {
+        "path": "tutorial.html",
+        "status": 200,
+        "bytes": 32760
+      },
+      {
+        "path": "tutorial.html",
+        "status": 200,
+        "bytes": 32760
+      },
+      {
+        "path": "tutorial.html",
+        "status": 200,
+        "bytes": 32760
+      },
+      {
+        "path": "tutorial.html",
+        "status": 200,
+        "bytes": 32760
+      },
+      {
+        "path": "tutorial.html",
+        "status": 200,
+        "bytes": 32760
+      },
+      {
+        "path": "assets/charts.mjs",
+        "status": 200,
+        "bytes": 7990
+      },
+      {
+        "path": "assets/engine.mjs",
+        "status": 200,
+        "bytes": 6083
+      },
+      {
+        "path": "data/demo/manifest.json",
+        "status": 200,
+        "bytes": 1297
+      },
+      {
+        "path": "data/demo/snapshots/2026-09-10.json",
+        "status": 200,
+        "bytes": 1129287
+      },
+      {
+        "path": "data/demo/snapshots/2026-09-09.json",
+        "status": 200,
+        "bytes": 1129385
+      },
+      {
+        "path": "data/demo/snapshots/2026-09-08.json",
+        "status": 200,
+        "bytes": 1129562
+      },
+      {
+        "path": "data/demo/snapshots/2025-08-15.json",
+        "status": 200,
+        "bytes": 1122407
+      }
+    ],
+    "private_state_status": 404
+  },
+  "overlay": {
+    "existing_fixture": "StockLab-v16-COMPLETE.zip",
+    "protected_files": 15,
+    "changed_on_overlay": []
+  },
+  "migration_command": {
+    "command": "/opt/pyvenv/bin/python -m stocklab16.migrate",
+    "returncode": 0,
+    "stdout": "[{'source': 'data/snapshots/2026-09-10.json', 'result': 'data/snapshots/2026-09-10/run-20260911T203720158522.json', 'status': 'recomputed'}, {'source': 'data/snapshots/2025-08-15.json', 'result': 'data/snapshots/2025-08-15/run-20260911T203720224716.json', 'status': 'recomputed'}]\n",
+    "stderr": ""
+  },
+  "migration": {
+    "rows": [
+      {
+        "source": "data/snapshots/2026-09-10.json",
+        "result": "data/snapshots/2026-09-10/run-20260911T203720158522.json",
+        "status": "recomputed"
+      },
+      {
+        "source": "data/snapshots/2025-08-15.json",
+        "result": "data/snapshots/2025-08-15/run-20260911T203720224716.json",
+        "status": "recomputed"
+      }
+    ],
+    "original_snapshots": 2,
+    "unchanged_original_snapshots": true,
+    "unchanged_market_histories": true,
+    "unchanged_custom_configuration": true
+  },
+  "existing_data_checks": [
+    {
+      "command": "/opt/pyvenv/bin/python -m stocklab16.quality",
+      "returncode": 0,
+      "stdout": "{\n  \"ok\": true,\n  \"errors\": [],\n  \"json_count\": 36\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": "/opt/pyvenv/bin/python -m pytest -q",
+      "returncode": 0,
+      "stdout": "..........................................................               [100%]\n58 passed in 0.84s\n",
+      "stderr": ""
+    }
+  ],
+  "production_site_http": {
+    "passed": true,
+    "runtime_mode": "production",
+    "base_path": "/GPT_stocklab/",
+    "routes": [
+      {
+        "path": "index.html",
+        "status": 200,
+        "bytes": 11865
+      },
+      {
+        "path": "tutorial.html",
+        "status": 200,
+        "bytes": 32760
+      },
+      {
+        "path": "runtime.json",
+        "status": 200,
+        "bytes": 82
+      },
+      {
+        "path": "assets/styles.css",
+        "status": 200,
+        "bytes": 25893
+      },
+      {
+        "path": "assets/favicon.svg",
+        "status": 200,
+        "bytes": 270
+      },
+      {
+        "path": "assets/app.mjs",
+        "status": 200,
+        "bytes": 31041
+      },
+      {
+        "path": "assets/charts.mjs",
+        "status": 200,
+        "bytes": 7990
+      },
+      {
+        "path": "assets/engine.mjs",
+        "status": 200,
+        "bytes": 6083
+      },
+      {
+        "path": "assets/favicon.svg",
+        "status": 200,
+        "bytes": 270
+      },
+      {
+        "path": "assets/styles.css",
+        "status": 200,
+        "bytes": 25893
+      },
+      {
+        "path": "assets/app.mjs",
+        "status": 200,
+        "bytes": 31041
+      },
+      {
+        "path": "tutorial.html",
+        "status": 200,
+        "bytes": 32760
+      },
+      {
+        "path": "tutorial.html",
+        "status": 200,
+        "bytes": 32760
+      },
+      {
+        "path": "tutorial.html",
+        "status": 200,
+        "bytes": 32760
+      },
+      {
+        "path": "tutorial.html",
+        "status": 200,
+        "bytes": 32760
+      },
+      {
+        "path": "tutorial.html",
+        "status": 200,
+        "bytes": 32760
+      },
+      {
+        "path": "assets/charts.mjs",
+        "status": 200,
+        "bytes": 7990
+      },
+      {
+        "path": "assets/engine.mjs",
+        "status": 200,
+        "bytes": 6083
+      },
+      {
+        "path": "data/manifest.json",
+        "status": 200,
+        "bytes": 1885
+      },
+      {
+        "path": "data/snapshots/2026-09-10/run-20260911T203720158522.json",
+        "status": 200,
+        "bytes": 652523
+      },
+      {
+        "path": "data/snapshots/2025-08-15/run-20260911T203720224716.json",
+        "status": 200,
+        "bytes": 654314
+      }
+    ],
+    "private_state_status": 404
+  },
+  "passed": true
+}

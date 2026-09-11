@@ -1,6 +1,7 @@
 from __future__ import annotations
 import json, urllib.request
 from .common import ROOT,now,read_json,write_json
+from .storage import settings_file
 
 def _get(url):
     req=urllib.request.Request(url,headers={'User-Agent':'StockLab16'})
@@ -21,8 +22,11 @@ def refresh():
                 if code and name:rows.append({'symbol':code+'.TWO','code':code,'name':name,'market':'上櫃','sector':str(r.get('產業別') or r.get('IndustryCategory') or '')})
             if data:break
         except Exception as exc:print('TPEX universe endpoint unavailable',exc)
-    core=read_json(ROOT/'config'/'stocks.json',{}).get('stocks',[]); rows.extend({'symbol':r['symbol'],'code':r['symbol'].split('.')[0],'name':r['name'],'market':'核心','sector':r.get('sector','')} for r in core)
-    ded={r['symbol']:r for r in rows}; payload={'version':'16.0','generated_at':now().isoformat(timespec='seconds'),'count':len(ded),'instruments':sorted(ded.values(),key=lambda x:x['symbol'])}
+    existing=read_json(ROOT/'data/universe.json',{}).get('instruments',[])
+    core=read_json(settings_file('stocks'),{}).get('stocks',[]); rows.extend({'symbol':r['symbol'],'code':r['symbol'].split('.')[0],'name':r['name'],'market':'核心','sector':r.get('sector','')} for r in core)
+    ded={r['symbol']:r for r in existing}
+    for r in rows:
+        if r['symbol'] not in ded or r.get('market')!='核心':ded[r['symbol']]=r; payload={'version':'16.0','generated_at':now().isoformat(timespec='seconds'),'count':len(ded),'instruments':sorted(ded.values(),key=lambda x:x['symbol'])}
     if ded:write_json(ROOT/'data'/'universe.json',payload)
     return payload
 

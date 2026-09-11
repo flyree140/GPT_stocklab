@@ -1,54 +1,90 @@
 {
-  "version": "16.0",
-  "checks": [
+  "version": "16.1.2",
+  "offline_checks_passed": true,
+  "source_checks": [
     {
       "command": "/opt/pyvenv/bin/python -m compileall -q stocklab16",
-      "passed": true,
-      "seconds": 0.636,
+      "returncode": 0,
+      "elapsed_seconds": 1.05,
       "stdout": "",
       "stderr": ""
     },
     {
       "command": "node --check assets/app.mjs",
-      "passed": true,
-      "seconds": 0.022,
+      "returncode": 0,
+      "elapsed_seconds": 0.04,
       "stdout": "",
       "stderr": ""
     },
     {
       "command": "node --check assets/charts.mjs",
-      "passed": true,
-      "seconds": 0.022,
+      "returncode": 0,
+      "elapsed_seconds": 0.03,
       "stdout": "",
       "stderr": ""
     },
     {
       "command": "node --check assets/engine.mjs",
-      "passed": true,
-      "seconds": 0.031,
+      "returncode": 0,
+      "elapsed_seconds": 0.07,
       "stdout": "",
       "stderr": ""
     },
     {
       "command": "/opt/pyvenv/bin/python -m stocklab16.quality",
-      "passed": true,
-      "seconds": 0.716,
-      "stdout": "QUALITY PASSED\n",
+      "returncode": 0,
+      "elapsed_seconds": 1.38,
+      "stdout": "{\n  \"ok\": true,\n  \"errors\": [],\n  \"json_count\": 18\n}\n",
       "stderr": ""
     },
     {
       "command": "/opt/pyvenv/bin/python -m pytest -q",
-      "passed": true,
-      "seconds": 1.8,
-      "stdout": "...                                                                      [100%]\n3 passed in 0.03s\n",
+      "returncode": 0,
+      "elapsed_seconds": 3.71,
+      "stdout": "..........................................................               [100%]\n58 passed in 1.01s\n",
       "stderr": ""
     },
     {
       "command": "node tests/test_engine.mjs",
-      "passed": true,
-      "seconds": 0.04,
-      "stdout": "engine tests passed\n",
+      "returncode": 0,
+      "elapsed_seconds": 0.07,
+      "stdout": "PASS locked never touches future data\nPASS T+1 valid open\nPASS missing open is not replaced with close\nPASS gap stop uses opening price\nPASS same day ambiguity uses stop first\nPASS corporate action stops simplified model\nPASS not enough future sessions stays open\nPASS costs decrease return\nPASS invalid capital rejected\nPASS fractional holding period rejected\nPASS no compounding overlapping trades\nPASS delete tombstone is returned\nPASS pending local edits are retained\nPASS flat Wilder RSI 50\n{\"node_tests\":14,\"ok\":true}\n",
       "stderr": ""
     }
-  ]
+  ],
+  "python_tests": 58,
+  "node_engine_tests": 14,
+  "browser_behavior_assertions": 32,
+  "responsive_layout_checks": 33,
+  "browser_page_errors": [],
+  "screenshots": [
+    "01-overview.png",
+    "02-revenue-analysis.png",
+    "03-eps-comparison.png",
+    "04-evidence-expanded.png",
+    "05-stock-research.png",
+    "06-entry-gates.png",
+    "07-watchlist.png",
+    "08-history.png",
+    "09-blind-plan.png",
+    "10-simulation-result.png",
+    "11-tutorial.png",
+    "12-tutorial-calculator.png",
+    "13-mobile-overview.png",
+    "14-mobile-news.png",
+    "15-mobile-stock.png",
+    "16-mobile-tutorial.png"
+  ],
+  "existing_v16_fixture_protected_files": 15,
+  "existing_data_changed_by_overlay": [],
+  "http_routes_tested": 44,
+  "browser_test_mode": "offline_dom_actual_release_files",
+  "not_tested": [
+    "normal browser URL navigation (blocked by environment policy)",
+    "GitHub Actions live runner",
+    "live Qwen weights/inference",
+    "live news providers",
+    "live Google Sheets authorization"
+  ],
+  "scope": "Offline publication artefact. Neither user GitHub repository nor account settings have been changed."
 }

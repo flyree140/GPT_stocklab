@@ -4,7 +4,7 @@ from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-VERSION='16.0'
+VERSION='16.1.2'
 ROOT=Path(__file__).resolve().parents[1]
 TZ=ZoneInfo('Asia/Taipei')
 
@@ -32,4 +32,8 @@ def read_json(path, default=None):
 
 def write_json(path, data):
     p=Path(path); p.parent.mkdir(parents=True, exist_ok=True)
-    p.write_text(json.dumps(data,ensure_ascii=False,indent=2,allow_nan=False)+'\n',encoding='utf-8')
+    import os, tempfile
+    payload=json.dumps(data,ensure_ascii=False,indent=2,allow_nan=False)+'\n'
+    with tempfile.NamedTemporaryFile('w',encoding='utf-8',dir=p.parent,delete=False) as f:
+        f.write(payload); tmp=Path(f.name)
+    os.replace(tmp,p)

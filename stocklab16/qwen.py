@@ -1,36 +1,43 @@
+"""Bounded local optional inference. No paid endpoints. All attempts count.
+Cache keys include model revision and schema. Quota persists in data/system.
+Worker is killed on timeout; disabled/old-date modes never start a worker.
+"""
 from __future__ import annotations
-import json, os, re, hashlib
+import json,os,hashlib,subprocess,sys,tempfile,time
 from pathlib import Path
-from .common import ROOT
+from .common import ROOT,now,read_json,write_json
 
-ALLOWED={'profile','promotion','governance','earnings','capital','dividend','disruption','orders','partnership','macro','unclear'}
 class QwenHints:
-    def __init__(self,limit=6):
-        self.limit=int(os.getenv('QWEN_DAILY_LIMIT',limit)); self.used=0; self.model=None; self.tok=None
-        self.cache_path=ROOT/'data'/'qwen_cache.json'; self.cache={}
-        if self.cache_path.exists():
-            try:self.cache=json.loads(self.cache_path.read_text(encoding='utf-8'))
-            except Exception:self.cache={}
-    def save(self):
-        self.cache_path.parent.mkdir(parents=True,exist_ok=True); self.cache_path.write_text(json.dumps(self.cache,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
-    def _load(self):
-        if self.model is not None:return True
-        if os.getenv('ENABLE_QWEN','1')!='1':return False
-        try:
-            from transformers import AutoTokenizer,AutoModelForCausalLM
-            self.tok=AutoTokenizer.from_pretrained('Qwen/Qwen3-0.6B'); self.model=AutoModelForCausalLM.from_pretrained('Qwen/Qwen3-0.6B',device_map='cpu',low_cpu_mem_usage=True); return True
-        except Exception as exc:
-            print('Qwen unavailable',exc); return False
+    def __init__(self,limit=6,root=ROOT):
+        self.root=Path(root);self.limit=max(0,min(6,int(os.getenv('QWEN_DAILY_LIMIT',limit))))
+        self.used=0;self.cached=0;self.start=time.monotonic();self.failed=False
+        self.enabled=os.getenv('ENABLE_QWEN','1')=='1'
+        self.day=now().date().isoformat();self.path=self.root/'data/system/qwen-state.json'
+        self.state=read_json(self.path,{}) or {};self.state.setdefault('cache',{})
+        if self.state.get('day')!=self.day:self.state.update(day=self.day,attempts=0)
+    def save(self):write_json(self.path,self.state)
     def hint(self,title,excerpt=''):
-        text=(title+'\n'+excerpt[:700]).strip(); key=hashlib.sha256(text.encode()).hexdigest()
-        if key in self.cache:return self.cache[key]
-        if self.used>=self.limit or not self._load():return None
-        self.used+=1
-        prompt='''你是財經新聞分類器。只使用下面證據，不補寫未知事實。\n允許 category: profile,promotion,governance,earnings,capital,dividend,disruption,orders,partnership,macro,unclear。\n只輸出 JSON：{"category":"...","evidence":"從證據逐字複製的短片段"}\n證據：'''+text
+        if not self.enabled:return None
+        text=(str(title)+'\n'+str(excerpt)[:700]).strip()
+        revision=os.getenv('QWEN_REVISION','c1899de289a04d12100db370d81485cdf75e47ca')
+        key=hashlib.sha256(('16.1.2|'+revision+'|'+text).encode()).hexdigest()
+        if key in self.state['cache']:
+            self.cached+=1;return self.state['cache'][key]
+        if self.failed or self.state['attempts']>=self.limit or time.monotonic()-self.start>=720:return None
+        self.state['attempts']+=1;self.used+=1;self.save()
+        temp=self.root/'.cache/qwen-jobs';temp.mkdir(parents=True,exist_ok=True)
+        inp=temp/(key+'.input.json');out=temp/(key+'.output.json')
+        write_json(inp,{'text':text,'revision':revision})
         try:
-            msgs=[{'role':'user','content':prompt}]; templ=self.tok.apply_chat_template(msgs,tokenize=False,add_generation_prompt=True,enable_thinking=False)
-            inputs=self.tok([templ],return_tensors='pt'); out=self.model.generate(**inputs,max_new_tokens=96,do_sample=False,pad_token_id=self.tok.eos_token_id)
-            ans=self.tok.decode(out[0][inputs.input_ids.shape[1]:],skip_special_tokens=True); m=re.search(r'\{.*?\}',ans,re.S); obj=json.loads(m.group(0)) if m else None
-            if obj and obj.get('category') in ALLOWED and obj.get('evidence') in text:self.cache[key]=obj; self.save(); return obj
-        except Exception as exc: print('Qwen hint failed',exc)
-        self.cache[key]=None; self.save(); return None
+            p=subprocess.run([sys.executable,'-m','stocklab16.qwen_worker',str(inp),str(out)],cwd=self.root,timeout=min(120,max(1,720-(time.monotonic()-self.start))),capture_output=True,text=True)
+            if p.returncode:raise RuntimeError(p.stderr[-300:])
+            obj=read_json(out);from .events import validate_hint
+            if not validate_hint(obj,[{'text':text}]):obj=None
+        except (subprocess.TimeoutExpired,RuntimeError,ValueError) as exc:
+            print('Qwen fallback:',str(exc)[:180]);obj=None;self.failed=True
+        finally:
+            inp.unlink(missing_ok=True);out.unlink(missing_ok=True)
+        self.state['cache'][key]=obj
+        # Bound serialized cache to latest 1000 entries.
+        self.state['cache']=dict(list(self.state['cache'].items())[-1000:]);self.save()
+        return obj

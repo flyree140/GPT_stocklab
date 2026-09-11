@@ -2,6 +2,7 @@ from __future__ import annotations
 import html, urllib.parse, urllib.request, xml.etree.ElementTree as ET
 from datetime import date,timedelta,timezone
 from email.utils import parsedate_to_datetime
+from .common import now,TZ
 
 def fetch(company, symbol, as_of, lookback=3, limit=8):
     end=date.fromisoformat(as_of)+timedelta(days=1); start=end-timedelta(days=lookback+1)
@@ -18,8 +19,9 @@ def fetch(company, symbol, as_of, lookback=3, limit=8):
         try: published=parsedate_to_datetime(raw)
         except Exception: continue
         if published.tzinfo is None: published=published.replace(tzinfo=timezone.utc)
-        if published.date()>date.fromisoformat(as_of): continue
+        if not (start<=published.astimezone(TZ).date()<=date.fromisoformat(as_of)): continue
+        if published>now(): continue
         source=item.find('source'); publisher=(source.text or '').strip() if source is not None else ''
-        out.append({'title':title,'url':link,'source_url':link,'publisher':publisher,'published_at':published.isoformat(),'available_at':published.isoformat(),'fetched_at':as_of+'T23:59:00+08:00'})
+        out.append({'title':title,'url':link,'source_url':source.attrib.get('url',link) if source is not None else link,'publisher':publisher,'published_at':published.isoformat(),'available_at':published.isoformat(),'fetched_at':now().isoformat()})
         if len(out)>=limit: break
     return out

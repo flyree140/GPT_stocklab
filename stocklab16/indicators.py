@@ -6,7 +6,7 @@ def mean(values):
     return sum(vals)/len(vals) if vals else None
 
 def enrich(rows):
-    out=[]; closes=[]; gains=[]; losses=[]; trs=[]; e12=e26=sig=None; k=d=50.0
+    out=[]; closes=[]; gains=[]; losses=[]; trs=[]; e12=e26=sig=None; k=d=50.0; ag=al=None
     for i,src in enumerate(rows):
         r=dict(src); c=number(r.get('close'))
         if c is None: continue
@@ -16,7 +16,9 @@ def enrich(rows):
         if i:
             diff=c-prev; gains.append(max(diff,0)); losses.append(max(-diff,0))
         if len(gains)>=14:
-            ag=mean(gains[-14:]); al=mean(losses[-14:]); r['rsi']=100 if al==0 and ag>0 else 50 if al==0 else 100-100/(1+ag/al)
+            if ag is None: ag=mean(gains[:14]); al=mean(losses[:14])
+            else: ag=(ag*13+gains[-1])/14; al=(al*13+losses[-1])/14
+            r['rsi']=100 if al==0 and ag>0 else 50 if al==0 else 100-100/(1+ag/al)
         else:r['rsi']=None
         e12=c if e12 is None else c*2/13+e12*11/13
         e26=c if e26 is None else c*2/27+e26*25/27

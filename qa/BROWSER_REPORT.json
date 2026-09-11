@@ -1,0 +1,410 @@
+{
+  "mode": "offline_dom_actual_release_files",
+  "browser": "Chromium",
+  "test_adapters": [
+    "file-backed fetch (on demand)",
+    "blob module URLs",
+    "in-memory localStorage",
+    "history.replaceState no-op"
+  ],
+  "not_tested": [
+    "normal browser URL navigation (blocked by environment policy)",
+    "GitHub Actions live runner",
+    "live Qwen weights/inference",
+    "live news providers",
+    "live Google Sheets authorization"
+  ],
+  "checks": [
+    {
+      "name": "dashboard loads real packaged JSON",
+      "passed": true
+    },
+    {
+      "name": "revenue 377 extraction visible",
+      "passed": true
+    },
+    {
+      "name": "29.6 not blanket 19",
+      "passed": true
+    },
+    {
+      "name": "news search filters",
+      "passed": true
+    },
+    {
+      "name": "analyst subcategory filter",
+      "passed": true
+    },
+    {
+      "name": "115.4 paired arithmetic visible",
+      "passed": true
+    },
+    {
+      "name": "EPS baseline caveat shown",
+      "passed": true
+    },
+    {
+      "name": "financial-specific credit KPIs",
+      "passed": true
+    },
+    {
+      "name": "trend filter active",
+      "passed": true
+    },
+    {
+      "name": "stock search",
+      "passed": true
+    },
+    {
+      "name": "chart exists",
+      "passed": true
+    },
+    {
+      "name": "macd chart switch",
+      "passed": true
+    },
+    {
+      "name": "kd chart switch",
+      "passed": true
+    },
+    {
+      "name": "rsi chart switch",
+      "passed": true
+    },
+    {
+      "name": "OHLC hover has actual date",
+      "passed": true
+    },
+    {
+      "name": "chart color switch",
+      "passed": true
+    },
+    {
+      "name": "six independent entry gates",
+      "passed": true
+    },
+    {
+      "name": "new favorite toggles on",
+      "passed": true
+    },
+    {
+      "name": "native modal escape",
+      "passed": true
+    },
+    {
+      "name": "watchlist note saved through storage interface",
+      "passed": true
+    },
+    {
+      "name": "favorite deletion retains tombstone",
+      "passed": true
+    },
+    {
+      "name": "historical snapshot switched",
+      "passed": true
+    },
+    {
+      "name": "switch history does not request answer history",
+      "passed": true
+    },
+    {
+      "name": "plan locked first",
+      "passed": true
+    },
+    {
+      "name": "no future market reads before reveal",
+      "passed": true
+    },
+    {
+      "name": "cancel reveal leaves future data unread",
+      "passed": true
+    },
+    {
+      "name": "future history requested only after confirmation",
+      "passed": true
+    },
+    {
+      "name": "tutorial has all seven lessons",
+      "passed": true
+    },
+    {
+      "name": "EPS calculator responds to inputs",
+      "passed": true
+    },
+    {
+      "name": "missing old EPS stays unknown",
+      "passed": true
+    },
+    {
+      "name": "risk calculator rejects invalid stop",
+      "passed": true
+    },
+    {
+      "name": "quiz feedback works",
+      "passed": true
+    }
+  ],
+  "page_errors": [],
+  "screenshots": [
+    "01-overview.png",
+    "02-revenue-analysis.png",
+    "03-eps-comparison.png",
+    "04-evidence-expanded.png",
+    "05-stock-research.png",
+    "06-entry-gates.png",
+    "07-watchlist.png",
+    "08-history.png",
+    "09-blind-plan.png",
+    "10-simulation-result.png",
+    "11-tutorial.png",
+    "12-tutorial-calculator.png",
+    "13-mobile-overview.png",
+    "14-mobile-news.png",
+    "15-mobile-stock.png",
+    "16-mobile-tutorial.png"
+  ],
+  "layouts": [
+    {
+      "page": "desktop-dashboard",
+      "expected_width": 1440,
+      "viewport": 1440,
+      "body": 1440,
+      "overflows": []
+    },
+    {
+      "page": "desktop-revenue",
+      "expected_width": 1440,
+      "viewport": 1440,
+      "body": 1440,
+      "overflows": []
+    },
+    {
+      "page": "desktop-tutorial",
+      "expected_width": 1440,
+      "viewport": 1440,
+      "body": 1440,
+      "overflows": []
+    },
+    {
+      "page": "mobile-390-home",
+      "expected_width": 390,
+      "viewport": 390,
+      "body": 390,
+      "overflows": []
+    },
+    {
+      "page": "mobile-390-stocks",
+      "expected_width": 390,
+      "viewport": 390,
+      "body": 390,
+      "overflows": []
+    },
+    {
+      "page": "mobile-390-news",
+      "expected_width": 390,
+      "viewport": 390,
+      "body": 390,
+      "overflows": []
+    },
+    {
+      "page": "mobile-390-history",
+      "expected_width": 390,
+      "viewport": 390,
+      "body": 390,
+      "overflows": []
+    },
+    {
+      "page": "mobile-390-sim",
+      "expected_width": 390,
+      "viewport": 390,
+      "body": 390,
+      "overflows": []
+    },
+    {
+      "page": "mobile-390-favorites",
+      "expected_width": 390,
+      "viewport": 390,
+      "body": 390,
+      "overflows": []
+    },
+    {
+      "page": "mobile-390-method",
+      "expected_width": 390,
+      "viewport": 390,
+      "body": 390,
+      "overflows": []
+    },
+    {
+      "page": "mobile-390-expanded-news",
+      "expected_width": 390,
+      "viewport": 390,
+      "body": 390,
+      "overflows": []
+    },
+    {
+      "page": "mobile-390-stock-dialog",
+      "expected_width": 390,
+      "viewport": 390,
+      "body": 390,
+      "overflows": []
+    },
+    {
+      "page": "mobile-390-tutorial",
+      "expected_width": 390,
+      "viewport": 390,
+      "body": 390,
+      "overflows": []
+    },
+    {
+      "page": "mobile-360-home",
+      "expected_width": 360,
+      "viewport": 360,
+      "body": 360,
+      "overflows": []
+    },
+    {
+      "page": "mobile-360-stocks",
+      "expected_width": 360,
+      "viewport": 360,
+      "body": 360,
+      "overflows": []
+    },
+    {
+      "page": "mobile-360-news",
+      "expected_width": 360,
+      "viewport": 360,
+      "body": 360,
+      "overflows": []
+    },
+    {
+      "page": "mobile-360-history",
+      "expected_width": 360,
+      "viewport": 360,
+      "body": 360,
+      "overflows": []
+    },
+    {
+      "page": "mobile-360-sim",
+      "expected_width": 360,
+      "viewport": 360,
+      "body": 360,
+      "overflows": []
+    },
+    {
+      "page": "mobile-360-favorites",
+      "expected_width": 360,
+      "viewport": 360,
+      "body": 360,
+      "overflows": []
+    },
+    {
+      "page": "mobile-360-method",
+      "expected_width": 360,
+      "viewport": 360,
+      "body": 360,
+      "overflows": []
+    },
+    {
+      "page": "mobile-360-expanded-news",
+      "expected_width": 360,
+      "viewport": 360,
+      "body": 360,
+      "overflows": []
+    },
+    {
+      "page": "mobile-360-stock-dialog",
+      "expected_width": 360,
+      "viewport": 360,
+      "body": 360,
+      "overflows": []
+    },
+    {
+      "page": "mobile-360-tutorial",
+      "expected_width": 360,
+      "viewport": 360,
+      "body": 360,
+      "overflows": []
+    },
+    {
+      "page": "mobile-320-home",
+      "expected_width": 320,
+      "viewport": 320,
+      "body": 320,
+      "overflows": []
+    },
+    {
+      "page": "mobile-320-stocks",
+      "expected_width": 320,
+      "viewport": 320,
+      "body": 320,
+      "overflows": []
+    },
+    {
+      "page": "mobile-320-news",
+      "expected_width": 320,
+      "viewport": 320,
+      "body": 320,
+      "overflows": []
+    },
+    {
+      "page": "mobile-320-history",
+      "expected_width": 320,
+      "viewport": 320,
+      "body": 320,
+      "overflows": []
+    },
+    {
+      "page": "mobile-320-sim",
+      "expected_width": 320,
+      "viewport": 320,
+      "body": 320,
+      "overflows": []
+    },
+    {
+      "page": "mobile-320-favorites",
+      "expected_width": 320,
+      "viewport": 320,
+      "body": 320,
+      "overflows": []
+    },
+    {
+      "page": "mobile-320-method",
+      "expected_width": 320,
+      "viewport": 320,
+      "body": 320,
+      "overflows": []
+    },
+    {
+      "page": "mobile-320-expanded-news",
+      "expected_width": 320,
+      "viewport": 320,
+      "body": 320,
+      "overflows": []
+    },
+    {
+      "page": "mobile-320-stock-dialog",
+      "expected_width": 320,
+      "viewport": 320,
+      "body": 320,
+      "overflows": []
+    },
+    {
+      "page": "mobile-320-tutorial",
+      "expected_width": 320,
+      "viewport": 320,
+      "body": 320,
+      "overflows": []
+    }
+  ],
+  "requests": [
+    "runtime.json",
+    "data/demo/manifest.json",
+    "data/demo/snapshots/2026-09-10.json",
+    "data/demo/universe.json",
+    "data/demo/snapshots/2025-08-15.json",
+    "data/demo/market/2330_TW.json"
+  ],
+  "browser_version": "144.0.7559.96",
+  "passed": true,
+  "check_count": 32
+}

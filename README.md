@@ -1,62 +1,65 @@
-# StockLab 16 — Evidence First
+# StockLab 16.1.2 | Evidence First
 
-免費 GitHub Pages + GitHub Actions 台股研究與模擬交易平台。
+可合併覆蓋既有 v16 的證據型台股研究網站。保留 v16 的免費本地 Qwen、歷史快照、試買與 Google Sheets 收藏，補上 16.1 的逐類事件／數字分析及七章互動教學。本次新增完整相依模組、可部署流程與回歸／視覺驗收。
 
-## v16 重點
+## 不再把所有財務新聞都算 +19
 
-- **新聞不只打分數**：顯示事件類型、可讀證據、影響路徑、確認條件、失效條件、下一個 KPI。
-- **排除低價值內容**：靜態個股頁、一般促銷、會議花絮不再被當成強烈交易訊號。
-- **Qwen 免費控制**：每天最多 6 則高價值事件交給 `Qwen/Qwen3-0.6B` 做證據分類；重複內容快取；正式分數由透明規則與決策閘門產生。
-- **研究方向**：新聞、基本面、技術、法人籌碼、估值、大盤一起評估；缺資料就顯示缺值，不用 50 分冒充已評估。
-- **現代圖表**：本地 SVG K 線、MA5/20/60、成交量、RSI/MACD/KD、支撐壓力與新聞日標記。
-- **歷史快照**：`data/snapshots/YYYY-MM-DD.json` 保存每個成功執行日期。
-- **試買模擬**：只有按下「揭曉」才讀取訊號日後價格。
-- **Google Sheet 收藏**：附 Apps Script，支援跨裝置同步與 tombstone 刪除紀錄。
-- **全市場名單**：官方免費來源更新上市/上櫃 universe；每日深度分析仍採限額以控制免費 runner。
+- **已公布月營收**：擷取年增、月增、營收金額；明確拆開基期、量價、合併範圍與獲利轉換。
+- **分析師 EPS 修訂**：分清預估與實績，保留數字所在原句；找不到舊 EPS 時，不捏造修訂幅度。
+- **報導目標價**：目標價／EPS 只作期間尚待確認的配對算術，不稱作現在本益比，更不是本站目標價。
+- **金融股**：另看淨利差、信用成本、ROE、PB，不套製造業毛利模板。
+- **其他事件**：促銷、股東會花絮、靜態行情頁不作強交易訊號；合作案看付費客戶、合約與認列。
+- 每則顯示：證據數字 → 傳導圖 → 現在怎麼做 → 追蹤指標／時點 → 失效條件 → 可展開的證據與計分公式。
 
-## 直接覆蓋 GitHub
+同樣只知道「EPS上修」的兩家公司，可以合理同分；不會為了看起來不同而亂改分數。所有分數是未經績效校準的規則，不是報酬率或上漲機率。
 
-詳見 `docs/DEPLOY.md`。最重要的是：解壓後要把 `.github/`、`assets/`、`stocklab16/` 等直接放在 Repository 根目錄，不要再包一層資料夾。
+## 個股研究與圖表
 
-## 第一次建議流程
+價格日期、月季線趨勢、事實可用性、可比估值、到近期壓力的報酬／風險及重大事件原始證據，逐項顯示通過／未達／缺資料。進場者與持有者分開說明。
 
-1. Push 到 `main`。
-2. Settings → Actions → General → Workflow permissions → `Read and write permissions`。
-3. Settings → Pages → Source → `GitHub Actions`。
-4. Actions → `Daily StockLab 16 research` → Run workflow。
-5. 第一次可勾 `skip_qwen`，先確認新聞/價量/快照/Pages 都正常。
-6. 第二次不勾 `skip_qwen`，測完整免費 Qwen 管線。
+本地 SVG K 線：MA5/20/60、成交量、RSI/MACD/KD、新交叉與單純在上方的差異、60/120/250筆區間、日期滑動、游標OHLC、紅漲綠跌切換、每日原始行情表。手機只讓圖表局部水平滑動，不把整個頁面撐寬。
 
-## 免費策略
+教學：`tutorial.html`（7章），包括使用者提供的三則新聞案例、EPS情境、風險預算、盲測流程與小測驗。自包含，沒有模型呼叫或外部程式庫。
 
-GitHub runner 不應對全上市櫃每檔都跑生成模型。本版把工作拆成：
+## 保護舊資料
 
-- 全市場：名單可搜尋。
-- 深度池：`config/stocks.json` 內核心股票；可自行擴充。
-- 新聞：Google News RSS 免費抓取。
-- Qwen：每天上限 6 則，只做證據分類，不自由生成投資故事。
-- 分數：透明規則計算，不把 LLM 語氣當成預測機率。
+ZIP 不包含正式 latest/manifest/snapshots/market，也不包含同名自訂 config。不要先刪除原專案。
 
-## 本機測試
+`python -m stocklab16.migrate` / **Re-analyze saved snapshots**：只對相容 v16 保存的新聞重算，新 run 檔另存，原始檔位元組保留。事後規則重算有標記，不冒充當年的即時預測。舊v14/v15格式不猜測轉換。
+
+`stocklab16.stage`：Pages只公開網站、教學及必要資料，不公開 data/system 模型狀態、Token或Python原始碼。預覽快照在 data/demo；有正式manifest則進入正式模式。
+
+## 資料覆蓋能力與限制
+
+上市／上櫃官方名單可搜尋，**名單不代表每檔已做完整分析**。每日深度池預設20檔、上限30，收藏優先，剩餘依核心池；免費供應商可能限流或缺資料。即時籌碼／歷史財報尚無完整provider時就顯示缺值，不聲稱全市場六面向都完整。
+
+現有前端能分辨舊格式，但相容性不是對任意v14/v15資料的保證。行情或新聞原文未取得，不回填猜測值。新聞來源為RSS標題／可取得摘要；Qwen不會憑空補全文。
+
+## 控制免費本地推論
+
+不要求付費模型API。Qwen3-0.6B釘選revision，本地CPU推論，每日最多6次新嘗試（失敗也算）、每則256 token、子程序120秒上限、整批720秒，重複內容取快取。具明確數字的新聞優先用規則；模型僅輔助模糊事件證據分類。
+
+每天18:37台北時間主要排程，21:17為備援；備援發現當天已更新就跳過。不代表GitHub排程準點或永不遺漏。公開標準runner以外的帳戶／額外儲存設定可能產生成本；不自動開通付費方案。
+
+## 模擬與歷史誠信
+
+T+1有效開盤進場；缺開盤不偷改收盤；跳空停損使用開盤價；同日雙邊觸發採保守停損優先。明確確認揭曉後才請求後續行情。未完成持有期顯示未平倉，無資料顯示等待，不當成已完成獲利。公司行動若缺可比調整資料會停止；報酬未涵蓋所有真實交易限制。
+
+這仍是公開靜態網站的「操作防偷看」：公開市場歷史JSON並非權限封鎖，使用者可自行檢視檔案。嚴格競賽盲測需另外隔離結果伺服器與訓練資料。歷史回填及現在的模型／股票池存在存續與模型記憶偏誤，不宣稱完全無偏。
+
+## 本機驗證與預覽
 
 ```bash
-python -m venv .venv
-# Windows: .venv\Scripts\activate
-# macOS/Linux: source .venv/bin/activate
 pip install -r requirements.txt
 python -m stocklab16.quality
 pytest -q
 node tests/test_engine.mjs
-python -m http.server 8000
+python -m stocklab16.stage
+python -m http.server 8000 --directory _site
 ```
 
-## 重要限制
+網頁：`http://localhost:8000/`；`?demo=1` 強制使用獨立示範，不改寫正式資料。
 
-- 初始 `data/` 是**合成示範資料**，只用來預覽 UI 與回測流程；第一次 Daily Action 成功後會被真實抓取資料取代。
-- 免費公開資料可能延遲、缺漏、改格式。
-- 歷史回填不等於當年真的預先公開過的預測。
-- 本工具不構成投資建議，也不保證任何報酬。
+視覺驗收使用真實HTML/CSS/JS與按需讀取的發布JSON，在離線Chromium執行；測試環境不允許網址導覽，所以使用file-backed fetch、blob module與記憶體Storage適配器。未將它當成GitHub線上、真實Qwen、新聞來源或Google Sheets授權測試。原生HTTP相對路徑另有測試。
 
-## 讓收藏進入每日深度分析
-
-Google Apps Script 設好後，在 GitHub Actions Secrets 加 `FAVORITES_FEED_URL` 與 `FAVORITES_READ_TOKEN`。收藏股票會排在核心池之前，但每日深度總量仍受 `DEEP_STOCK_LIMIT` 限制，避免免費 runner 失控。
+詳見 `START_HERE.md`、`docs/DEPLOY.md`、`BUILD_REPORT.md`、`qa/BROWSER_REPORT.json`。

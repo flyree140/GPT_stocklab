@@ -1,171 +1,226 @@
-"""Evidence-first event analysis. An attractive headline is not booked profit.
-Taxonomy and causal hypotheses are explicit research rules, not price forecasts.
-Qwen can select a taxonomy using an exact supplied evidence span; it never writes
-unverified narrative into the authoritative score/decision fields.
+"""Evidence-linked news assessment, v16.1.
+Scores describe a bounded research signal, not stock-return probabilities.
+Missing EPS baselines must never be fabricated. Equal evidence can legitimately
+produce equal scores; distinct wording alone must never change a score.
 """
 from __future__ import annotations
-import re, html
-from difflib import SequenceMatcher
-from urllib.parse import urlsplit
-from .common import dt, digest, number, clamp, VERSION
+import re, math
+from .common import dt, number, clamp, VERSION
+from .taxonomy import (RULES, BY_ID, LABELS as BASIC_LABELS, clean, sentences,
+                       source_status, group_items)
+LABELS={**BASIC_LABELS,'monthly_revenue':'已公布月營收',
+        'analyst_forecast':'分析師預估修訂','reported_earnings':'已公布獲利',
+        'company_guidance':'公司財測','margin_change':'毛利與利潤率'}
+NUM=r'([+\-−]?\d[\d,]*(?:\.\d+)?)'
+ENGINE='events-16.1.2'
 
-# category, terms, estimated channel, conditional causal chain, horizon trigger,
-# next KPI, confirmation condition, invalidation, headline score prior.
-RULES = [
- ('profile',r'個股概覽|個股總覽|即時股價|股票代號查詢|歷史股價查詢', '非事件',
-  ['行情資訊頁','沒有新增營運事件','不納入新聞訊號'], '不適用',
-  '找出有發布時間的公司公告或新聞', '必須有新增且可驗證的公司事件', '靜態行情頁不能作為買賣依據', 0),
- ('promotion',r'聯名卡|贈.{0,8}(點|Point)|回饋|抽獎|優惠碼|刷卡|限時優惠|促銷', '獲客成本／留存',
-  ['行銷優惠','可能增加申辦，也可能增加補貼成本','對淨利的方向仍不確定'], '活動結束後的實際申辦／留存資料',
-  '新增有效客戶、每戶取得成本、留存與補貼負擔', '新增用戶貢獻的毛利高於補貼與行銷成本', '只有點數曝光，或新增客戶未能留存', 0),
- ('governance',r'股東會|董事.{0,4}改選|董事會|經營權|公司治理', '治理／股東權益',
-  ['治理事件','需看決議與權利是否改變','會議時間長短本身不代表盈餘變動'], '正式決議／重訊公布時',
-  '決議內容、爭議案、董事改選、股利與訴訟風險', '確認有影響現金流或股東權益的正式決議', '只描述開會時間或花絮，沒有實質決議', 0),
- ('earnings',r'月營收|營收|財報|EPS|每股盈餘|毛利率|財測|獲利|淨利', '營收／獲利',
-  ['營運數字或財測變動','確認成長來源與毛利能否維持','可改變獲利預期，但不等於股價必漲'], '下一次月營收／季報核對',
-  '同比與環比、一次性項目、毛利率、管理層財測', '成長不只來自基期或業外，且毛利率未惡化', '營收成長但毛利下滑，或一次性收益占主因', 42),
- ('capital',r'增資|可轉債|募資|庫藏股|減資', '資本／稀釋',
-  ['資本結構變動','稀釋、資金成本或每股利益改變','須按用途與條件重新估算每股價值'], '董事會條件／發行條件確認後',
-  '發行價、股數、用途、利率與對 EPS 的稀釋', '資金用途回報足以覆蓋融資成本與稀釋', '低價大量發行而用途不明確', -12),
- ('dividend',r'配息|股利|除息|現金股息', '股東現金回報',
-  ['股利政策','改變現金分配而非憑空創造報酬','需同時看盈餘與現金流支撐'], '正式股利決議／除息日期確認後',
-  '配發率、自由現金流、是否一次性分配', '股利由可持續現金流支撐，而非額外借款', '股息高但營運現金流不足或股價調整未計入', 15),
- ('disruption',r'停工|火災|地震|斷電|資安|駭客|召回|制裁|禁令|罰款|裁罰', '供應／成本／法遵',
-  ['營運或法遵衝擊','可能增加成本、停產或損失客戶','需確認損害範圍與恢復進度'], '公司損害評估／復工公告更新時',
-  '受影響產能、停工天數、罰款／保險與補救成本', '官方確認影響範圍及可量化損失', '事件排除、影響有限或已被保險充分覆蓋', -50),
- ('orders',r'訂單|得標|合約|出貨|簽約|擴產|資本支出', '訂單／現金流',
-  ['合約、出貨或投資','先辨別已簽約還是洽談／產能建置','收入認列與資本支出可能不同步'], '交付／驗收與財報認列時',
-  '合約金額、毛利、認列期間、取消條款與資本支出', '具體訂單可驗證且有交付／收入認列安排', '仍在洽談，或資本支出上升而需求未落實', 26),
- ('partnership',r'合作|加速器|5G|AI|策略聯盟|新創|商機|研發|新產品|布局', '成長選項／商業化',
-  ['技術合作或新業務','可能打開應用與客戶，但尚未等於訂單','先列追蹤，不直接上修盈餘'], '付費客戶／合約或分部營收被揭露時',
-  '付費客戶數、正式合約金額、商轉時間、分部營收', '試驗或合作轉成可驗證的付費合約', '只維持概念合作，沒有付費客戶或收入認列', 12),
- ('macro',r'利率|匯率|升息|降息|關稅|油價|原物料', '外部成本／折現率',
-  ['總體條件變動','須核對公司實際曝險與避險政策','受益與受損可能同時存在'], '政策生效與公司曝險揭露後',
-  '幣別、避險比率、成本轉嫁與市場需求', '曝險方向及量級獲財報或公司說明支持', '曝險小、已避險或價格轉嫁抵銷影響', 0),
-]
-BY_ID={r[0]:r for r in RULES}
-LABELS={'profile':'靜態行情頁','promotion':'行銷促銷','governance':'公司治理','earnings':'營運財報','capital':'資本變動','dividend':'股利政策','disruption':'營運中斷／法遵','orders':'訂單與產能','partnership':'合作與商業化','macro':'總體曝險','unclear':'尚待辨識事件'}
-NEGATIVE=re.compile(r'衰退|下修|虧損|下滑|減少|縮減|低於|轉弱|下跌')
-POSITIVE=re.compile(r'成長|增加|上修|創高|創新高|優於|轉盈|提高')
+def issuer_kind(meta):
+    sector=str(meta.get('sector',''))
+    if meta.get('kind')=='etf': return 'etf'
+    if any(k in sector for k in ('金融','銀行','金控','保險')):return 'financial'
+    return 'operating'
 
-def clean(t): return ' '.join(html.unescape(re.sub('<[^>]+>',' ',str(t or ''))).split())
-def sentences(item):
-    text=clean(item.get('title',''))
-    body=clean(item.get('excerpt',''))
-    # Keep short evidence units. No full article redistribution.
-    chunks=[text]+re.split(r'[。\n；]',body)
-    return [{'id':f'e{i+1}','text':s[:250]} for i,s in enumerate(dict.fromkeys(s for s in chunks if s))][:8]
-def categorize(item):
-    text=clean(item.get('title',''))+' '+clean(item.get('excerpt',''))
-    for r in RULES:
-        if re.search(r[1], text, re.I): return r[0]
-    return 'unclear'
-def issuer_relation(item, meta):
-    text=clean(item.get('title',''))+' '+clean(item.get('excerpt',''))
-    names=[meta.get('name','')]+meta.get('aliases',[])
-    # Pure numeric ticker hits are not sufficient (e.g. an unrelated date/price).
-    if any(n and n.lower() in text.lower() for n in names): return 'direct'
+def issuer_relation(item,meta):
+    text=clean(item.get('title'))+' '+clean(item.get('excerpt'))
+    aliases=[meta.get('name','')]+list(meta.get('aliases',[]))
+    if any(a and a.lower() in text.lower() for a in aliases):return 'direct'
     code=meta.get('symbol','').split('.')[0]
-    if code and re.search(r'(?:\(|（)'+re.escape(code)+r'(?:\)|）)',text): return 'direct'
+    # Explicit 5274-TW or (5274) is an issuer identifier; a price of 5274 isn't.
+    if code and re.search(r'(?:[（(]'+re.escape(code)+r'(?:[)）]|[-.]TW(?:O)?\b)|\b'+re.escape(code)+r'[-.]TW(?:O)?\b)',text,re.I):return 'direct'
     return 'unconfirmed'
-def source_status(item):
-    host=urlsplit(str(item.get('source_url') or item.get('url') or '')).hostname or ''
-    official=any(host==d or host.endswith('.'+d) for d in ('twse.com.tw','tpex.org.tw','gov.tw'))
-    return {'publisher':item.get('publisher') or item.get('source') or '來源待核對',
-            'host':host,'kind':'交易所／政府' if official else '公司原始文件' if item.get('official_document') else '媒體／彙整',
-            'coverage':'文件節錄' if item.get('evidence_level')=='document' else '摘要可讀' if item.get('excerpt') else '僅標題',
-            'verified':bool(item.get('verified_document')), 'fetched_at':item.get('fetched_at'),
-            'note':'來源屬性不等於新聞正確率；未驗證的摘要不得標成已確認'}
 
-def group_items(items, meta):
-    """Conservative similarity clustering: duplicates not independent confirmations."""
-    result=[]
-    for item in sorted(items,key=lambda a:a.get('published_at','')):
-        title=clean(item.get('title',''))
-        if not title: continue
-        norm=re.sub(r'[^\w\u4e00-\u9fff]','',title.lower())
-        # Remove publisher suffix for cross-feed copy detection.
-        norm=re.sub(r'[^\w\u4e00-\u9fff]','',title.rsplit(' - ',1)[0].lower())
-        found=None
-        for old in result:
-            if (abs((dt(item['published_at'])-dt(old['published_at'])).total_seconds())<3*86400
-                and (norm==old['_norm'] or SequenceMatcher(None,norm,old['_norm']).ratio()>=.88)):
-                found=old;break
-        if found:
-            found['copies'].append({'title':title,'url':item.get('url',''),'publisher':item.get('publisher','')})
-            if len(item.get('excerpt',''))>len(found.get('excerpt','')): found['excerpt']=item['excerpt']
-        else:
-            result.append({**item,'title':title,'_norm':norm,'copies':[],
-                           'id':digest([meta['symbol'],norm,item['published_at'][:10]])[:20]})
-    for item in result: item.pop('_norm',None)
-    return result
+def categorize(item):
+    text=clean(item.get('title'))+' '+clean(item.get('excerpt'))
+    # Static profiles first. Subtypes precede broad "earnings" keywords.
+    if re.search(BY_ID['profile'][1],text,re.I):return 'profile'
+    if re.search(r'分析師|FactSet|Factset|共識|投顧|券商|大摩|高盛|目標價',text,re.I) and re.search(r'EPS|每股盈餘|預估|預測|目標價',text,re.I):return 'analyst_forecast'
+    if re.search(r'(?:公司|管理層|董事長).{0,15}(?:財測|展望)|財測',text) and not re.search(r'分析師|Factset',text,re.I):return 'company_guidance'
+    if re.search(r'月營收|\d{1,2}月.{0,6}營收',text):return 'monthly_revenue'
+    if re.search(r'毛利率|淨利率|營益率',text):return 'margin_change'
+    if re.search(r'(?:已公布|公布|公告|自結|財報).{0,20}(?:EPS|每股盈餘|淨利|獲利)|(?:季|年)報',text,re.I):return 'reported_earnings'
+    for r in RULES:
+        if re.search(r[1],text,re.I):return r[0]
+    return 'unclear'
 
-def analyze(item,meta,cutoff, model_hint=None):
-    published=dt(item['published_at']); cutoff=dt(cutoff)
-    available=dt(item.get('available_at') or item['published_at'])
-    if max(published,available)>cutoff: raise ValueError('Article was not available at cutoff')
-    cat=categorize(item); evidence=sentences(item); origin='規則事件分析'
-    # A model's selected category is accepted only with a verbatim evidence span,
-    # explicit taxonomy, no unprovided numbers, and no overriding a static page.
-    if cat!='profile' and model_hint and validate_hint(model_hint,evidence):
-        cat=model_hint['category']; origin='Qwen 證據分類＋透明規則'
-    rel=issuer_relation(item,meta); rule=BY_ID.get(cat)
+def extract_metrics(item):
+    """Each parsed number retains a verbatim span and evidence ID."""
+    specs=[
+      ('eps_prior','上次 EPS 預估',r'(?:EPS|每股盈餘).{0,8}?(?:由|從|原(?:為|估))\s*'+NUM+r'\s*元?', '元'),
+      ('eps','EPS 預估／披露值',r'(?:EPS|每股盈餘)\s*(?:[預预]估|預測|共識|中位數|上修|下修|為|至|達|約|最新|調整|估|自結|實際|\s)*'+NUM+r'\s*元','元'),
+      ('target_prior','上次目標價',r'目標價.{0,6}?(?:由|從)\s*'+NUM+r'\s*元?','元'),
+      ('target','報導目標價',r'目標價\s*(?:預估|預測|上修|下修|為|至|達|約|調整|從|\s)*'+NUM+r'\s*元','元'),
+      ('revenue_yoy','營收年增率',r'(?:年增(?:率)?|年成長|年減|年衰退|同比(?:增長|成長|下降|下滑)?|較去年同期(?:成長|增加|下滑|減少))\s*(?:達|至|為|約|\s)*'+NUM+r'\s*[%％]','%'),
+      ('revenue_mom','營收月增率',r'(?:月增(?:率)?|月減|環比(?:增長|成長|下降|下滑)?)\s*(?:達|至|為|約|\s)*'+NUM+r'\s*[%％]','%'),
+      ('revenue_amount','營收金額',r'(?:月營收|營收)\s*(?:達|為|約|合計|\s)*'+NUM+r'\s*(億元|百萬元|萬元|元)',''),
+      ('margin','毛利率',r'毛利率\s*(?:達|為|約|至|上升至|下滑至|\s)*'+NUM+r'\s*[%％]','%'),
+      ('order_amount','合約／訂單金額',r'(?:訂單|合約|得標)(?:金額)?\s*(?:達|為|約|\s)*'+NUM+r'\s*(億元|萬元|元)',''),
+    ]
+    out={}
+    for ev in sentences(item):
+        text=ev['text']
+        for key,label,pattern,unit in specs:
+            if key in out:continue
+            m=re.search(pattern,text,re.I)
+            if not m:continue
+            raw=m.group(1).replace(',','').replace('−','-');value=number(raw)
+            if value is None:continue
+            if key in ('revenue_yoy','revenue_mom') and re.search(r'年減|月減|年衰退|下滑|下降|減少',m.group(0)):value=-abs(value)
+            u=unit or m.group(2)
+            out[key]={'key':key,'label':label,'value':value,'unit':u,'quote':m.group(0),'evidence_id':ev['id']}
+        # Parse "EPS由180元上修至194.98元" correctly: last value, not prior value.
+        for key,term in [('eps',r'(?:EPS|每股盈餘)'),('target','目標價')]:
+            m=re.search(term+r'.{0,12}?(?:由|從)\s*'+NUM+r'\s*元?\s*(?:上修|下修|調升|調降|調整|提高|降低)(?:為|至)\s*'+NUM+r'\s*元',text,re.I)
+            if m:
+                for k,g,lab in [(key+'_prior',1,'上次'+('EPS 預估' if key=='eps' else '目標價')),(key,2,'EPS 預估／披露值' if key=='eps' else '報導目標價')]:
+                    out[k]={'key':k,'label':lab,'value':float(m.group(g).replace(',','')),'unit':'元','quote':m.group(0),'evidence_id':ev['id']}
+    return out
+
+def val(metrics,k):return metrics.get(k,{}).get('value')
+def f(v,d=2):return f'{v:,.{d}f}'.rstrip('0').rstrip('.') if isinstance(v,(int,float)) else '未取得'
+def signed(v):return f'{v:+.2f}'.rstrip('0').rstrip('.')
+
+def validate_hint(hint,evidence):
+    if not isinstance(hint,dict) or hint.get('category') not in LABELS:return False
+    span=hint.get('evidence')
+    return isinstance(span,str) and len(span.strip())>=3 and any(span in ev['text'] for ev in evidence)
+
+def analyze(item,meta,cutoff,model_hint=None):
+    cutoff=dt(cutoff);published=dt(item['published_at']);available=dt(item.get('available_at') or item['published_at'])
+    if max(published,available)>cutoff:raise ValueError('Article was not available at cutoff')
+    evidence=sentences(item);metrics=extract_metrics(item);cat=categorize(item);engine='可稽核數字擷取＋事件規則'
+    if model_hint and validate_hint(model_hint,evidence):
+        # The model cannot erase a specific actual/forecast distinction or static exclusion.
+        if cat=='unclear':cat=model_hint['category']
+        engine='Qwen 證據輔助＋數字規則'
+    rel=issuer_relation(item,meta);kind=issuer_kind(meta);name=meta.get('name') or meta.get('symbol','公司')
+    text=' '.join(e['text'] for e in evidence)
+    rule=BY_ID.get(cat) or BY_ID.get('earnings') if cat in ('monthly_revenue','analyst_forecast','reported_earnings','company_guidance','margin_change') else BY_ID.get(cat)
     if rule:
         _,_,channel,chain,horizon,kpi,confirm,invalid,prior=rule
+        chain=list(chain)
     else:
-        channel='影響路徑未明'; chain=['已出現報導','缺少可驗證的營運變動','暫不轉成投資訊號']
-        horizon='補足具體事件之後';kpi='事件主體、金額、時間、原始公告';confirm='可確認具體營運變動';invalid='只剩市場評論或推測';prior=0
-    text=' '.join(e['text'] for e in evidence)
-    if cat=='earnings':
-        prior=-42 if NEGATIVE.search(text) else 42 if POSITIVE.search(text) else 0
-    # Headline and signed contract are not the same evidence strength.
-    factor=.45 if not item.get('excerpt') else .70 if not item.get('verified_document') else .95
-    if cat=='orders' and re.search('預計|計畫|擬|洽談|傳出',text): prior=8
-    if cat=='capital' and '庫藏股' in text: prior=10
-    base=prior * factor * (1 if rel=='direct' else .15)
-    score=round(clamp(base,-100,100))
-    age=max(0,(cutoff-published).total_seconds()/86400)
-    active_score=round(score*(2**(-age/7)),1)
-    impact='不具交易訊號' if cat=='profile' else '尚不能判定淨影響' if score==0 else '方向偏正、幅度待證實' if score>0 else '方向偏負、規模待釐清'
-    decision='排除，避免當成新聞重複加分' if cat=='profile' else '不因本則新聞買入' if cat in ('promotion','governance','unclear') else '列入追蹤，等收入證据與價格條件' if cat=='partnership' else '先核對公司公告，再檢查估值與進場條件'
-    risk='尚未有足夠資訊估算對 EPS 的影響'
-    if cat=='promotion': risk='500 點是促銷誘因，不是公司新增營收或 EPS；補貼由誰負擔仍待確認'
-    if cat=='governance': risk='會議超過 18 小時或凌晨結束，本身不能推導獲利方向'
-    if cat=='partnership': risk='加速器／5G 合作不等於已簽約訂單，不能把商機當成認列收入'
-    if cat=='profile': risk='靜態行情入口不是新的催化事件，不進入當日評分'
-    # Numbers are quoted as evidence, not converted blindly to money/revenue.
-    quantities=[]
-    for ev in evidence:
-        for m in re.finditer(r'(?:[+-]?\d[\d,.]*\s*(?:%|％|億元|萬元|億|萬|元|點|小時|家|年|日))',ev['text']):
-            quantities.append({'text':m.group(0),'evidence_id':ev['id'],'meaning':'原文數字；未自動視為 EPS 或訂單金額'})
-    missing=['EPS 敏感度尚未量化','無法僅憑新聞判定市場是否已反映']
-    if not item.get('excerpt'):missing.insert(0,'尚未取得可讀內文')
-    materiality='排除' if cat=='profile' else '低／未知' if cat in ('promotion','governance','partnership','unclear') else '待量化的營運事件'
+        channel='尚無可辨識營運變動';chain=[name+'出現報導','尚無可量化營運變動','不產生方向訊號'];horizon='下一份明確事件公告';kpi='公告主體與實際變動';confirm='先找新增事件';invalid='沒有新增公司事實';prior=0
+    missing=[];derived=[];flags=[];basis='事件先驗，並非報酬率';increment='unquantified';action='';summary=''
+    if cat=='monthly_revenue':
+        yoy=val(metrics,'revenue_yoy');mom=val(metrics,'revenue_mom')
+        month=re.search(r'(?<!\d)(\d{1,2})月',text);period=(month.group(1)+'月') if month else '本月'
+        amount=metrics.get('revenue_amount')
+        if yoy is not None:
+            prior=math.copysign(min(60,10+12*math.log1p(abs(yoy)/10)),yoy) if yoy else 0
+            increment='actual_change';basis=f'年增 {signed(yoy)}%：10 + 12×ln(1+|年增|/10)，上限60；負成長取負號'
+            summary=f'{name}{period}營收年增 {signed(yoy)}%，這是營收規模的已披露變化，不是 EPS 成長率。'
+            confirm=f'對照 {period} 原始月營收表，確認 {signed(yoy)}% 的基期與是否合併新業務'
+            if abs(yoy)>100:flags.append('大幅年增：低基期／併購的拆解優先於單看成長百分比')
+        else:
+            prior=8 if re.search(r'創.{0,2}高|成長|增加',text) else -8 if re.search('下滑|衰退',text) else 0
+            summary=f'{name}{period}的報導有營收變化，但缺可擷取年增率；尚不能比較成長幅度。'
+            confirm=f'取得{name}{period}營收金額與去年同月基準'
+            missing.append(f'{period}營收年增率及比較基準')
+        if mom is not None:
+            prior+=clamp(mom*.25,-8,8);basis+=f'；月增 {signed(mom)}% 追加 {clamp(mom*.25,-8,8):+.2f}'
+        else:missing.append(f'{period}月增率未提供，無法排除季節性')
+        if not amount:missing.append('營收絕對金額未提供，不能由百分比推算增加多少元')
+        missing.append('未提供本期毛利與營業現金流，無法把營收增幅直接換成 EPS')
+        chain=[f'{name} {period}年增 {signed(yoy)}%' if yoy is not None else f'{name}{period}營收披露',
+               f'月增 {signed(mom)}%' if mom is not None else '先拆低基期、產品量價與合併範圍',
+               '再用季報檢驗營益與現金流，不直接追價']
+        kpi=f'{name}：下月營收是否延續、產品單價／出貨量、存貨天數與營業現金流'
+        if kind=='financial':kpi=f'{name}：利息與手續費收入、備抵呆帳、信用成本、ROE；不套製造業毛利率'
+        action=f'先把{name}列入營收追蹤，拿本月與前月、去年同月交叉核對；再與技術面進場關卡比較'
+        invalid=f'{name}下一期營收無法延續，或增量來自併購／低基期而非同口徑需求；不能維持本次成長假設'
+        horizon='下一次月營收公布；季報再檢驗獲利轉換'
+    elif cat=='analyst_forecast':
+        eps=val(metrics,'eps');old=val(metrics,'eps_prior');target=val(metrics,'target')
+        up=bool(re.search(r'上修|調升|提高',text));down=bool(re.search(r'下修|調降|降低',text))
+        prior=0
+        if old is not None and eps is not None and old>0:
+            revision=(eps/old-1)*100
+            prior=clamp(revision*1.2,-45,45);increment='estimate_revision'
+            derived.append({'label':'同一報導 EPS 修訂幅度','value':round(revision,2),'unit':'%','formula':f'({f(eps)} ÷ {f(old)} − 1) × 100','assumption':'新舊 EPS 必須為相同預測期間；僅報導內比較，不是已實現盈餘'})
+            summary=f'{name}的分析師 EPS 預估由 {f(old)} 元改為 {f(eps)} 元，修訂 {signed(revision)}%；仍是預估，不是公司自結獲利。'
+            basis=f'EPS 相對修訂 {signed(revision)}% × 1.2，上限±45；不使用 EPS 絕對高低比較公司'
+        else:
+            prior=14 if up and not down else -14 if down and not up else 0
+            increment='direction_only' if prior else 'no_comparable_revision'
+            summary=f'{name}的分析師 EPS 預估為 {f(eps)} 元；'+('文字表示上修，但缺舊預估，不能算上修幅度。' if prior>0 else '文字表示下修，但缺舊預估，不能算下修幅度。' if prior<0 else '沒有同年度舊預估，不知道這次究竟增加還是減少。') if eps is not None else f'{name}有分析師評估消息，但缺可讀 EPS 預估值。'
+            basis='僅有上／下修方向：±14；沒有比較基準與修訂方向則為0'
+            missing.append('上次同年度 EPS 預估，不能計算修訂百分比')
+        missing+=['EPS 預測年度、分析師家數及預估分歧未核對','目標價的評價方法與調整前基準未核對']
+        if eps is not None and eps>0 and target is not None and target>0:
+            derived.append({'label':'目標價／EPS 配對情境','value':round(target/eps,2),'unit':'倍','formula':f'{f(target)} ÷ {f(eps)}',
+              'assumption':'純標題算術，須先核對 EPS 年度與目標價基期；不是目前本益比，也不是本站目標價'})
+        if target is not None:flags.append(f'{f(target)} 元是報導引用的目標價，不是本站預測；沒有當時股價就不計算上漲空間')
+        channel='市場獲利預期／估值，不是已實現營收'
+        chain=[f'{name}預估 EPS {f(eps)} 元' if eps is not None else f'{name}分析師預估',
+               f'與舊預估 {f(old)} 元比較' if old is not None else '缺同年度舊預估，先分清上修幅度',
+               '對照估值情境與公司季報，再看價格關卡']
+        if kind=='financial':
+            kpi=f'{name}：淨利差、信用成本／逾放、手續費收益、ROE 與股價淨值比；金控另查保險曝險'
+            confirm=f'核對 {f(eps)} 元 EPS 的預測年度，確認是否來自本業淨利差改善而非處分收益'
+            invalid=f'{name}信用成本提高、利差收窄或一次性收益消失，導致同年度 EPS 預估下調'
+            action=f'對{name}先做股價淨值比與 ROE 情境；不要拿金融股 EPS 或 PE 直接和半導體股排名'
+        else:
+            kpi=f'{name}：同年度 EPS 預估修訂幅度、客戶需求與產品組合、下一季公司營運展望'
+            confirm=f'取得 {f(eps)} 元對應的預測年度與舊預估，核對公司展望是否支持該成長'
+            invalid=f'{name}同年度 EPS 預估被下修，或公司展望不支持報導假設，即重新評估'
+            action=f'先比較{name}同年度新舊 EPS，再估算不同 PE 情境；報導目標價不是限價單'
+        horizon='下一次同年度預估修訂或公司季報；不是任意指定1–5天'
+    elif cat in ('reported_earnings','company_guidance','margin_change','earnings'):
+        eps=val(metrics,'eps');margin=val(metrics,'margin')
+        positive=bool(re.search(r'成長|上修|增加|轉盈|優於|創.{0,2}高',text));negative=bool(re.search(r'衰退|下修|虧損|下滑|轉虧|低於',text))
+        prior=24 if positive and not negative else -24 if negative and not positive else 0
+        if cat=='margin_change':
+            summary=f'{name}毛利率披露為 {f(margin)}%；缺上期同口徑值時，不把單一水準当作改善。'
+            action=f'找{name}上一季與去年同季毛利率，拆解產品組合與成本'
+            kpi='毛利率變動百分點、單位成本、產品組合及存貨評價'
+            missing=['上期同口徑毛利率與變動原因'];invalid='高毛利來自一次性回沖或產品組合無法延續';confirm='同口徑比較顯示毛利改善且由持續性本業帶動'
+            chain=[f'{name}毛利率 {f(margin)}%', '同口徑比較百分點差', '判斷可持續利潤而非單看絕對值']
+        else:
+            label='公司財測' if cat=='company_guidance' else '獲利披露'
+            summary=f'{name}{label}'+(f'中 EPS 為 {f(eps)} 元。' if eps is not None else '有新變動，但沒有完整數值。')+'需區分本業、稅項與一次性損益。'
+            action=f'核對{name}財報期間與 EPS 組成，再對照市場原預期'
+            missing=['完整報表／財測上下限與比較期間','本業、匯兌及一次性損益拆分']
+            chain=[name+label, '拆解本業與一次性項目', '比較預期差，再核對估值']
+        if kind=='financial':kpi='淨利差、信用成本、ROE、資本適足性與保險損益';invalid='金融本業獲利或資產品質惡化';confirm='本業收益改善且信用成本未惡化'
+        basis='有明確獲利改善／惡化方向±24，僅絕對數值則0；未完成盈餘驚喜校準'
+    else:
+        summary=f'{name}：'+(chain[0] if chain else '新事件')+'。'+(chain[-1] if chain else '')
+        action=f'{name}：'+confirm
+        if cat=='orders' and re.search(r'擬|預計|計畫|傳出|洽談',text):prior=8;flags.append('計畫／傳闻不視為已簽約')
+        if cat=='promotion':action=f'{name}促銷只追蹤有效新增用戶與補貼，不上修 EPS';missing=['補貼由誰負擔','有效新增客戶與留存率'];summary='曝光與贈點不是新增淨利；先算獲客成本。';invalid='補貼高於新增客戶貢獻，或新增用戶未留存'
+        elif cat=='profile':action='移出新聞訊號，只保留為行情查詢入口';missing=[]
+        elif cat=='governance':missing=['正式決議與股東權益是否改變'];action=f'閱讀{name}會議決議；會議時數不構成 EPS 方向'
+        elif cat=='partnership':missing=['付費客戶／合約金額','商轉與認列時點'];action=f'{name}先追蹤商轉里程碑；合作未落到付費合約前不加碼此因子'
+        elif cat=='disruption':missing=['損害範圍與可恢復日期','保險理賠及營運損失'];action=f'{name}先評估受影響產能或費用，暫不把反彈當成危機解除'
+        else:missing=['事件金額及與本公司盈餘連結']
+    # Headline-only remains explicitly bounded; do not call this a trust probability.
+    readable=bool(clean(item.get('excerpt')))
+    ef=.95 if item.get('verified_document') and readable else .72 if readable else .55
+    rf=1 if rel=='direct' else 0
+    raw=clamp(prior,-100,100);score=round(raw*ef*rf,1)
+    age=max(0,(cutoff-published).total_seconds()/86400);decay=2**(-age/7);active=round(score*decay,1)
+    if not readable:flags.append('內容層級：僅標題，未取得可讀內文；標題明列的數字仍可擷取')
+    if rel!='direct':flags.append('無法確認是本公司事件：不計入');summary='公司關聯未確認。'+summary
     return {**{k:v for k,v in item.items() if k not in ('body','full_text')},
-            'version':VERSION,'category':cat,'category_label':LABELS[cat],
-            'relation':rel,'source_assessment':source_status(item),
-            'evidence':evidence,'quantities':quantities[:6],
-            'included':cat!='profile' and rel=='direct',
-            'impact_score':score,'active_score':active_score,'impact_label':impact,
-            'materiality':materiality,'channel':channel,'chain':chain,
-            'horizon':horizon,'watch_metric':kpi,'confirmation':confirm,
-            'invalidation':invalid,'action':decision,'risk':risk,'missing':missing,
-            'analysis_engine':origin,'analysis_quality':'未校準；不是上漲機率',
-            'analyzed_at':cutoff.isoformat(), 'future_outcome':None if False else 'not_computed'}
-
-def validate_hint(hint, evidence):
-    if not isinstance(hint,dict) or hint.get('category') not in LABELS:return False
-    span=hint.get('evidence','')
-    if not isinstance(span,str) or len(span.strip())<3:return False
-    return any(span in ev['text'] for ev in evidence)
+      'version':VERSION,'analysis_version':ENGINE,'category':cat,'category_label':LABELS.get(cat,cat),'issuer_kind':kind,
+      'relation':rel,'source_assessment':source_status(item),'evidence':evidence,
+      'metrics':list(metrics.values()),'derived_metrics':derived,'quantities':[],
+      'included':cat!='profile' and rel=='direct','impact_score':score,'active_score':active,
+      'score_breakdown':{'raw':round(raw,4),'evidence_factor':ef,'relation_factor':rf,'decay':round(decay,4),'basis':basis,
+        'formula':f'{raw:.2f} × {ef} × {rf} = {score:+.1f}；7日半衰期後 {active:+.1f}',
+        'meaning':'研究強弱尺度，未校準；不是股價報酬或機率'},
+      'increment_type':increment,'summary':summary,'flags':flags,'materiality':'排除' if cat=='profile' else '營運資訊' if increment=='actual_change' else '預估或待驗證訊號',
+      'impact_label':'淨方向未定' if score==0 else '正向研究訊號' if score>0 else '負向研究訊號',
+      'channel':channel,'chain':chain,'horizon':horizon,'watch_metric':kpi,'confirmation':confirm,'invalidation':invalid,
+      'action':action,'risk':invalid,'missing':missing,'analysis_engine':engine,
+      'analysis_quality':'未校準，不是上漲機率','analyzed_at':cutoff.isoformat(),
+      'model_evidence':model_hint.get('evidence') if model_hint and validate_hint(model_hint,evidence) else None}
 
 def aggregate(events):
     rows=[e for e in events if e.get('included')]
-    if not rows:return {'score':None,'events':0,'positive':0,'negative':0,'neutral':0,'explanation':'未取得可用且相關的事件，新聞因子缺值'}
-    # Bounded signed average; repeated syndication never increases strength.
-    directional=[e for e in rows if e['impact_score']!=0]
-    value=sum(e['active_score'] for e in directional)/max(1,len(directional))
-    return {'score':round(50+value/2,1),'events':len(rows),
-            'positive':sum(e['impact_score']>0 for e in rows),'negative':sum(e['impact_score']<0 for e in rows),
-            'neutral':sum(e['impact_score']==0 for e in rows),
-            'explanation':'0 表示淨方向未知／中性，不代表沒有風險；缺新聞保持缺值'}
+    if not rows:return {'score':None,'events':0,'positive':0,'negative':0,'neutral':0,'explanation':'缺少可確認公司關聯的新聞因子，不用50冒充已分析'}
+    # Include zero-valued events in the bounded average. Copies already clustered.
+    value=sum(number(e.get('active_score'),number(e.get('impact_score'),0)) for e in rows)/len(rows)
+    return {'score':round(clamp(50+value/2),1),'events':len(rows),'positive':sum(e.get('impact_score',0)>0 for e in rows),
+      'negative':sum(e.get('impact_score',0)<0 for e in rows),'neutral':sum(e.get('impact_score',0)==0 for e in rows),
+      'explanation':f'{len(rows)}組相關事件時效折減後平均 {value:+.2f}，新聞因子＝50＋平均÷2；不是把每篇分數加在股票總分上'}
