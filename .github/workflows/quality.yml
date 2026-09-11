@@ -1,11 +1,14 @@
 name: StockLab 16 quality
 on: [workflow_dispatch, pull_request]
+permissions:
+  contents: read
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
         with: {python-version: '3.11', cache: pip}
       - run: pip install -r requirements.txt
       - run: python -m stocklab16.quality && pytest -q && node tests/test_engine.mjs
+      - run: python -m stocklab16.stage

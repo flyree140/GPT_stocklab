@@ -3,9 +3,9 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: ['index.html','assets/**','data/**','.github/workflows/pages.yml']
+    paths: ['index.html', 'tutorial.html', 'runtime.json', 'assets/**', 'data/**', 'stocklab16/stage.py', '.github/workflows/pages.yml']
   workflow_run:
-    workflows: ['Daily StockLab 16 research','Historical StockLab 16 snapshot']
+    workflows: ['Daily StockLab 16 research', 'Historical StockLab 16 snapshot', 'Re-analyze saved snapshots']
     types: [completed]
 permissions:
   contents: read
@@ -22,14 +22,12 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with: {ref: main}
-      - run: |
-          mkdir _site
-          cp index.html .nojekyll _site/
-          cp -R assets data _site/
+      - name: Stage website including tutorial; preserve existing data
+        run: python -m stocklab16.stage
       - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v4
         with: {path: _site}
       - uses: actions/deploy-pages@v4
         id: deployment

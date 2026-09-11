@@ -3,67 +3,97 @@ on:
   workflow_dispatch:
     inputs:
       skip_qwen:
-        description: Skip Qwen and use evidence rules only
+        description: Skip optional Qwen; use numerical evidence rules
         type: boolean
-        default: false
+        default: true
       as_of:
-        description: Optional YYYY-MM-DD
+        description: Optional YYYY-MM-DD (empty = today in Taipei)
         type: string
         required: false
   schedule:
-    - cron: '37 10 * * *' # 18:37 Asia/Taipei
-    - cron: '17 13 * * *' # 21:17 backup
+    - cron: '37 10 * * *' # UTC -> Taipei 18:37
+    - cron: '17 13 * * *' # UTC -> Taipei 21:17; skip if already updated today
 permissions:
   contents: write
 concurrency:
-  group: stocklab16-daily
+  group: stocklab16-data
   cancel-in-progress: false
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 60
     env:
-      ENABLE_QWEN: ${{ inputs.skip_qwen && '0' || '1' }}
+      ENABLE_QWEN: ${{ github.event_name == 'workflow_dispatch' && inputs.skip_qwen && '0' || '1' }}
       QWEN_DAILY_LIMIT: '6'
       HF_HOME: ${{ github.workspace }}/.cache/huggingface
+      HF_HUB_DISABLE_TELEMETRY: '1'
       FAVORITES_FEED_URL: ${{ secrets.FAVORITES_FEED_URL }}
       FAVORITES_READ_TOKEN: ${{ secrets.FAVORITES_READ_TOKEN }}
       DEEP_STOCK_LIMIT: '20'
+      TARGET_DATE: ${{ inputs.as_of }}
+      TRIGGER_SCHEDULE: ${{ github.event.schedule }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with: {fetch-depth: 0}
-      - uses: actions/setup-python@v5
+      - name: Backup schedule guard
+        id: preflight
+        run: python -m stocklab16.preflight
+      - uses: actions/setup-python@v6
+        if: steps.preflight.outputs.skip != 'true'
         with:
           python-version: '3.11'
           cache: pip
           cache-dependency-path: |
             requirements.txt
             requirements-models.txt
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
+        if: steps.preflight.outputs.skip != 'true' && env.ENABLE_QWEN == '1'
         with:
           path: .cache/huggingface
-          key: qwen3-06b-stocklab16-${{ runner.os }}
-      - run: pip install -r requirements.txt
-      - name: Install Qwen dependencies
-        if: ${{ !inputs.skip_qwen }}
-        run: pip install -r requirements-models.txt
-      - name: Refresh full market universe
-        run: python -m stocklab16.universe || true
-      - name: Build daily snapshot
+          key: stocklab161-qwen-c1899de-${{ runner.os }}
+      - name: Install core dependencies
+        if: steps.preflight.outputs.skip != 'true'
+        run: pip install -r requirements.txt
+      - name: Install optional CPU model dependencies
+        if: steps.preflight.outputs.skip != 'true' && env.ENABLE_QWEN == '1'
+        run: |
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install -r requirements-models.txt
+      - name: Refresh company catalog
+        if: steps.preflight.outputs.skip != 'true'
+        run: python -m stocklab16.universe
+      - name: Generate new snapshot
+        if: steps.preflight.outputs.skip != 'true'
         shell: bash
         run: |
-          if [ -n "${{ inputs.as_of }}" ]; then python -m stocklab16.build --as-of "${{ inputs.as_of }}"; else python -m stocklab16.build; fi
-      - name: Quality and tests
+          if [ -n "$TARGET_DATE" ]; then
+            python -m stocklab16.build --as-of "$TARGET_DATE"
+          else
+            python -m stocklab16.build
+          fi
+      - name: Test before publication
+        if: steps.preflight.outputs.skip != 'true'
         run: |
           python -m stocklab16.quality
           pytest -q
           node tests/test_engine.mjs
-      - name: Commit generated data
+      - name: Commit valid data
+        if: steps.preflight.outputs.skip != 'true'
         run: |
           git config user.name stocklab-bot
           git config user.email stocklab-bot@users.noreply.github.com
           git add data
           if git diff --cached --quiet; then exit 0; fi
-          git commit -m "data: StockLab 16 daily $(TZ=Asia/Taipei date +%F)"
-          git pull --rebase origin main
+          git commit -m "data: StockLab 16.1 $(TZ=Asia/Taipei date +%F)"
+          git push origin HEAD:main
+      - name: Persist attempted model quota after failure (no invalid snapshots)
+        if: failure()
+        run: |
+          if [ ! -f data/system/qwen-state.json ]; then exit 0; fi
+          git config user.name stocklab-bot
+          git config user.email stocklab-bot@users.noreply.github.com
+          git reset
+          git add data/system/qwen-state.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "chore: persist bounded Qwen attempts"
           git push origin HEAD:main
