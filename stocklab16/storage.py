@@ -23,7 +23,7 @@ def store(payload,root=ROOT):
          'generated_at':payload['generated_at'],'run_count':count,'mode':payload.get('mode','live')}
     runs.append(dict(row));row['runs']=runs
     rows=[r for r in rows if r.get('date')!=day]+[row];rows.sort(key=lambda r:r['date'],reverse=True)
-    write_json(root/'data/manifest.json',{'version':'16.1.2','latest':rows[0]['date'],'snapshots':rows})
+    write_json(root/'data/manifest.json',{'version':'18.0.0','latest':rows[0]['date'],'snapshots':rows})
     latest=read_json(root/'data/latest.json',{}) or {}
     if day>=latest.get('as_of',''):write_json(root/'data/latest.json',payload)
     return row

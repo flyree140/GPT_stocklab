@@ -97,7 +97,11 @@ def decide(stock,as_of,weights=None):
     covered=sum(weights[k] for k,v in values.items() if v is not None)
     completeness=covered-weights['fundamental']*(1-fundamental_coverage) if fundamental is not None else covered
     contrib={k:round((v-50)*weights[k],2) if v is not None else 0 for k,v in values.items()}
-    risk=0;stale=not bars or working_gap(last.get('date'),as_of)>2
+    risk=0
+    from stocklab17.calendar import expected_close,covered
+    analysis_at=stock.get('analysis_at',as_of+'T23:59:59+08:00')
+    expected=expected_close(analysis_at)
+    stale=not bars or last.get('date')!=expected or not covered(expected)
     if stale:risk+=12;risks.append(f'價格截至 {last.get("date","缺值")}，相對 {as_of} 已過期或沒有價格')
     atr=number(last.get('atr'))
     if atr and c and atr/c>.05:risk+=8;risks.append(f'ATR／股價＝{atr/c*100:.1f}%，模擬停損可能很寬')

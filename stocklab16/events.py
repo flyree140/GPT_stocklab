@@ -12,7 +12,8 @@ LABELS={**BASIC_LABELS,'monthly_revenue':'已公布月營收',
         'analyst_forecast':'分析師預估修訂','reported_earnings':'已公布獲利',
         'company_guidance':'公司財測','margin_change':'毛利與利潤率'}
 NUM=r'([+\-−]?\d[\d,]*(?:\.\d+)?)'
-ENGINE='events-16.1.2'
+ENGINE='events-17.0.0'
+LABELS.update({'institutional_flow':'法人交易報導','price_commentary':'價格評論，非公司財測'})
 
 def issuer_kind(meta):
     sector=str(meta.get('sector',''))
@@ -31,6 +32,10 @@ def issuer_relation(item,meta):
 
 def categorize(item):
     text=clean(item.get('title'))+' '+clean(item.get('excerpt'))
+    # Trading flow is not capital raising; price commentary is not issuer guidance.
+    if re.search(r'法人|外資|投信|自營商',text) and re.search(r'買賣超|買超|賣超',text) and not re.search(r'增資|發債|可轉債|募資',text):return 'institutional_flow'
+    if re.search(r'股價|解套|失守|收跌|收平盤|救場買單',text) and not re.search(r'公司財測|管理層|公告財測|營收展望|董事長',text):
+        if not re.search(r'EPS|目標價|月營收|毛利率',text,re.I):return 'price_commentary'
     # Static profiles first. Subtypes precede broad "earnings" keywords.
     if re.search(BY_ID['profile'][1],text,re.I):return 'profile'
     if re.search(r'分析師|FactSet|Factset|共識|投顧|券商|大摩|高盛|目標價',text,re.I) and re.search(r'EPS|每股盈餘|預估|預測|目標價',text,re.I):return 'analyst_forecast'
@@ -193,6 +198,19 @@ def analyze(item,meta,cutoff,model_hint=None):
         elif cat=='partnership':missing=['付費客戶／合約金額','商轉與認列時點'];action=f'{name}先追蹤商轉里程碑；合作未落到付費合約前不加碼此因子'
         elif cat=='disruption':missing=['損害範圍與可恢復日期','保險理賠及營運損失'];action=f'{name}先評估受影響產能或費用，暫不把反彈當成危機解除'
         else:missing=['事件金額及與本公司盈餘連結']
+    if cat in ('institutional_flow','price_commentary'):
+        prior=0;increment='not_an_earnings_update'
+        if cat=='institutional_flow':
+            summary=f'{name}出現在法人交易摘要；不能把全市場合計金額當成這檔股票的籌碼或公司募資。'
+            action=f'核對{name}當日個股外資／投信／自營商股數，不使用整篇市場合計數'
+            chain=[name+'法人交易報導','分離個股與全市場數字','獨立籌碼欄位核驗，不加到營運EPS']
+            confirm='取得同一日期同一代號的官方法人明細';invalid='個股方向與市場合計不同，原推論不成立';kpi='個股法人淨股數、當日量占比、連續交易日'
+        else:
+            summary=f'{name}報導描述已發生的價格；不是公司提供的財測。'
+            action='回到行情核對，不把跌破或解套標題重複算成新基本面事件'
+            chain=[name+'已知價格變動','非新增營運公告','只由技術面計算，避免重複計分']
+            confirm='獨立新增公司事件才重開新聞假設';invalid='未有新的盈餘資料';kpi='有效價格日期及是否另有公司公告'
+        missing=['原始個股明細或新增營運證據'];horizon='取得可核對新證據時';basis='排除重複價格訊號與市場合計籌碼'
     # Headline-only remains explicitly bounded; do not call this a trust probability.
     readable=bool(clean(item.get('excerpt')))
     ef=.95 if item.get('verified_document') and readable else .72 if readable else .55
@@ -205,7 +223,7 @@ def analyze(item,meta,cutoff,model_hint=None):
       'version':VERSION,'analysis_version':ENGINE,'category':cat,'category_label':LABELS.get(cat,cat),'issuer_kind':kind,
       'relation':rel,'source_assessment':source_status(item),'evidence':evidence,
       'metrics':list(metrics.values()),'derived_metrics':derived,'quantities':[],
-      'included':cat!='profile' and rel=='direct','impact_score':score,'active_score':active,
+      'included':cat not in ('profile','institutional_flow','price_commentary') and rel=='direct','impact_score':score,'active_score':active,
       'score_breakdown':{'raw':round(raw,4),'evidence_factor':ef,'relation_factor':rf,'decay':round(decay,4),'basis':basis,
         'formula':f'{raw:.2f} × {ef} × {rf} = {score:+.1f}；7日半衰期後 {active:+.1f}',
         'meaning':'研究強弱尺度，未校準；不是股價報酬或機率'},
