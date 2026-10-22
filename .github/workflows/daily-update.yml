@@ -71,12 +71,16 @@ jobs:
           else
             python -m stocklab16.build
           fi
+      - name: Build simple life-mode inputs and cross-check official close
+        if: steps.preflight.outputs.skip != 'true'
+        run: python -m stocklab18.prepare --verify
       - name: Test before publication
         if: steps.preflight.outputs.skip != 'true'
         run: |
           python -m stocklab16.quality
           pytest -q
           node tests/test_engine.mjs
+          node tests/test_life18.mjs
       - name: Commit valid data
         if: steps.preflight.outputs.skip != 'true'
         run: |
@@ -84,7 +88,7 @@ jobs:
           git config user.email stocklab-bot@users.noreply.github.com
           git add data
           if git diff --cached --quiet; then exit 0; fi
-          git commit -m "data: StockLab 16.1 $(TZ=Asia/Taipei date +%F)"
+          git commit -m "data: StockLab 18 $(TZ=Asia/Taipei date +%F)"
           git push origin HEAD:main
       - name: Persist attempted model quota after failure (no invalid snapshots)
         if: failure()

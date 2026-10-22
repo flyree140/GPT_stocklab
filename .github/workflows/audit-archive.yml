@@ -1,0 +1,42 @@
+name: Audit StockLab archive
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ['Daily StockLab 16 research', 'Re-analyze saved snapshots']
+    types: [completed]
+permissions:
+  contents: write
+concurrency:
+  group: stocklab16-data
+  cancel-in-progress: false
+jobs:
+  audit:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+        with: {ref: main, fetch-depth: 0}
+      - uses: actions/setup-python@v6
+        with: {python-version: '3.11'}
+      - run: pip install -r requirements.txt
+      - name: Audit original archive without Qwen or network prices
+        run: python -m stocklab17.audit
+      - name: Derive bounded research tickets, never broker orders
+        run: python -m stocklab17.planner
+      - name: Daily salary report and life-mode cross-check
+        run: |
+          python -m stocklab18.report
+          python -m stocklab18.prepare --verify
+      - name: Validate outputs
+        run: |
+          python -m stocklab16.quality
+          node tests/test_risk17.mjs
+      - name: Commit derived outputs only
+        run: |
+          git config user.name stocklab-bot
+          git config user.email stocklab-bot@users.noreply.github.com
+          git add data/evaluation data/plans data/plan_runs data/life
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "audit: original signals and research plans $(TZ=Asia/Taipei date +%F)"
+          git push origin HEAD:main

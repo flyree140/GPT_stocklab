@@ -3,9 +3,9 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: ['index.html', 'tutorial.html', 'runtime.json', 'assets/**', 'data/**', 'stocklab16/stage.py', '.github/workflows/pages.yml']
+    paths: ['index.html', 'research.html', 'BUILD_REPORT.md', 'audit.html', 'planner.html', 'tutorial.html', 'runtime.json', 'assets/**', 'data/**', 'stocklab16/stage.py', 'stocklab18/**', '.github/workflows/pages.yml']
   workflow_run:
-    workflows: ['Daily StockLab 16 research', 'Historical StockLab 16 snapshot', 'Re-analyze saved snapshots']
+    workflows: ['Daily StockLab 16 research', 'Historical StockLab 16 snapshot', 'Re-analyze saved snapshots', 'Audit StockLab archive', 'Update Life Mode']
     types: [completed]
 permissions:
   contents: read

@@ -10,5 +10,5 @@ jobs:
       - uses: actions/setup-python@v6
         with: {python-version: '3.11', cache: pip}
       - run: pip install -r requirements.txt
-      - run: python -m stocklab16.quality && pytest -q && node tests/test_engine.mjs
+      - run: python -m stocklab16.quality && pytest -q && node tests/test_engine.mjs && node tests/test_life18.mjs
       - run: python -m stocklab16.stage
