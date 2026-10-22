@@ -1,40 +1,33 @@
-# StockLab 16.1.2 建置／視覺驗收報告
+# StockLab v18 GitHub 部署專用包 — 本次整理驗證
 
-## 已完成
+## 目的與修改範圍
 
-| 檢查 | 結果 |
+只把既有 v18 整理成可直接合併覆蓋的部署包，沒有重新改變投資策略、股數公式或實際帳務演算法。
+
+- 移除 PowerPoint、PDF、預覽相簿、開發用畫面渲染腳本、重複文件與舊的衍生資料。
+- 保留網站、教學、分析程式、GitHub workflows、工作流程使用的測試、預設設定及示範測試資料。
+- 移除指向包內已移除 PDF 的三個下載按鈕；成果和教學頁改連線上逐日比對，CSV仍保留。
+- Pages不再複製 report18，避免既有Repository殘留的簡報被一起發布。
+- Update Life Mode同時更新舊版 planner頁的衍生資料，不會刪除原始快照。
+- 分析核心、股數與記帳引擎、瀏覽器帳本儲存鍵均未修改。
+
+## 本次實際通過
+
+| 項目 | 結果 |
 |---|---|
-| Python語法、前端模組／教學JS語法 | 通過 |
-| 自有JSON與日期／快照雜湊 | 通過（來源18份JSON） |
-| Python回歸 | **58項通過** |
-| JavaScript試買引擎 | **14項通過** |
-| 瀏覽器行為斷言 | **32項通過** |
-| 桌機／手機版面檢查 | **33組通過**；手機390/360/320px |
-| Chromium執行錯誤 | **0** |
-| 實際程式預覽截圖 | **16張**（另有便於預覽的裁切圖） |
-| Pages /GPT_stocklab/ HTTP資產／JSON路徑 | **44次成功** |
-| Pages私有模型狀態請求 | **404，未公開** |
-| 原v16包覆蓋前後保護檔 | **15份位元組保持一致** |
-| v16離線重算 | 原快照、市場歷史、自訂設定不變；新run另存 |
+| 部署包Python回歸測試 | 94項通過 |
+| 合併使用者上傳專案後，指定tests目錄重跑 | 94項通過 |
+| 試買引擎JavaScript | 14項通過 |
+| 股數／成本JavaScript | 12項斷言通過 |
+| 生活版與帳本JavaScript | 34項通過 |
+| 全部自有JS／教學內嵌JS、JSON格式與快照校驗 | 通過 |
+| 頁面測試 | 10個分頁、23項檢查通過；JS錯誤0；缺少資料檔0 |
+| 原資料保護 | 在使用者上傳的GPT_stocklab-main.zip副本上合併，91份正式資料／設定SHA-256保持不變；另測3個保護哨兵檔 |
+| 打包內容 | 根目錄直接包含.github；不含正式data/latest.json、manifest、snapshots、market、system或自訂config |
 
-原v16測試樣本來自先前交付的StockLab-v16-COMPLETE.zip，不是聲稱已取得或驗證使用者目前的GitHub線上資料。
+## 驗證限制
 
-## 視覺驗收方式
-
-使用發布版HTML/CSS/JavaScript與按需讀取JSON，在Chromium渲染並操作。由於執行環境禁止一般網址導覽，瀏覽器測試採file-backed fetch、blob模組、記憶體Storage及history no-op適配器（僅測試工具使用）。原生HTTP相對路徑另行驗證。
-
-實際檢查並修復手機導覽撐寬、Enter搜尋關閉dialog和手機K線最新端顯示問題。圖片為合成行情／財務與明示教學案例，不是可交易訊號。
-
-## 未宣稱完成
-
-真實GitHub Actions runner、模型權重下載／Qwen推論、新聞供應商當日可用性、Google Sheets跨網域授權、瀏覽器關閉後localStorage持久性，本次未做線上端到端驗證。這些需部署後以自身帳號驗證。
-
-## 檔案
-
-- 完整命令輸出：BUILD_REPORT.json
-- 視覺／互動／資料請求記錄：qa/BROWSER_REPORT.json
-- 覆蓋、重算、HTTP測試：qa/PACKAGE_ACCEPTANCE.json
-- 檔案校驗：FILE_MANIFEST.sha256
-- 最終ZIP乾淨解壓再測：與ZIP另外提供的VERIFICATION.json
-
-本包不覆蓋正式data或自訂config，避免預覽資料蓋掉原站。覆蓋後請執行Re-analyze saved snapshots，否則舊JSON裡的+19不會自動重算。
+瀏覽器環境禁止導航至localhost，因此頁面檢查使用實際HTML/CSS/ES模組、Python按需讀檔fetch與暫存localStorage適配器。資料使用舊v18包的衍生資料作離線測試；這些舊資料未放入新部署包。
+沒有替使用者登入、推送GitHub或執行線上Actions，亦未重新驗證外部新聞端點、模型下載、Google授權或任何收益。
+一次未指定tests目錄的完整合併目錄測試被時間限制中止；其後明確使用pytest -q tests重跑94項通過。
+最終ZIP會另做乾淨解壓與重測，結果及檔案雜湊見相鄰的StockLab-v18-GITHUB-ONLY-VERIFICATION.json。

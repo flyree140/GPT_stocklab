@@ -4,7 +4,7 @@ from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-VERSION='16.1.2'
+VERSION='17.0.0'
 ROOT=Path(__file__).resolve().parents[1]
 TZ=ZoneInfo('Asia/Taipei')
 

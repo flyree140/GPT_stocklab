@@ -6,7 +6,7 @@ from .storage import validate_snapshot,settings_file
 
 def check(root=ROOT):
     root=Path(root);errors=[]
-    required=['index.html','tutorial.html','assets/app.mjs','assets/styles.css','assets/charts.mjs','assets/engine.mjs',
+    required=['index.html','research.html','assets/life.mjs','assets/life-engine.mjs','assets/life.css','stocklab18/report.py','stocklab18/prepare.py','tutorial.html','assets/app.mjs','assets/styles.css','assets/charts.mjs','assets/engine.mjs',
               'stocklab16/taxonomy.py','runtime.json','data/demo/latest.json','data/demo/manifest.json',
               'config/stocks.default.json','config/settings.default.json']
     for rel in required:
@@ -26,7 +26,7 @@ def check(root=ROOT):
                 if not rel or not p.is_relative_to(root.resolve()) or not p.is_file():errors.append('manifest path missing/unsafe '+rel);continue
                 if r.get('sha256') and hashlib.sha256(p.read_bytes()).hexdigest()!=r['sha256']:errors.append('hash mismatch '+rel)
                 payload=read_json(p,{}) or {}
-                if str(payload.get('version','')).startswith('16.1'):
+                if str(payload.get('version','')).startswith(('16.1','17.','18.')):
                     errors.extend(rel+': '+e for e in validate_snapshot(payload))
     for p in (root/'assets').glob('*.mjs'):
         try:

@@ -59,12 +59,12 @@ def run(as_of,force=False):
             hint=qwen.hint(item['title'],item.get('excerpt','')) if categorize(item) in ('unclear','partnership','capital','orders','macro') else None
             try:events.append(analyze(item,meta,cutoff,hint))
             except (ValueError,KeyError) as exc:print('Excluded event:',str(exc)[:120])
-        built.append({**meta,'candles':bars,'facts':facts,'news':events,'market_score':mscore})
+        built.append({**meta,'analysis_at':cutoff,'candles':bars,'facts':facts,'news':events,'market_score':mscore})
     if not built:raise RuntimeError('No usable price data; retaining all prior production files')
     peer_percentiles(built)
     for s in built:s['decision']=decide(s,as_of)
     top=[s['symbol'] for s in sorted(built,key=lambda x:x['decision']['score'],reverse=True) if s['decision']['code'] in ('conditional_buy','watch') and s['decision']['score']>=50][:5]
-    payload={'version':'16.1.2','as_of':as_of,'generated_at':now().isoformat(),'stocks':built,'top_picks':top,
+    payload={'version':'18.0.0','as_of':as_of,'generated_at':now().isoformat(),'stocks':built,'top_picks':top,
        'mode':'historical_reconstruction' if historical else 'live','demo':False,'qwen_used':qwen.used,'qwen_cache_hits':qwen.cached,
        'coverage':{'completed':len(built),'requested':len(metas),'failed':failures},
        'limitations':['歷史重建使用現存核心名單，存在存續偏誤','新聞只分析實際取得的標題／使用者節錄','法人與可比估值缺資料時保留缺值，不偽裝全市場完整健檢'],
@@ -76,6 +76,10 @@ def run(as_of,force=False):
         p=ROOT/'data/market'/f"{s['symbol'].replace('.','_')}.json";old=read_json(p,{}) or {}
         if as_of>=old.get('as_of',''):
             merged={r['date']:r for r in old.get('candles',[])};merged.update({r['date']:r for r in s['candles']})
+            from stocklab17.hygiene import clean_bars
+            cleaned,quarantined=clean_bars(list(merged.values()))
+            if quarantined:write_json(ROOT/'data/quarantine'/f"{s['symbol'].replace('.','_')}.json",quarantined)
+            merged={r['date']:r for r in cleaned}
             write_json(p,{'symbol':s['symbol'],'as_of':as_of,'candles':[merged[d] for d in sorted(merged)]})
     print('Snapshot saved',row['path']);return payload
 if __name__=='__main__':

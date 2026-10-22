@@ -15,6 +15,10 @@ def history(symbol, as_of, days=420):
             if None in (c,o,h,l): continue
             if idx.strftime('%Y-%m-%d')>as_of:continue
             rows.append({'date':idx.strftime('%Y-%m-%d'),'open':o,'high':h,'low':l,'close':c,'volume':v,'corporate_action':bool(number(row.get('Dividends'),0) or number(row.get('Stock Splits'),0))})
+        from stocklab17.hygiene import clean_bars
+        cutoff=now().isoformat() if as_of==now().date().isoformat() else as_of+'T23:59:59+08:00'
+        rows,issues=clean_bars(rows,cutoff=cutoff)
+        if issues:print('Quarantined provider bars',symbol,[(x['date'],x['reason']) for x in issues])
         return enrich(rows)
     except Exception as exc:
         print('history unavailable',symbol,exc); return []
