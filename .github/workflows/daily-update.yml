@@ -12,7 +12,7 @@ on:
         required: false
   schedule:
     - cron: '37 10 * * *' # UTC -> Taipei 18:37
-    - cron: '17 13 * * *' # UTC -> Taipei 21:17; skip if already updated today
+    - cron: '17 13 * * *' # UTC -> Taipei 21:17; second news pass; same-day earlier run does not skip it
 permissions:
   contents: write
 concurrency:
@@ -23,7 +23,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     env:
-      ENABLE_QWEN: ${{ github.event_name == 'workflow_dispatch' && inputs.skip_qwen && '0' || '1' }}
+      ENABLE_QWEN: ${{ vars.STOCKLAB_192_ENABLED == '1' && '0' || (github.event_name == 'workflow_dispatch' && inputs.skip_qwen && '0' || '1') }}
+      STOCKLAB_192_ENABLED: ${{ vars.STOCKLAB_192_ENABLED || '0' }}
+      STOCKLAB_ADAPTER_REPO: ${{ vars.STOCKLAB_ADAPTER_REPO }}
+      STOCKLAB_ADAPTER_REVISION: ${{ vars.STOCKLAB_ADAPTER_REVISION }}
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
+      SKIP_ADAPTER192: ${{ github.event_name == 'workflow_dispatch' && inputs.skip_qwen && '1' || '0' }}
       QWEN_DAILY_LIMIT: '6'
       HF_HOME: ${{ github.workspace }}/.cache/huggingface
       HF_HUB_DISABLE_TELEMETRY: '1'
@@ -47,15 +52,15 @@ jobs:
             requirements.txt
             requirements-models.txt
       - uses: actions/cache@v5
-        if: steps.preflight.outputs.skip != 'true' && env.ENABLE_QWEN == '1'
+        if: steps.preflight.outputs.skip != 'true' && (env.ENABLE_QWEN == '1' || (env.STOCKLAB_192_ENABLED == '1' && env.SKIP_ADAPTER192 != '1'))
         with:
           path: .cache/huggingface
-          key: stocklab161-qwen-c1899de-${{ runner.os }}
+          key: stocklab192-c1899de-${{ runner.os }}-${{ vars.STOCKLAB_ADAPTER_REVISION || 'base' }}
       - name: Install core dependencies
         if: steps.preflight.outputs.skip != 'true'
         run: pip install -r requirements.txt
       - name: Install optional CPU model dependencies
-        if: steps.preflight.outputs.skip != 'true' && env.ENABLE_QWEN == '1'
+        if: steps.preflight.outputs.skip != 'true' && (env.ENABLE_QWEN == '1' || (env.STOCKLAB_192_ENABLED == '1' && env.SKIP_ADAPTER192 != '1'))
         run: |
           pip install torch --index-url https://download.pytorch.org/whl/cpu
           pip install -r requirements-models.txt
@@ -74,6 +79,9 @@ jobs:
       - name: Build simple life-mode inputs and cross-check official close
         if: steps.preflight.outputs.skip != 'true'
         run: python -m stocklab18.prepare --verify
+      - name: Build six-factor research and optional own-adapter shadow
+        if: steps.preflight.outputs.skip != 'true'
+        run: python -m stocklab192.runtime --root .
       - name: Test before publication
         if: steps.preflight.outputs.skip != 'true'
         run: |
@@ -81,6 +89,8 @@ jobs:
           pytest -q
           node tests/test_engine.mjs
           node tests/test_life18.mjs
+          node tests/test_intent19.mjs
+          node tests/test_cloud19.mjs
       - name: Commit valid data
         if: steps.preflight.outputs.skip != 'true'
         run: |

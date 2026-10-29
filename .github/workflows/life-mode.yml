@@ -25,6 +25,8 @@ jobs:
           python -m stocklab16.quality
           pytest -q
           node tests/test_life18.mjs
+          node tests/test_intent19.mjs
+          node tests/test_cloud19.mjs
       - name: Commit derived files only, preserve original snapshot evidence
         run: |
           git config user.name stocklab-bot
