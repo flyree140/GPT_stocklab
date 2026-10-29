@@ -1,0 +1,58 @@
+[
+  {
+    "cmd": "/opt/pyvenv/bin/python -m pytest -q",
+    "code": 0,
+    "seconds": 3.27,
+    "stdout": "........................................................................ [ 71%]\n.............................                                            [100%]\n101 passed in 0.75s\n",
+    "stderr": ""
+  },
+  {
+    "cmd": "/opt/pyvenv/bin/python -m stocklab16.quality",
+    "code": 0,
+    "seconds": 1.56,
+    "stdout": "{\n  \"ok\": true,\n  \"errors\": [],\n  \"json_count\": 19\n}\n",
+    "stderr": ""
+  },
+  {
+    "cmd": "node tests/test_engine.mjs",
+    "code": 0,
+    "seconds": 0.05,
+    "stdout": "PASS locked never touches future data\nPASS T+1 valid open\nPASS missing open is not replaced with close\nPASS gap stop uses opening price\nPASS same day ambiguity uses stop first\nPASS corporate action stops simplified model\nPASS not enough future sessions stays open\nPASS costs decrease return\nPASS invalid capital rejected\nPASS fractional holding period rejected\nPASS no compounding overlapping trades\nPASS delete tombstone is returned\nPASS pending local edits are retained\nPASS flat Wilder RSI 50\n{\"node_tests\":14,\"ok\":true}\n",
+    "stderr": ""
+  },
+  {
+    "cmd": "node tests/test_life18.mjs",
+    "code": 0,
+    "seconds": 0.07,
+    "stdout": "PASS deposit not profit\nPASS buy debits fee; unrealized separated\nPASS partial sale FIFO and T+2\nPASS overselling rejected\nPASS buying without funds rejected\nPASS pending sale cannot fund next-day buy\nPASS withdrawals do not produce loss\nPASS cash dividend counted once\nPASS future actual fill rejected\nPASS fee NaN rejected\nPASS duplicate ID rejected\nPASS holiday fill rejected\nPASS cannot void buy supporting sell\nPASS void purchase without dependents\nPASS sell settlement cannot precede T+2\nPASS zero-volume quote not used by prepared data test is Python\nPASS year not covered rejected\nPASS expected close uses Taipei not UTC\nPASS old quote before fill is not marked\nPASS future quotes not used for historical valuation\nPASS profile no negative or impossible values\nPASS stock and ETF taxes differ\nPASS archive stale/uncertified cannot release shares\nPASS loss budget and cash limits\nPASS increasing goal cannot silently increase shares/risk\nPASS no return promise\nPASS existing holding blocks another position\nPASS valid fixture gates can produce conditional plan, not always zero\nPASS reserve confirmation required\nPASS nonexistent calendar date rejected\nPASS void target must exist\nPASS invalid valuation not silently marked\nPASS corporate action pending blocks profit mark\nPASS timeline deposits do not draw artificial profit\nLife mode 34 tests passed\n",
+    "stderr": ""
+  },
+  {
+    "cmd": "node tests/test_intent19.mjs",
+    "code": 0,
+    "seconds": 0.07,
+    "stdout": "PASS morning today uses previous completed close\nPASS after close is closed not bearish\nPASS evening plan names next date\nPASS morning tomorrow waits for evening\nPASS old quote means missing data not avoid\nPASS source generated in future blocks\nPASS cash confirmation remains and has setup route\nPASS official failure cannot produce buy\nPASS risk avoid is distinct\nPASS holiday next day skips weekend and configured closure\nPASS calendar not covered is explicit\nPASS labels do not conflate minimum fee and bearish\n12 intent tests passed\n",
+    "stderr": ""
+  },
+  {
+    "cmd": "node tests/test_cloud19.mjs",
+    "code": 0,
+    "seconds": 0.06,
+    "stdout": "PASS canonical serialization order stable\nPASS row round trip verifies hash\nPASS edited sheet body detected\nPASS repeat append de-duplicates by ID\nPASS same id different payload is refused\nPASS remote ledger recover without local event\nPASS overspending concurrent withdrawals rejected\nPASS settings forks detected\nPASS explicit settings resolution preserves history\nPASS oversize cell rejected before upload\nPASS Google writes request RAW and no public permissions\nPASS sync uploads then confirms by reading back\nPASS unacknowledged append never called synced\nPASS expired token stops network\nPASS API cannot send authorization to arbitrary URL\nPASS private field scope only\nPASS disconnect forgets token and current sheet\nPASS write cap stops accidental high volume\n18 cloud tests passed (mock API, not a real Google account)\n",
+    "stderr": ""
+  },
+  {
+    "cmd": "node tests/test_risk17.mjs",
+    "code": 0,
+    "seconds": 0.03,
+    "stdout": "risk17: 12 assertions passed\n",
+    "stderr": ""
+  },
+  {
+    "cmd": "node tests/test_paperlab.mjs",
+    "code": 0,
+    "seconds": 0.18,
+    "stdout": "PASS 設定拒絕NaN與負數\nPASS 不要求真實生活費或券商授權\nPASS 合成原標籤保持watch，不冒充買單\nPASS 忠實原標籤組不轉換觀望為買進\nPASS 正式買進標籤在忠實組可以研究\nPASS 沒有前瞻驗證不提供預期報酬\nPASS 最高買進成本不超過可用資金\nPASS 股數按成本後最大損失約束\nPASS 增加獲利願望不增加股數\nPASS 減少可用現金重新限制部位\nPASS 當日前未完成收盤不可當完整K線\nPASS 晚於決策時點的來源拒絕\nPASS 晚於時點的新聞不進分析\nPASS 行情缺日清楚阻擋，不用舊價格冒充\nPASS 固定持有期限不依後來漲跌選\nPASS 確認只建待成交，不花錢、不增加持股\nPASS 重複確認遭阻擋\nPASS 未凍結提案hash不能確認\nPASS 原提案深拷貝，之後修改設定不回寫\nPASS 下一交易日開盤含滑價估計成交\nPASS 當日未結束不提前製造收盤結果\nPASS 不准跳過或倒退交易日\nPASS 缺開盤資料不以收盤代替\nPASS 缺行情不修改原狀態\nPASS 零成交量停止而非當作可成交\nPASS 除權息拆股標記停止\nPASS 超過限價即未成交，不偷用日內最低\nPASS 開盤已跌破停止條件不抄底成交\nPASS 鎖單一價位的日K不假裝必成交\nPASS 同一天停止與目標雙觸：停止優先\nPASS 跳空按開盤，可能超過規劃風險\nPASS 到目標才賣出，不把期望報酬當結果\nPASS T+2待交割不能立刻重用\nPASS T+2到日入帳且不重複\nPASS 持倉不計入完成勝率\nPASS 手動試賣需要下一日行情，不即時按收盤成交\nPASS 未同意自動退出不偷偷試賣\nPASS 持有到期按原先期限退出\nPASS 更改未來期限不修改已持有計畫\nPASS 取消試單不產生成本\nPASS 虛擬入金不是獲利，單位化淨值不變\nPASS 禁止持股時重複買進\nPASS 帳務恆等式每步成立\nPASS 前一夜到次日盤前快照不跳過交易日\nPASS 不可讀取尚未推進那天的盤後快照\nPASS 雲端分段還原與雜湊核對\nPASS 雲端中斷缺分段不宣稱已完成\nPASS 雲端不同內容hash拒絕\nPASS 多裝置同版本分岔拒絕合併\nPASS 不使用實際帳本appProperties\n{\"total\":50,\"passed\":50,\"failed\":0}\n",
+    "stderr": ""
+  }
+]

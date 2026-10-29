@@ -17,7 +17,7 @@ function ceilTick(p){return money(Math.ceil((p-1e-8)/tick(p))*tick(p))}
 function forecastPrice(q,entry,profit,a,etf){let lo=entry,hi=entry*10+100;for(let i=0;i<64;i++){let m=(lo+hi)/2;if(scenarioLedger(q,entry,m,a,etf).pnl>=profit)hi=m;else lo=m}return ceilTick(hi)}
 export function plan(stock,p0,context,now=new Date(),account=null){
  const p=profile(p0),bars=stock.candles||[],b=bars.at(-1)||{},cal=context.calendar,blocks=[],warnings=[];
- let expected=expectedClose(now,cal);if(!covered(taipeiDay(now),cal)||!covered(expected,cal))blocks.push('年度交易日曆未核對，暫不產生買進股數');
+ let expected=context.executionTiming?.requiredClose||expectedClose(now,cal);if(!covered(taipeiDay(now),cal)||!covered(expected,cal))blocks.push('年度交易日曆未核對，暫不產生買進股數');
  if(b.date!==expected)blocks.push(`價格過期：應有 ${expected} 收盤，實際 ${b.date||'缺值'}`);
  const ver=stock.quote_verification||{};if(ver.status!=='matched'||ver.official?.date!==b.date||!Number.isFinite(ver.official?.close)||Math.abs(ver.official.close-b.close)>Math.max(.001,b.close*.00001))blocks.push('此價格尚未與同日交易所收盤核對');
  if(context.demo)blocks.push('示範資料不可用於買進');
@@ -48,7 +48,7 @@ export function plan(stock,p0,context,now=new Date(),account=null){
  if(cap<p.budget)warnings.push('可用資金不足原預算，已縮小股數');
  if(p.loss>risk)warnings.push(`本次最多規劃損失 ${risk.toFixed(0)} 元（不超過投入預算5%）`);
  warnings.push('僅依收盤計畫：券商現價須落在價帶；跳空、鎖漲跌停或滑價可能超過預計損失');
- let expiry,plannedEndDate,plannedReviewDate;try{expiry=addSessions(b.date,1,cal);plannedEndDate=addSessions(expiry,p.hold-1,cal);plannedReviewDate=addSessions(expiry,Math.min(5,p.hold)-1,cal)}catch(e){blocks.push(e.message)}
+ let expiry,plannedEndDate,plannedReviewDate;try{expiry=context.executionTiming?.targetDate||addSessions(b.date,1,cal);plannedEndDate=addSessions(expiry,p.hold-1,cal);plannedReviewDate=addSessions(expiry,Math.min(5,p.hold)-1,cal)}catch(e){blocks.push(e.message)}
  if(expiry&&taipeiDay(now)>expiry)blocks.push('這張價位計畫已過下一交易日，必須重算');
  return {...result,entry,entryLow:ceilTick(Math.max(stop+tick(entry),entry-.25*b.atr)),stop,pressure,target,goalPrice:wanted,goalFeasible:wanted<=pressure,conditionalShares:z.quantity,recommendedShares:blocks.length?0:z.quantity,cashCost:worst.buy_cash,stopPnl:worst.pnl,flatPnl:flat.pnl,targetPnl:best.pnl,targetReturn:best.return_pct,riskReward:money(rr),expiry,plannedEndDate,plannedReviewDate,forecastRangeLabel:'情境，非預測',state:blocks.length?'wait':'conditional'};
 }

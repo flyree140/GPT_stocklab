@@ -1,0 +1,168 @@
+{
+  "version": "19.2.0",
+  "as_of": "2025-04-11",
+  "cutoff": "2025-04-11T18:00:00+08:00",
+  "demo": true,
+  "model_status": {
+    "adapter_repo": "",
+    "adapter_revision": "",
+    "attempts_this_run": 0,
+    "daily_max_attempts": 6,
+    "mode": "shadow_only"
+  },
+  "stocks": [
+    {
+      "symbol": "EXAMPLE",
+      "name": "虛構測試公司",
+      "factors": {
+        "news": {
+          "label": "新聞與公司政策",
+          "status": "missing",
+          "values": {
+            "events": 0,
+            "verified_events": 0
+          },
+          "missing": [
+            "沒有時間可核對的新聞"
+          ],
+          "notes": [
+            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
+          ]
+        },
+        "social": {
+          "label": "社群關注與情緒",
+          "status": "partial",
+          "values": {
+            "raw_posts": 12,
+            "unique_posts": 12,
+            "known_unique_authors": 6,
+            "duplicate_fraction": 0.0,
+            "largest_author_fraction": 0.16666666666666666,
+            "reviewed_sentiment_balance": 0.0,
+            "sentiment_labeled_posts": 12,
+            "attention_robust_z": null,
+            "baseline_windows": 0
+          },
+          "available_at": "2025-04-11T18:00:00+08:00",
+          "cutoff": "2025-04-11T18:00:00+08:00",
+          "collection_key": "synthetic",
+          "source_ok": true,
+          "window_hours": 24,
+          "missing": [
+            "至少5個同口徑歷史窗口才能比較熱度"
+          ],
+          "excluded": 0,
+          "sample_scope": true,
+          "training_permission_not_implied": true,
+          "notes": [
+            "只代表採樣平台與查詢範圍。",
+            "疑似集中或重複不等於確定機器人。",
+            "熱度可同時代表利多、爭議或出貨；不可單獨放行試買。",
+            "留言按讚以當時擷取值為準，不以今天累計量倒填舊日。"
+          ]
+        },
+        "fundamental": {
+          "label": "基本・財務・估值",
+          "status": "partial",
+          "values": {
+            "roe_pct": 15.0
+          },
+          "provenance": {
+            "roe_pct": {
+              "available_at": "2025-04-11T18:00:00+08:00",
+              "period": "synthetic Q1",
+              "source": "synthetic_fixture",
+              "unit": "%"
+            }
+          },
+          "missing": [
+            "revenue_yoy_pct",
+            "eps_ttm",
+            "ocf",
+            "pe",
+            "pb"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "technical": {
+          "label": "K線・技術・量價",
+          "status": "available",
+          "available_at": "2025-04-11T14:30:00+08:00",
+          "quote_date": "2025-04-11",
+          "bar_count": 72,
+          "values": {
+            "ma5": 107.2,
+            "ma20": 106.45,
+            "ma60": 104.45,
+            "close": 107.4,
+            "rsi14": 100.0,
+            "atr14": 2.0,
+            "volume": 106930.0,
+            "volume_ratio_previous20": 1.009182970450277,
+            "macd": 0.6947094031278453,
+            "macd_hist": 0.0024812789871272445,
+            "macd_new_cross_up": false,
+            "k9": 71.42857142855046,
+            "d9": 71.42857142808455,
+            "kd_new_cross_up": false,
+            "volatility20_pct": 0.008093736862500311,
+            "support20": 104.3,
+            "resistance20": 108.2,
+            "return20_pct": 1.8975332068311257
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "以有效OHLCV計算，不從圖像猜價格。",
+            "量比使用前20筆、不含當日的均量。",
+            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
+          ]
+        },
+        "flow": {
+          "label": "法人・籌碼・流動性",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "foreign_net_shares",
+            "trust_net_shares",
+            "dealer_net_shares"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "macro_policy": {
+          "label": "總經・產業・法規",
+          "status": "partial",
+          "values": {
+            "policy_rate_pct": 2.0
+          },
+          "provenance": {
+            "policy_rate_pct": {
+              "available_at": "2025-04-11T18:00:00+08:00",
+              "period": "synthetic",
+              "source": "synthetic_fixture",
+              "unit": "%"
+            }
+          },
+          "missing": [
+            "usd_twd"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        }
+      },
+      "analyses": []
+    }
+  ]
+}
