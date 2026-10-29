@@ -2,7 +2,7 @@
   "version": "19.0.0",
   "generated_at": "2026-10-30T02:58:00.001860+08:00",
   "as_of": "2026-10-30",
-  "prepared_at": "2026-10-29T18:58:15.598513+00:00",
+  "prepared_at": "2026-10-29T19:00:14.532640+00:00",
   "source_snapshot_sha256": "cc9ebbfcb13361b8046f1bba88a4e38e957cb8cbb9aa585e940aec4fdb3887fb",
   "source_mode": "live",
   "demo": false,
@@ -89652,13 +89652,8 @@
       },
       "quarantined_count": 0,
       "quote_verification": {
-        "status": "matched",
-        "reason": "同日期官方收盤一致；不代表盤中現價或獲利驗證",
-        "official": {
-          "date": "2026-10-29",
-          "close": 16980.0,
-          "source": "tpex"
-        }
+        "status": "unverified",
+        "reason": "官方日期／價格未取得，不把Yahoo資料當已核對"
       },
       "reference_plan": {
         "version": "17.0.0",
@@ -94383,13 +94378,8 @@
       },
       "quarantined_count": 0,
       "quote_verification": {
-        "status": "matched",
-        "reason": "同日期官方收盤一致；不代表盤中現價或獲利驗證",
-        "official": {
-          "date": "2026-10-29",
-          "close": 2050.0,
-          "source": "tpex"
-        }
+        "status": "unverified",
+        "reason": "官方日期／價格未取得，不把Yahoo資料當已核對"
       },
       "reference_plan": {
         "version": "17.0.0",
@@ -94613,11 +94603,16 @@
     "verified_on": "2026-10-20",
     "note": "年度例假；臨時休市需維護config/market-calendar.json，不以猜測補行情"
   },
-  "verification_errors": [],
+  "verification_errors": [
+    {
+      "source": "tpex",
+      "error": "ChunkedEncodingError"
+    }
+  ],
   "official_verification_attempted": true,
   "health": {
     "required_price_date": "2026-10-29",
-    "official_matched": 16,
+    "official_matched": 14,
     "stocks": 20,
     "generated_at": "2026-10-30T02:58:00.001860+08:00",
     "meaning": "資料不可用與投資不建議分開呈現"
