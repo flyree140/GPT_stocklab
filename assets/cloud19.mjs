@@ -37,7 +37,15 @@ export function materialize19(records,local,validator,preferSettings=null){
  validator(result);return result;
 }
 export class SheetsJournal19{
- constructor({clientId='',fetcher=globalThis.fetch,onStatus=()=>{}}={}){this.clientId=clientId;this.fetcher=fetcher;this.onStatus=onStatus;this.token=null;this.expires=0;this.sheet=null;this.busy=false;this._gis=null;this.calls=[];this.dayCalls=0;this.rateWaitMs=2500;this.lastCall=0;}
+ constructor({clientId='',fetcher=globalThis.fetch,onStatus=()=>{}}={}){
+  this.clientId=clientId;
+  // HOTFIX 19.2.1: native browser fetch must keep the Window/Worker receiver.
+  // Calling an unbound native fetch as this.fetcher(...) throws Illegal invocation.
+  // Leave custom injected transports untouched (e.g. bound adapters used in tests).
+  if(typeof fetcher!=='function')throw new TypeError('目前環境沒有可用的fetch；請使用支援Fetch API的瀏覽器');
+  this.fetcher=fetcher===globalThis.fetch?fetcher.bind(globalThis):fetcher;
+  this.onStatus=onStatus;this.token=null;this.expires=0;this.sheet=null;this.busy=false;this._gis=null;this.calls=[];this.dayCalls=0;this.rateWaitMs=2500;this.lastCall=0;
+ }
  async loadIdentity(){
   if(globalThis.google?.accounts?.oauth2)return;
   if(this._gis)return this._gis;
