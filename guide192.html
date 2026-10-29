@@ -1,0 +1,265 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>19.2免費微調與六面向企劃</title><style>body{font:16px/1.8 system-ui,"Microsoft JhengHei",sans-serif;color:#13343b;background:#eef4f3;margin:0}main{max-width:1100px;margin:32px auto;padding:32px;background:white;border:1px solid #d2e1e2;border-radius:18px}h1,h2{line-height:1.35}h2{margin-top:48px;border-bottom:2px solid #d9e9e7;padding-bottom:12px}a{color:#007b74;overflow-wrap:anywhere}table{display:block;overflow:auto;border-collapse:collapse;font-size:14px}td,th{padding:12px;border:1px solid #d4e2e4;text-align:left}pre{white-space:pre-wrap;overflow-wrap:anywhere;padding:18px;background:#eef5f3;border-radius:12px}code{font-size:14px}strong{color:#0b6966}@media(max-width:700px){main{margin:10px;padding:18px}body{font-size:15px}}</style></head><body><main><h1>StockLab 19.2｜自有權重、六面向研究與免費Colab訓練企劃</h1>
+<h2>先分清楚三個下載品</h2>
+<ol>
+<li><strong>StockLab-19.2-Colab.ipynb</strong>：直接上傳Colab。已內嵌程式與24筆原創合成案例，第一次不必再上傳網站ZIP。</li>
+<li><strong>StockLab-19.2-TRAINING-KIT.zip</strong>：訓練企劃、原始程式、測試、資料格式與Notebook的備份。放在電腦或私人Drive，<strong>不整包上傳公開GitHub</strong>。</li>
+<li><strong>StockLab-PaperLab-v19.2-GITHUB-ONLY.zip</strong>：部署專用。解壓後全部內容合併到網站repo根目錄，含<code>.github/</code>，不先刪除data或config。</li>
+</ol>
+<p>沒有GPU訓練成果隨包附送；Notebook必須在你的Colab跑完才會產生自己的LoRA權重。</p>
+<h2>1. 目標與交付邊界</h2>
+<p>延續19.1「關起門來的虛擬資金試驗」。19.2新增可訓練的新聞／政策／社群證據抽取器、六面向CPU資料板、自己的adapter載入、同一每日預算及影子驗證。</p>
+<p>這不是券商送單系統。新權重先另存分析，不改寫原快照、舊計畫或虛擬成交；沒有驗證就不把模型升格為自動股數決策。</p>
+<p><strong>兩種權重不要混淆</strong>：LoRA是神經網路參數；六面向比例是交易研究規則。先改善理解力，不代表可以任意加重新聞權重或保證提高報酬。</p>
+<h2>2. 免費架構</h2>
+<pre><code>合法來源／公司公告／有授權的社群採樣／OHLCV
+                    ↓ CPU
+時間戳、去重、公司關係、指標、財報版本、資料完整度
+                    ↓
+人工核對教材（不是舊模型＋19分）
+                    ↓ Colab GPU，只在訓練時啟用
+固定Qwen3-0.6B + LoRA（可選QLoRA）
+                    ↓
+原版／微調版相同輸入A/B → 私人HF模型repo的adapter
+                    ↓ GitHub標準CPU runner
+基底固定SHA + adapter固定SHA → 新版JSON驗證器
+                    ↓
+六面向研究附檔 + 網站自有模型頁
+                    ↓ 經前瞻驗證後才評估
+既有PaperLab資金、持有期限、希望獲利與退出規則
+</code></pre>
+<p>不開付費推論Endpoint，不把Colab當24小時伺服器；網站不持有HF Token。讀取私人adapter只用GitHub Secret。</p>
+<h2>3. 目前是否全部在免費額度內？</h2>
+<p>程式設計避免必要付費，但沒有你的帳號Billing讀取權限，不能宣稱帳號目前一定未超額。[S01–S03,S19]</p>
+<ul>
+<li>GitHub公開repo標準runner：運算免費。仍看cache、artifact與是否誤選付費runner；不增加cache上限或自動購買。權重只進<code>.cache/</code>，不commit大型權重或訓練資料。</li>
+<li>Colab：GPU種類、時數、可用性是動態；沒有官方固定「每天幾小時」保證。用完停止，額度用盡就停，不保活、不換帳號規避。</li>
+<li>Kaggle：CPU整理、GPU用完結束；依帳號quota當下值。這是備援不是疊加成保證額度。</li>
+<li>HF Hub：只保存小adapter，固定revision；不使用Inference Providers、Endpoints或付費Spaces GPU。儲存仍受帳號方案限制。</li>
+<li>Google Drive／Sheets：保留既有私人試驗帳本，儲存與API都有配額；本版不新增原始社群全文雲端公開。</li>
+<li>X、Reddit、Dcard等：不假設免費合法全量取得；X讀取已有計費，本版沒有把它設成必要來源。</li>
+</ul>
+<p>使用者仍需到GitHub Billing/Actions usage、Colab資源面板、HF Storage以及Google儲存頁檢查。程式預算不是平台帳單認證。</p>
+<h2>4. 六面向：保留傳統分析，不讓LLM包辦數學</h2>
+<table>
+<thead>
+<tr>
+  <th>面向</th>
+  <th>真正要讀的內容</th>
+  <th>在哪裡算</th>
+  <th>驗證點</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>新聞與公司政策</td>
+  <td>月營收、獲利、財測、回購、產品、客戶、擴產、公司承諾與時程</td>
+  <td>Qwen擷取＋CPU數字核對</td>
+  <td>已實現/管理層展望/分析師預估/傳言分開</td>
+</tr>
+<tr>
+  <td>社群關注與情緒</td>
+  <td>去重發文、獨立作者、集中度、異常熱度、正負分歧</td>
+  <td>CPU聚合；只有少量不明確文本才進Qwen</td>
+  <td>採樣範圍、時間、轉載、公司名稱歧義</td>
+</tr>
+<tr>
+  <td>基本・財務・估值</td>
+  <td>營收、EPS、利潤、ROE、OCF、負債、PE/PB、金融利差/信用成本</td>
+  <td>CPU以有公布時間的數值計算</td>
+  <td>季末≠公告日、重編數字不能回填、跨產業不直接排名</td>
+</tr>
+<tr>
+  <td>K線・技術・量價</td>
+  <td>MA5/20/60、RSI14、MACD、KD、ATR、波動、前20日量比、支撐壓力</td>
+  <td>CPU，使用OHLCV</td>
+  <td>不用截圖猜價；當日量不放進基準均量</td>
+</tr>
+<tr>
+  <td>法人・籌碼・流動性</td>
+  <td>外資投信自營商、融資券、量能與買賣價差</td>
+  <td>CPU</td>
+  <td>有買超不等於獲利增加；缺值不自動補50分</td>
+</tr>
+<tr>
+  <td>總經・產業・法規</td>
+  <td>匯率、利率、產業需求、監理、關稅、出口規定、政策生效日</td>
+  <td>Qwen釐清政策階段＋CPU曝險</td>
+  <td>草案≠生效、海外事件必須有公司關係證據</td>
+</tr>
+</tbody>
+</table>
+<p>公司政策、法規與財務的同一證據可提供不同解釋，但不能在融合分數重複當成多個獨立利多。先記錄可用性和每一項特徵，後續用樣本驗證邊際貢獻，不把主觀權重當成已訓練的投資優勢。</p>
+<h2>5. 已實作、需要提供資料、與後續研究</h2>
+<p><strong>已實作</strong>：OHLCV指標計算、時間過濾、六面向缺值板、社群去重聚合、LoRA/QLoRA訓練、嚴格引用/數字檢查、生成式A/B、CPU多因子Ridge基準、HF adapter固定版本載入、共享每日6次、研究附檔頁。</p>
+<p><strong>需要自己的資料/權限</strong>：有發布時間的財務／籌碼／總經資料、有權分析與訓練的社群、核對過的公司關係、人工標註。原網站未抓到的籌碼，本版不憑空補齊。</p>
+<p><strong>尚未完成的科研結果</strong>：真GPU訓練成效、獨立金融績效、可校準上漲機率、因果識別、全天候全平台社群覆蓋、圖像模型。不能把驗證程式通過說成投資更準。</p>
+<h2>6. 免費GPU量能：分段、量測後才擴大</h2>
+<table>
+<thead>
+<tr>
+  <th>模式</th>
+  <th style="text-align:right">訓練資料上限</th>
+  <th style="text-align:right">optimizer steps上限</th>
+  <th style="text-align:right">梯度累積</th>
+  <th style="text-align:right">token上限</th>
+  <th style="text-align:right">程式軟停止</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>smoke流程測試</td>
+  <td style="text-align:right">24筆合成教材（其中16筆train）</td>
+  <td style="text-align:right">6</td>
+  <td style="text-align:right">2</td>
+  <td style="text-align:right">80,000</td>
+  <td style="text-align:right">10分鐘</td>
+</tr>
+<tr>
+  <td>reviewed正式試驗</td>
+  <td style="text-align:right">1,000筆train</td>
+  <td style="text-align:right">200且不超過一輪</td>
+  <td style="text-align:right">8</td>
+  <td style="text-align:right">1,800,000</td>
+  <td style="text-align:right">30分鐘</td>
+</tr>
+</tbody>
+</table>
+<p>以上是<strong>自己程式的上限，不是平台免費額度或訓練所需時間保證</strong>。起始rank8、alpha16，只訓練q_proj/v_proj；長度最多2048、batch1、lr1e-4、無超參數搜尋、最近2個checkpoint。第1與第5步印實測時間與顯存。每步結束才檢查軟停止，Notebook另有程序硬逾時；突然被平台中止仍可能損失未存的步驟。</p>
+<p>0.6B預設普通LoRA；遇到顯存不足，先縮短無關文章、檢查padding、再開QLoRA，不能一直盲目重跑。圖像K線、全量社群語言建模、7B以上全參數訓練不放在第一輪。</p>
+<p>比較預設只取validation前8筆（smoke取4筆），兩種模型同輸入、同解碼。生成長度最多768 tokens，單筆40秒、總軟上限10分鐘。這是能力檢查，不是估計可靠金融準確率的充分樣本。</p>
+<h2>7. 教材設計</h2>
+<p>每筆要有issuer、decision_at、documents（published_at、available_at、source_kind、text）、event_cluster、人工核准與訓練權利確認、gold答案。原始權利應能證明，不是隨手打勾。</p>
+<p>標準答案包含：事件類別、公司關聯、事實/預估/傳言、營運方向、逐字證據、數字與單位/期間、傳導假說、缺口、下一次核對、長期複查所需證據及失效條件。price_direction固定unknown：這一個語言任務不是股價預測器。</p>
+<p>不放本金、薪水、希望賺多少、未來價格、當時不存在的官方公告。老程式的分數和模板不當gold。社群公開可讀不代表可訓練；各平台與資料集授權要分開核對。[S09,S17,S18,S20]</p>
+<p>起步建議先整理200–500個真正不同事件，之後到500–1,000筆；這是成本安排，不是成功門檻。包含繁中、英文、無方向、利多利空抵銷、缺比較基準、財報重編、海外公司關聯未確認與提示注入案例。沒有原文時如實說只看標題。</p>
+<p>標註工具：在電腦開啟 <code>annotation.html</code>，匯入待審JSONL，逐則核對後下載 <code>reviewed.jsonl</code>。新增公司政策、社群意見與法規分類。此頁不傳送資料；離開前需下載保存。簡易表單每則一個數字，多數字案例可編輯JSONL，再由Python檢查。</p>
+<h2>8. Notebook逐步操作</h2>
+<ol>
+<li>Colab上傳<code>StockLab-19.2-Colab.ipynb</code>。先用CPU執行資料準備；內嵌程式會驗SHA後解開，不用再上傳網站包。</li>
+<li>第一次MODE保持<code>smoke</code>，勾Drive保存時會建立自己的資料夾。24筆原創教材自動產生16/4/4切分。</li>
+<li>跑資料驗證與六面向示例；無效時間、無授權、跨組或截斷答案都先擋下。</li>
+<li>切到GPU後重新跑前面初始化，使用同一個Drive資料夾，再把TRAIN_NOW勾選。沒有免費GPU會停止，不自動購買。</li>
+<li>相依安裝只發生在你明確開始GPU時；保留Colab自帶torch，不換CUDA wheel。版本是可重現起點，不宣稱最新。</li>
+<li>產生adapter後執行validation A/B，先檢查schema、引用、數字、方向與實際/預估差異。不要只看loss。</li>
+<li>正式資料：MODE換<code>reviewed</code>，上傳人工核對JSONL，輸入事先決定的時間切點。超過1,000筆請先CPU選試驗，不默默丟掉多餘資料。</li>
+<li>同一次中斷才用RESUME；資料、prompt、版本、長度或參數改了，要換RUN_NAME。程式會比對fingerprint。</li>
+<li>選定模型後才執行一次test。舊歷史已被看過、基底可能記住資料，不能宣稱完全乾淨未見測試。</li>
+<li>下載adapter與manifest。只有reviewed模式且授權明確時，才勾選發布至自己的私人HF repo；synthetic adapter會被拒絕。</li>
+</ol>
+<p>對自己上傳過的專案，可開Notebook的可選「匯入ZIP→待審隊列」儲存格。它只讀取snapshot，保留標題與時間，不採舊答案、不自動給訓練授權、不解壓不可信路徑。</p>
+<h2>9. 社群：當天資料如何處理</h2>
+<p>先記錄published_at與observed_at，每次擷取的讚數/轉載數也要有當時的observed_at。今天抓回三個月前貼文，不能假裝知道那天的互動量。</p>
+<p>程式提供選定Bluesky作者的可選採樣器，預設關閉、每次最多30篇。只有確認此次採樣條款才執行；401/403/429停止，不更改大小寫或替換端點繞過封鎖。這不是全市場社群資料。[S17]</p>
+<p>摘要只保留去重篇數、已知獨立作者、集中度、經人工/已驗證分類器標註的情緒平衡；沒有標註就缺值，不用亂填字典分數。至少5個同口徑歷史24小時窗口才嘗試熱度基準，完整建議累積20個；相同查詢/平台/時段才能比較。</p>
+<p>作者識別只做局部hash與去重；hash不是法律意義上的完全匿名，也不送進LLM教材。原始社群放私人資料／<code>.cache/features192/</code>，發布時只出摘要。</p>
+<h2>10. 公司政策、財務與K線的時點</h2>
+<p>公司政策保存：管理層原話、承諾或目標、董事會核准狀態、資金來源、起始/預期完成日、後續驗證里程碑。外國新聞影響台股時要有當時已公開的供應鏈或收入曝險文件，否則是unconfirmed。</p>
+<p>財報數字優先官方原文及SEC/TWSE/MOPS。日期以公布/首次可用為準，不能用季度結束日；再版本另存，不以現值回填舊快照。[S14–S16]</p>
+<p>K線使用同口徑OHLCV。拆股、除權息及暫停交易另處理，不把原始價和還原價混在報酬標籤。CPU計算傳統指標，模型只解釋，不將Qwen0.6B當圖像模型。圖表辨識論文列為第二階段研究，先用數值型基準比較更節省。[S07,S12]</p>
+<h2>11. 多因子報酬訓練，不浪費GPU</h2>
+<p><code>stocklab192.tabular</code>提供固定Ridge基準：先對train做median補值與缺失旗標，再標準化，只在train fit。validation殘差形成情境帶，test只做最後評估；預設不搜尋最佳參數。</p>
+<p>資料必須分開放decision_at、features_available_at、entry_at、label_end_at、已扣成本的net_return_pct和事件群組。標籤跨越切分邊界直接purge；同事件跨集合刪除；不把未成熟標籤視為0。</p>
+<p>至少train100/validation30/test30筆才執行，這只是運作最低要求，不保證統計可靠。比較零報酬基準、MAE、方向、區間覆蓋；之後還要用單一現金帳、重疊持倉、交割、滑價及費用回放。日K無法精確還原零股成交，不能假裝成交保證。</p>
+<p>資金、想賺多少、持有多久仍走原PaperLab引擎：目標獲利只反推情境價；若超過壓力或風險承受範圍，就不提高股數迎合目標。不會因為換adapter重新發明個人偏好。</p>
+<h2>12. 接回網站：真正載入自己的權重</h2>
+<p>GitHub Repository → Settings → Secrets and variables → Actions：</p>
+<p><strong>Variables</strong></p>
+<ul>
+<li><code>STOCKLAB_192_ENABLED</code>：先保持<code>0</code>；正式adapter通過比較才改<code>1</code>。</li>
+<li><code>STOCKLAB_ADAPTER_REPO</code>：自己的HF模型repo，例如<code>account/stocklab-news-lora</code>。</li>
+<li><code>STOCKLAB_ADAPTER_REVISION</code>：HF固定的40字元commit SHA，不填main。</li>
+</ul>
+<p><strong>Secrets</strong></p>
+<ul>
+<li><code>HF_TOKEN</code>：只允許讀取該私人模型repo的Token，不能放在前端、GitHub公開檔案或Sheets。</li>
+</ul>
+<p>每日workflow會在同一runner載入固定基底＋adapter。檢查manifest、schema、prompt雜湊、LoRA結構、80MiB上限與safetensors權重SHA。只接受本訓練方案的reviewed輸出；任意外來adapter必須先轉換與核對，不能單憑檔名載入。</p>
+<p>啟用adapter時，舊Qwen生成先停用；新舊共用<code>data/system/qwen-state.json</code>，每日最多6次，失敗也計數、在啟動worker前記帳。每輪模型只載一次。換模型版本會改變cache key；超過每日上限則只更新CPU資料板，不假裝Qwen有執行。子程序720秒上限，沒有自動加費、沒有無限重試。</p>
+<p>結果寫到<code>data/research192/</code>，與原快照分離。網站的「自有權重・六面向」可看實際回傳、缺失資料、adapter版本與本輪消耗。此階段不改原始評分、候選排序或試單；這是有意保留的比較基線，不是已自動改善收益。</p>
+<p>要回退，將<code>STOCKLAB_192_ENABLED=0</code>，舊規則與可選原Qwen流程恢復；歷史影子資料不刪。</p>
+<h2>13. 正式六面向資料介面</h2>
+<p><code>stocklab192.runtime</code>在伺服器端可讀<code>.cache/features192/YYYY-MM-DD.json</code>：以股票symbol為key，內含<code>facts</code>、<code>social_posts</code>、<code>social_source_ok</code>、<code>social_baseline</code>及<code>collection_key</code>。每個fact需factor/name/value/unit/period/available_at/source。<code>examples/factors.synthetic.json</code>是合成示例。</p>
+<p>本版不附有權使用的全市場社群或歷年財報，也沒有自動繞過資料付費牆。沒有資料時仍可跑原系統、CPU技術及訓練demo；六面向板會明確顯示哪些尚缺。可選資料供應器要先做小樣本核對，不能把所有API一次打滿。</p>
+<p>新增下載的資料在原快照cutoff之後，就不能插回原cutoff。應另建新的分析時點，或於下一次快照前準備好。不能為了顯示「完整」把available_at改早。</p>
+<h2>14. 上線驗收門檻（研究規格，不是收益保證）</h2>
+<p>先比較規則/基底/adapter三組；相同資料、同種切分、同樣生成參數。檢查JSON、逐字證據、數字/單位/期間、公司關聯、actual/forecast/rumor、缺失識別、提示注入與中英文退步。</p>
+<p>資料集benchmark只驗能力。交易效益另做前瞻固定期間，含成本、未成交、虧損、風險與現金部位；樣本數少、重疊事件不當成獨立成功。</p>
+<p>不以「模型80%信心」直接當成「80%上漲機率」。不根據已看過test選rank/learning rate/持有期。最後保留全新時間段，記錄每次試驗與凍結版本。</p>
+<h2>15. 一般使用者部署</h2>
+<p>部署ZIP只上傳解壓內容，不上傳ZIP本身。保留<code>.git/</code>、正式<code>data/</code>、正式config與<code>cloud-config.json</code>。三個既有stocklab16/17/18模組都保留，新添stocklab192，不是刪舊版只留新資料夾。</p>
+<p>先執行<code>Refresh Six-Factor Research 19.2</code>，只做CPU側錄；Pages成功後點側邊「自有權重・六面向」。沒有正式latest時會顯示合成教學，不能拿它計績效。</p>
+<p>完成正式LoRA訓練、資料授權與A/B才設定自己的HF變數；手動跑每日流程要取消skip_qwen才會執行新adapter。用量狀態看新頁；查不到帳單仍要去帳號Billing確認。</p>
+<h2>16. 本次交付能說與不能說的話</h2>
+<p>本次可以驗證：套件結構、Notebook格式及預設CPU路徑、Python/JS語法、離線測試、日限額與模型校驗邏輯、既有檔案保護。</p>
+<p>本環境沒有CUDA GPU，且容器外網DNS不可用，不能實際下載Qwen權重、安裝並跑Colab GPU、登入你的HF/GitHub或證明任何收益。web工具已查核官方資源；它不是你的訓練帳號。</p>
+<p>訓練checkpoint與權重只會在你執行Notebook後產生。沒有假造loss、精度或每日剩餘額度。</p>
+<hr />
+<h1>查核的原始資源</h1>
+<p>查核日期：2026-10-28。開源程式授權不等於資料、社群文章或衍生權重全都可自由公開。</p>
+<h2>S01 Google Colab FAQ</h2>
+<p>https://research.google.com/colaboratory/faq.html</p>
+<p>免費GPU與時間是動態資源；不用保活、多帳號或規避限制。</p>
+<h2>S02 GitHub Actions billing</h2>
+<p>https://docs.github.com/en/billing/concepts/product-billing/github-actions</p>
+<p>公開repo標準runner免費運算；cache、artifact、私人repo需另外檢查。</p>
+<h2>S03 Kaggle efficient GPU usage</h2>
+<p>https://www.kaggle.com/docs/efficient-gpu-usage</p>
+<p>資料處理先CPU、GPU用完即停；實際quota以帳號顯示為準。</p>
+<h2>S04 Qwen3-0.6B model card</h2>
+<p>https://huggingface.co/Qwen/Qwen3-0.6B</p>
+<p>本版固定同一小型文字基底；不採用視覺模型或大型全參數訓練。</p>
+<h2>S05 PEFT Quantization</h2>
+<p>https://huggingface.co/docs/peft/en/developer_guides/quantization</p>
+<p>LoRA與4-bit基底可搭配；本例0.6B優先普通LoRA以減少環境問題。</p>
+<h2>S06 FinGPT</h2>
+<p>https://github.com/AI4Finance-Foundation/FinGPT</p>
+<p>參考金融多任務資料流程；不照搬其所有資料或收益宣稱。</p>
+<h2>S07 Qlib</h2>
+<p>https://github.com/microsoft/qlib</p>
+<p>參考PIT資料、Alpha158／量價研究與研究流程；本版先用小型CPU基準。</p>
+<h2>S08 LLaMA-Factory</h2>
+<p>https://github.com/hiyouga/LlamaFactory</p>
+<p>可作未來多模型微調工具；此Notebook使用較少相依的PEFT/Trainer。</p>
+<h2>S09 Financial PhraseBank 原資料卡</h2>
+<p>https://huggingface.co/datasets/takala/financial_phrasebank</p>
+<p>英文金融情緒。CC BY-NC-SA 3.0；不是台股未來報酬標籤，轉載不解除原授權。</p>
+<h2>S10 FinQA 原作者專案</h2>
+<p>https://github.com/czyssrs/FinQA</p>
+<p>財報數值推理與表格證據，EMNLP 2021；不是選股策略績效。</p>
+<h2>S11 StockNet / ACL 2018</h2>
+<p>https://aclanthology.org/P18-1183/</p>
+<p>社群文字與價格的多模態思路；舊美股推文不能代表今日台股社群。</p>
+<h2>S12 (Re-)Imag(in)ing Price Trends / Journal of Finance 2023</h2>
+<p>https://afajof.org/issue/volume-78-issue-6/</p>
+<p>Jiang, Kelly, Xiu，78(6):3193–3249，DOI 10.1111/jofi.13268。圖像型價格研究；本版先用OHLCV，不聲稱重現其成果。</p>
+<h2>S13 QLoRA / NeurIPS 2023</h2>
+<p>https://papers.nips.cc/paper_files/paper/2023/hash/1feb87871436031bdc0f2beaa62a049b-Abstract-Conference.html</p>
+<p>Dettmers等的量化參數高效微調方法；不把論文硬體結果當作免費Colab保證。</p>
+<h2>S14 FinMind 官方文件</h2>
+<p>https://finmind.github.io/</p>
+<p>台股財務、月營收與籌碼資料目錄；不同資料的權限、配額、首次公布時間須核對。</p>
+<h2>S15 SEC EDGAR API</h2>
+<p>https://www.sec.gov/search-filings/edgar-application-programming-interfaces</p>
+<p>申報索引與XBRL資料；需正確User-Agent和限速，先核對原始文件公布時間。</p>
+<h2>S16 TWSE OpenAPI</h2>
+<p>https://openapi.twse.com.tw/</p>
+<p>官方台股資料入口；最新值端點不拿來倒填歷史。</p>
+<h2>S17 Bluesky rate limits</h2>
+<p>https://docs.bsky.app/docs/advanced-guides/rate-limits</p>
+<p>提供公開端點與限速資訊；本例僅選定作者樣本，遇到401/403/429停止。</p>
+<h2>S18 X API pricing</h2>
+<p>https://docs.x.com/x-api/getting-started/pricing</p>
+<p>目前採依使用量計費；本方案不把X即時API當免費必要依賴。</p>
+<h2>S19 Hugging Face Hub storage</h2>
+<p>https://huggingface.co/docs/hub/en/storage-limits</p>
+<p>Hub存adapter不同於付費推論端點；儲存配額仍要看帳號。</p>
+<h2>S20 Kaggle financial-news dataset</h2>
+<p>https://www.kaggle.com/datasets/ankurzing/sentiment-analysis-for-financial-news</p>
+<p>可作資料探索入口；頁面在本次工具未顯示可解析授權，使用前回原始PhraseBank核對，不自動下載訓練。</p>
+<h2>S21 PIXIU / FinBen</h2>
+<p>https://github.com/The-FinAI/PIXIU</p>
+<p>金融任務評估套件；只選分類、關係、抽取、財務QA所需子任務，分別核對資料授權。</p>
+<h2>S22 StockNet original code</h2>
+<p>https://github.com/yumoxu/stocknet-code</p>
+<p>原研究程式；舊環境不直接混入新Colab依賴。</p>
+</main></body></html>

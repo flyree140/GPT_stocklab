@@ -6,7 +6,7 @@ from .storage import validate_snapshot,settings_file
 
 def check(root=ROOT):
     root=Path(root);errors=[]
-    required=['index.html','research.html','assets/life.mjs','assets/life-engine.mjs','assets/life.css','stocklab18/report.py','stocklab18/prepare.py','tutorial.html','assets/app.mjs','assets/styles.css','assets/charts.mjs','assets/engine.mjs',
+    required=['assets/intent19.mjs','assets/cloud19.mjs','cloud-setup.html','index.html','research.html','assets/life.mjs','assets/life-engine.mjs','assets/life.css','stocklab18/report.py','stocklab18/prepare.py','tutorial.html','assets/app.mjs','assets/styles.css','assets/charts.mjs','assets/engine.mjs',
               'stocklab16/taxonomy.py','runtime.json','data/demo/latest.json','data/demo/manifest.json',
               'config/stocks.default.json','config/settings.default.json']
     for rel in required:

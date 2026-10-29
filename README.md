@@ -1,11 +1,9 @@
-# StockLab v18 — GitHub 部署專用包
+# StockLab PaperLab 19.2
 
-所有內容都可以合併覆蓋到現有 Repository 根目錄；不要先清空舊專案。
+保留19.1封閉試驗、雲端虛擬帳本及既有紀錄。新增自有權重研究面板及六面向CPU旁路。
 
-**先讀 [START_HERE.md](START_HERE.md)**，裡面列出覆蓋、保留與不必上傳的檔案。
+部署請看START_HERE.md。免費訓練請開獨立提供的StockLab-19.2-Colab.ipynb；不要將訓練資料與權重上傳公開repo。
 
-此包保留生活版、真實成交記帳、逐日比對、教學及原研究室；不包含簡報和預覽相簿。
-上傳後先執行 **Update Life Mode**，再確認 **Deploy StockLab 16 Pages** 成功。
+新adapter與基底固定版本＋safetensors雜湊，預設不啟用。啟用後新舊模型共用每天6次嘗試，子程序720秒上限。
 
-測試固定資料只放 data/demo；正式快照、行情、個人設定與既有衍生資料不隨包覆蓋。
-不自動下單，不保證獲利；私人帳本只在同一瀏覽器中，勿上傳公開GitHub。
+此版沒有訓練好的權重，沒有交易獲利保證，也不會真實下單。
