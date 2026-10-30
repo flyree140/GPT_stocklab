@@ -1,0 +1,2266 @@
+{
+  "version": "19.2.0",
+  "as_of": "2026-10-30",
+  "cutoff": "2026-10-30T17:44:13.872082+08:00",
+  "created_at": "2026-10-30T17:44:31.648658+08:00",
+  "source_snapshot_sha256": "47e02ecbb8e07dbb817053d3149778c4f7fd7299903729631a556ba66a566061",
+  "demo": false,
+  "model_status": {
+    "enabled_requested": false,
+    "adapter_repo": "",
+    "adapter_revision": "",
+    "mode": "shadow_only",
+    "daily_max_attempts": 6,
+    "attempts_this_run": 0,
+    "cache_hits": 0,
+    "note": "此面板不改寫既有分數、試買或成交帳",
+    "result": "disabled_or_demo_or_historical; CPU factors only"
+  },
+  "stocks": [
+    {
+      "symbol": "2330.TW",
+      "name": "台積電",
+      "factors": {
+        "news": {
+          "label": "新聞與公司政策",
+          "status": "partial",
+          "values": {
+            "events": 8,
+            "verified_events": 0
+          },
+          "missing": [],
+          "notes": [
+            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
+          ]
+        },
+        "social": {
+          "label": "社群關注與情緒",
+          "status": "missing",
+          "values": {},
+          "missing": [
+            "社群來源未授權、未執行或連線失敗；不可填0熱度"
+          ],
+          "sample_scope": true
+        },
+        "fundamental": {
+          "label": "基本・財務・估值",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "revenue_yoy_pct",
+            "eps_ttm",
+            "roe_pct",
+            "ocf",
+            "pe",
+            "pb"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "technical": {
+          "label": "K線・技術・量價",
+          "status": "available",
+          "available_at": "2026-10-30T14:30:00+08:00",
+          "quote_date": "2026-10-30",
+          "bar_count": 519,
+          "values": {
+            "ma5": 2399.0,
+            "ma20": 2470.25,
+            "ma60": 2431.5833333333335,
+            "close": 2370.0,
+            "rsi14": 37.915064629624794,
+            "atr14": 39.285714285714285,
+            "volume": 34795531.0,
+            "volume_ratio_previous20": 1.4443299207064597,
+            "macd": -18.115333311602626,
+            "macd_hist": -12.951307324044674,
+            "macd_new_cross_up": false,
+            "k9": 22.57659665243642,
+            "d9": 20.9513711105805,
+            "kd_new_cross_up": false,
+            "volatility20_pct": 18.946732199933784,
+            "support20": 2360.0,
+            "resistance20": 2590.0,
+            "return20_pct": -4.2424242424242475
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "以有效OHLCV計算，不從圖像猜價格。",
+            "量比使用前20筆、不含當日的均量。",
+            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
+          ]
+        },
+        "flow": {
+          "label": "法人・籌碼・流動性",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "foreign_net_shares",
+            "trust_net_shares",
+            "dealer_net_shares"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "macro_policy": {
+          "label": "總經・產業・法規",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "policy_rate_pct",
+            "usd_twd"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        }
+      },
+      "analyses": []
+    },
+    {
+      "symbol": "2317.TW",
+      "name": "鴻海",
+      "factors": {
+        "news": {
+          "label": "新聞與公司政策",
+          "status": "partial",
+          "values": {
+            "events": 8,
+            "verified_events": 0
+          },
+          "missing": [],
+          "notes": [
+            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
+          ]
+        },
+        "social": {
+          "label": "社群關注與情緒",
+          "status": "missing",
+          "values": {},
+          "missing": [
+            "社群來源未授權、未執行或連線失敗；不可填0熱度"
+          ],
+          "sample_scope": true
+        },
+        "fundamental": {
+          "label": "基本・財務・估值",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "revenue_yoy_pct",
+            "eps_ttm",
+            "roe_pct",
+            "ocf",
+            "pe",
+            "pb"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "technical": {
+          "label": "K線・技術・量價",
+          "status": "available",
+          "available_at": "2026-10-30T14:30:00+08:00",
+          "quote_date": "2026-10-30",
+          "bar_count": 518,
+          "values": {
+            "ma5": 247.5,
+            "ma20": 247.35,
+            "ma60": 250.9,
+            "close": 245.5,
+            "rsi14": 47.62955690805725,
+            "atr14": 6.035714285714286,
+            "volume": 33541077.0,
+            "volume_ratio_previous20": 0.8426275202161965,
+            "macd": -0.9319635324624187,
+            "macd_hist": 0.41652475410109235,
+            "macd_new_cross_up": false,
+            "k9": 63.42265250685044,
+            "d9": 59.21606782319647,
+            "kd_new_cross_up": false,
+            "volatility20_pct": 24.899882157497267,
+            "support20": 237.0,
+            "resistance20": 266.5,
+            "return20_pct": -1.9960079840319334
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "以有效OHLCV計算，不從圖像猜價格。",
+            "量比使用前20筆、不含當日的均量。",
+            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
+          ]
+        },
+        "flow": {
+          "label": "法人・籌碼・流動性",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "foreign_net_shares",
+            "trust_net_shares",
+            "dealer_net_shares"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "macro_policy": {
+          "label": "總經・產業・法規",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "policy_rate_pct",
+            "usd_twd"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        }
+      },
+      "analyses": []
+    },
+    {
+      "symbol": "2454.TW",
+      "name": "聯發科",
+      "factors": {
+        "news": {
+          "label": "新聞與公司政策",
+          "status": "partial",
+          "values": {
+            "events": 8,
+            "verified_events": 0
+          },
+          "missing": [],
+          "notes": [
+            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
+          ]
+        },
+        "social": {
+          "label": "社群關注與情緒",
+          "status": "missing",
+          "values": {},
+          "missing": [
+            "社群來源未授權、未執行或連線失敗；不可填0熱度"
+          ],
+          "sample_scope": true
+        },
+        "fundamental": {
+          "label": "基本・財務・估值",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "revenue_yoy_pct",
+            "eps_ttm",
+            "roe_pct",
+            "ocf",
+            "pe",
+            "pb"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "technical": {
+          "label": "K線・技術・量價",
+          "status": "available",
+          "available_at": "2026-10-30T14:30:00+08:00",
+          "quote_date": "2026-10-30",
+          "bar_count": 519,
+          "values": {
+            "ma5": 4033.0,
+            "ma20": 4458.0,
+            "ma60": 4345.333333333333,
+            "close": 3915.0,
+            "rsi14": 36.11299142453568,
+            "atr14": 197.14285714285714,
+            "volume": 12814759.0,
+            "volume_ratio_previous20": 1.7632643054317962,
+            "macd": -164.14432806247896,
+            "macd_hist": -68.9808325310594,
+            "macd_new_cross_up": false,
+            "k9": 21.826185846509997,
+            "d9": 17.090418895977216,
+            "kd_new_cross_up": false,
+            "volatility20_pct": 48.26394359042255,
+            "support20": 3805.0,
+            "resistance20": 5165.0,
+            "return20_pct": -20.264765784114058
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "以有效OHLCV計算，不從圖像猜價格。",
+            "量比使用前20筆、不含當日的均量。",
+            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
+          ]
+        },
+        "flow": {
+          "label": "法人・籌碼・流動性",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "foreign_net_shares",
+            "trust_net_shares",
+            "dealer_net_shares"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "macro_policy": {
+          "label": "總經・產業・法規",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "policy_rate_pct",
+            "usd_twd"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        }
+      },
+      "analyses": []
+    },
+    {
+      "symbol": "2382.TW",
+      "name": "廣達",
+      "factors": {
+        "news": {
+          "label": "新聞與公司政策",
+          "status": "partial",
+          "values": {
+            "events": 8,
+            "verified_events": 0
+          },
+          "missing": [],
+          "notes": [
+            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
+          ]
+        },
+        "social": {
+          "label": "社群關注與情緒",
+          "status": "missing",
+          "values": {},
+          "missing": [
+            "社群來源未授權、未執行或連線失敗；不可填0熱度"
+          ],
+          "sample_scope": true
+        },
+        "fundamental": {
+          "label": "基本・財務・估值",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "revenue_yoy_pct",
+            "eps_ttm",
+            "roe_pct",
+            "ocf",
+            "pe",
+            "pb"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "technical": {
+          "label": "K線・技術・量價",
+          "status": "available",
+          "available_at": "2026-10-30T14:30:00+08:00",
+          "quote_date": "2026-10-30",
+          "bar_count": 519,
+          "values": {
+            "ma5": 323.1,
+            "ma20": 325.5,
+            "ma60": 328.225,
+            "close": 318.0,
+            "rsi14": 42.61334618376975,
+            "atr14": 9.678571428571429,
+            "volume": 13688103.0,
+            "volume_ratio_previous20": 1.2222388707262148,
+            "macd": -3.2536117620340974,
+            "macd_hist": -0.20878081735426512,
+            "macd_new_cross_up": false,
+            "k9": 44.160010977132,
+            "d9": 48.38735508341453,
+            "kd_new_cross_up": false,
+            "volatility20_pct": 25.81492622377017,
+            "support20": 308.0,
+            "resistance20": 340.5,
+            "return20_pct": -5.4977711738484425
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "以有效OHLCV計算，不從圖像猜價格。",
+            "量比使用前20筆、不含當日的均量。",
+            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
+          ]
+        },
+        "flow": {
+          "label": "法人・籌碼・流動性",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "foreign_net_shares",
+            "trust_net_shares",
+            "dealer_net_shares"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "macro_policy": {
+          "label": "總經・產業・法規",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "policy_rate_pct",
+            "usd_twd"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        }
+      },
+      "analyses": []
+    },
+    {
+      "symbol": "2308.TW",
+      "name": "台達電",
+      "factors": {
+        "news": {
+          "label": "新聞與公司政策",
+          "status": "partial",
+          "values": {
+            "events": 8,
+            "verified_events": 0
+          },
+          "missing": [],
+          "notes": [
+            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
+          ]
+        },
+        "social": {
+          "label": "社群關注與情緒",
+          "status": "missing",
+          "values": {},
+          "missing": [
+            "社群來源未授權、未執行或連線失敗；不可填0熱度"
+          ],
+          "sample_scope": true
+        },
+        "fundamental": {
+          "label": "基本・財務・估值",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "revenue_yoy_pct",
+            "eps_ttm",
+            "roe_pct",
+            "ocf",
+            "pe",
+            "pb"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "technical": {
+          "label": "K線・技術・量價",
+          "status": "available",
+          "available_at": "2026-10-30T14:30:00+08:00",
+          "quote_date": "2026-10-30",
+          "bar_count": 519,
+          "values": {
+            "ma5": 1487.0,
+            "ma20": 1736.0,
+            "ma60": 1757.4166666666667,
+            "close": 1335.0,
+            "rsi14": 25.987864997744154,
+            "atr14": 86.42857142857143,
+            "volume": 23031167.0,
+            "volume_ratio_previous20": 2.2044273004056474,
+            "macd": -98.84094059626136,
+            "macd_hist": -43.101821559697825,
+            "macd_new_cross_up": false,
+            "k9": 8.560118264916687,
+            "d9": 10.237979391637754,
+            "kd_new_cross_up": false,
+            "volatility20_pct": 62.23391606598489,
+            "support20": 1335.0,
+            "resistance20": 2115.0,
+            "return20_pct": -27.247956403269757
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "以有效OHLCV計算，不從圖像猜價格。",
+            "量比使用前20筆、不含當日的均量。",
+            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
+          ]
+        },
+        "flow": {
+          "label": "法人・籌碼・流動性",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "foreign_net_shares",
+            "trust_net_shares",
+            "dealer_net_shares"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "macro_policy": {
+          "label": "總經・產業・法規",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "policy_rate_pct",
+            "usd_twd"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        }
+      },
+      "analyses": []
+    },
+    {
+      "symbol": "2412.TW",
+      "name": "中華電",
+      "factors": {
+        "news": {
+          "label": "新聞與公司政策",
+          "status": "partial",
+          "values": {
+            "events": 8,
+            "verified_events": 0
+          },
+          "missing": [],
+          "notes": [
+            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
+          ]
+        },
+        "social": {
+          "label": "社群關注與情緒",
+          "status": "missing",
+          "values": {},
+          "missing": [
+            "社群來源未授權、未執行或連線失敗；不可填0熱度"
+          ],
+          "sample_scope": true
+        },
+        "fundamental": {
+          "label": "基本・財務・估值",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "revenue_yoy_pct",
+            "eps_ttm",
+            "roe_pct",
+            "ocf",
+            "pe",
+            "pb"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "technical": {
+          "label": "K線・技術・量價",
+          "status": "available",
+          "available_at": "2026-10-30T14:30:00+08:00",
+          "quote_date": "2026-10-30",
+          "bar_count": 519,
+          "values": {
+            "ma5": 158.1,
+            "ma20": 151.0,
+            "ma60": 142.9,
+            "close": 160.0,
+            "rsi14": 82.80993371427923,
+            "atr14": 2.892857142857143,
+            "volume": 16432180.0,
+            "volume_ratio_previous20": 1.5077584964189914,
+            "macd": 4.200352112830927,
+            "macd_hist": 0.6508603810774365,
+            "macd_new_cross_up": false,
+            "k9": 90.49458321240132,
+            "d9": 88.44169777983063,
+            "kd_new_cross_up": true,
+            "volatility20_pct": 14.576357023375003,
+            "support20": 143.0,
+            "resistance20": 160.0,
+            "return20_pct": 11.111111111111116
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "以有效OHLCV計算，不從圖像猜價格。",
+            "量比使用前20筆、不含當日的均量。",
+            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
+          ]
+        },
+        "flow": {
+          "label": "法人・籌碼・流動性",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "foreign_net_shares",
+            "trust_net_shares",
+            "dealer_net_shares"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "macro_policy": {
+          "label": "總經・產業・法規",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "policy_rate_pct",
+            "usd_twd"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        }
+      },
+      "analyses": []
+    },
+    {
+      "symbol": "2881.TW",
+      "name": "富邦金",
+      "factors": {
+        "news": {
+          "label": "新聞與公司政策",
+          "status": "partial",
+          "values": {
+            "events": 8,
+            "verified_events": 0
+          },
+          "missing": [],
+          "notes": [
+            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
+          ]
+        },
+        "social": {
+          "label": "社群關注與情緒",
+          "status": "missing",
+          "values": {},
+          "missing": [
+            "社群來源未授權、未執行或連線失敗；不可填0熱度"
+          ],
+          "sample_scope": true
+        },
+        "fundamental": {
+          "label": "基本・財務・估值",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "revenue_yoy_pct",
+            "eps_ttm",
+            "roe_pct",
+            "ocf",
+            "pe",
+            "pb"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "technical": {
+          "label": "K線・技術・量價",
+          "status": "available",
+          "available_at": "2026-10-30T14:30:00+08:00",
+          "quote_date": "2026-10-30",
+          "bar_count": 519,
+          "values": {
+            "ma5": 161.0,
+            "ma20": 157.125,
+            "ma60": 146.05833333333334,
+            "close": 161.5,
+            "rsi14": 61.2480278080963,
+            "atr14": 4.642857142857143,
+            "volume": 13241491.0,
+            "volume_ratio_previous20": 0.82099947644546,
+            "macd": 3.347952549511575,
+            "macd_hist": -0.08862438040508058,
+            "macd_new_cross_up": false,
+            "k9": 69.13256510167747,
+            "d9": 64.70082369570322,
+            "kd_new_cross_up": false,
+            "volatility20_pct": 25.183571769154124,
+            "support20": 147.5,
+            "resistance20": 164.5,
+            "return20_pct": 6.600660066006592
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "以有效OHLCV計算，不從圖像猜價格。",
+            "量比使用前20筆、不含當日的均量。",
+            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
+          ]
+        },
+        "flow": {
+          "label": "法人・籌碼・流動性",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "foreign_net_shares",
+            "trust_net_shares",
+            "dealer_net_shares"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "macro_policy": {
+          "label": "總經・產業・法規",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "policy_rate_pct",
+            "usd_twd"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        }
+      },
+      "analyses": []
+    },
+    {
+      "symbol": "2882.TW",
+      "name": "國泰金",
+      "factors": {
+        "news": {
+          "label": "新聞與公司政策",
+          "status": "partial",
+          "values": {
+            "events": 8,
+            "verified_events": 0
+          },
+          "missing": [],
+          "notes": [
+            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
+          ]
+        },
+        "social": {
+          "label": "社群關注與情緒",
+          "status": "missing",
+          "values": {},
+          "missing": [
+            "社群來源未授權、未執行或連線失敗；不可填0熱度"
+          ],
+          "sample_scope": true
+        },
+        "fundamental": {
+          "label": "基本・財務・估值",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "revenue_yoy_pct",
+            "eps_ttm",
+            "roe_pct",
+            "ocf",
+            "pe",
+            "pb"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "technical": {
+          "label": "K線・技術・量價",
+          "status": "available",
+          "available_at": "2026-10-30T14:30:00+08:00",
+          "quote_date": "2026-10-30",
+          "bar_count": 519,
+          "values": {
+            "ma5": 115.1,
+            "ma20": 113.225,
+            "ma60": 108.37666651407878,
+            "close": 116.0,
+            "rsi14": 58.49821260546017,
+            "atr14": 3.392857142857143,
+            "volume": 20374852.0,
+            "volume_ratio_previous20": 0.9807316762950268,
+            "macd": 1.4859450753125003,
+            "macd_hist": 0.09105900750645146,
+            "macd_new_cross_up": false,
+            "k9": 67.20621572809296,
+            "d9": 59.52310642494838,
+            "kd_new_cross_up": false,
+            "volatility20_pct": 26.609897810772885,
+            "support20": 109.0,
+            "resistance20": 118.0,
+            "return20_pct": 4.035874439461873
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "以有效OHLCV計算，不從圖像猜價格。",
+            "量比使用前20筆、不含當日的均量。",
+            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
+          ]
+        },
+        "flow": {
+          "label": "法人・籌碼・流動性",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "foreign_net_shares",
+            "trust_net_shares",
+            "dealer_net_shares"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "macro_policy": {
+          "label": "總經・產業・法規",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "policy_rate_pct",
+            "usd_twd"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        }
+      },
+      "analyses": []
+    },
+    {
+      "symbol": "2891.TW",
+      "name": "中信金",
+      "factors": {
+        "news": {
+          "label": "新聞與公司政策",
+          "status": "partial",
+          "values": {
+            "events": 8,
+            "verified_events": 0
+          },
+          "missing": [],
+          "notes": [
+            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
+          ]
+        },
+        "social": {
+          "label": "社群關注與情緒",
+          "status": "missing",
+          "values": {},
+          "missing": [
+            "社群來源未授權、未執行或連線失敗；不可填0熱度"
+          ],
+          "sample_scope": true
+        },
+        "fundamental": {
+          "label": "基本・財務・估值",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "revenue_yoy_pct",
+            "eps_ttm",
+            "roe_pct",
+            "ocf",
+            "pe",
+            "pb"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "technical": {
+          "label": "K線・技術・量價",
+          "status": "available",
+          "available_at": "2026-10-30T14:30:00+08:00",
+          "quote_date": "2026-10-30",
+          "bar_count": 519,
+          "values": {
+            "ma5": 75.04000091552734,
+            "ma20": 71.4850009918213,
+            "ma60": 68.32833360036214,
+            "close": 75.80000305175781,
+            "rsi14": 67.67285229980459,
+            "atr14": 2.2928570338657925,
+            "volume": 50094971.0,
+            "volume_ratio_previous20": 1.42880434869027,
+            "macd": 1.9240972538458578,
+            "macd_hist": 0.33656842280774546,
+            "macd_new_cross_up": false,
+            "k9": 75.39191786407966,
+            "d9": 75.07242417007906,
+            "kd_new_cross_up": true,
+            "volatility20_pct": 27.186976156352465,
+            "support20": 67.0999984741211,
+            "resistance20": 76.9000015258789,
+            "return20_pct": 10.334798280798596
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "以有效OHLCV計算，不從圖像猜價格。",
+            "量比使用前20筆、不含當日的均量。",
+            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
+          ]
+        },
+        "flow": {
+          "label": "法人・籌碼・流動性",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "foreign_net_shares",
+            "trust_net_shares",
+            "dealer_net_shares"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "macro_policy": {
+          "label": "總經・產業・法規",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "policy_rate_pct",
+            "usd_twd"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        }
+      },
+      "analyses": []
+    },
+    {
+      "symbol": "3231.TW",
+      "name": "緯創",
+      "factors": {
+        "news": {
+          "label": "新聞與公司政策",
+          "status": "partial",
+          "values": {
+            "events": 7,
+            "verified_events": 0
+          },
+          "missing": [],
+          "notes": [
+            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
+          ]
+        },
+        "social": {
+          "label": "社群關注與情緒",
+          "status": "missing",
+          "values": {},
+          "missing": [
+            "社群來源未授權、未執行或連線失敗；不可填0熱度"
+          ],
+          "sample_scope": true
+        },
+        "fundamental": {
+          "label": "基本・財務・估值",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "revenue_yoy_pct",
+            "eps_ttm",
+            "roe_pct",
+            "ocf",
+            "pe",
+            "pb"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "technical": {
+          "label": "K線・技術・量價",
+          "status": "available",
+          "available_at": "2026-10-30T14:30:00+08:00",
+          "quote_date": "2026-10-30",
+          "bar_count": 519,
+          "values": {
+            "ma5": 189.4,
+            "ma20": 187.35,
+            "ma60": 186.20833333333334,
+            "close": 183.5,
+            "rsi14": 46.99143533933631,
+            "atr14": 8.25,
+            "volume": 33751872.0,
+            "volume_ratio_previous20": 0.8522333530476169,
+            "macd": 1.060848907357581,
+            "macd_hist": -0.033563013150004206,
+            "macd_new_cross_up": false,
+            "k9": 54.585785549368495,
+            "d9": 59.830469881941625,
+            "kd_new_cross_up": false,
+            "volatility20_pct": 42.28361164320186,
+            "support20": 173.5,
+            "resistance20": 199.5,
+            "return20_pct": -1.0781671159029615
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "以有效OHLCV計算，不從圖像猜價格。",
+            "量比使用前20筆、不含當日的均量。",
+            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
+          ]
+        },
+        "flow": {
+          "label": "法人・籌碼・流動性",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "foreign_net_shares",
+            "trust_net_shares",
+            "dealer_net_shares"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "macro_policy": {
+          "label": "總經・產業・法規",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "policy_rate_pct",
+            "usd_twd"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        }
+      },
+      "analyses": []
+    },
+    {
+      "symbol": "6669.TW",
+      "name": "緯穎",
+      "factors": {
+        "news": {
+          "label": "新聞與公司政策",
+          "status": "partial",
+          "values": {
+            "events": 7,
+            "verified_events": 0
+          },
+          "missing": [],
+          "notes": [
+            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
+          ]
+        },
+        "social": {
+          "label": "社群關注與情緒",
+          "status": "missing",
+          "values": {},
+          "missing": [
+            "社群來源未授權、未執行或連線失敗；不可填0熱度"
+          ],
+          "sample_scope": true
+        },
+        "fundamental": {
+          "label": "基本・財務・估值",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "revenue_yoy_pct",
+            "eps_ttm",
+            "roe_pct",
+            "ocf",
+            "pe",
+            "pb"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "technical": {
+          "label": "K線・技術・量價",
+          "status": "available",
+          "available_at": "2026-10-30T14:30:00+08:00",
+          "quote_date": "2026-10-30",
+          "bar_count": 519,
+          "values": {
+            "ma5": 1887.0,
+            "ma20": 2033.25,
+            "ma60": 2153.174951171875,
+            "close": 1810.0,
+            "rsi14": 35.303746320916645,
+            "atr14": 116.07142857142857,
+            "volume": 4463726.0,
+            "volume_ratio_previous20": 1.0919120954361377,
+            "macd": -87.0320318294257,
+            "macd_hist": -17.095171773669378,
+            "macd_new_cross_up": false,
+            "k9": 25.221448319060247,
+            "d9": 25.122024273782102,
+            "kd_new_cross_up": false,
+            "volatility20_pct": 58.20437328775733,
+            "support20": 1770.0,
+            "resistance20": 2335.0,
+            "return20_pct": -13.809523809523805
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "以有效OHLCV計算，不從圖像猜價格。",
+            "量比使用前20筆、不含當日的均量。",
+            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
+          ]
+        },
+        "flow": {
+          "label": "法人・籌碼・流動性",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "foreign_net_shares",
+            "trust_net_shares",
+            "dealer_net_shares"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "macro_policy": {
+          "label": "總經・產業・法規",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "policy_rate_pct",
+            "usd_twd"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        }
+      },
+      "analyses": []
+    },
+    {
+      "symbol": "3711.TW",
+      "name": "日月光投控",
+      "factors": {
+        "news": {
+          "label": "新聞與公司政策",
+          "status": "partial",
+          "values": {
+            "events": 8,
+            "verified_events": 0
+          },
+          "missing": [],
+          "notes": [
+            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
+          ]
+        },
+        "social": {
+          "label": "社群關注與情緒",
+          "status": "missing",
+          "values": {},
+          "missing": [
+            "社群來源未授權、未執行或連線失敗；不可填0熱度"
+          ],
+          "sample_scope": true
+        },
+        "fundamental": {
+          "label": "基本・財務・估值",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "revenue_yoy_pct",
+            "eps_ttm",
+            "roe_pct",
+            "ocf",
+            "pe",
+            "pb"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "technical": {
+          "label": "K線・技術・量價",
+          "status": "available",
+          "available_at": "2026-10-30T14:30:00+08:00",
+          "quote_date": "2026-10-30",
+          "bar_count": 519,
+          "values": {
+            "ma5": 670.2,
+            "ma20": 702.3,
+            "ma60": 645.3166666666667,
+            "close": 668.0,
+            "rsi14": 47.528180275390625,
+            "atr14": 37.142857142857146,
+            "volume": 32319897.0,
+            "volume_ratio_previous20": 2.137919703435724,
+            "macd": 1.9210111790938527,
+            "macd_hist": -7.2630527097221105,
+            "macd_new_cross_up": false,
+            "k9": 43.7516581657435,
+            "d9": 36.41334129302696,
+            "kd_new_cross_up": false,
+            "volatility20_pct": 53.84233849603176,
+            "support20": 624.0,
+            "resistance20": 765.0,
+            "return20_pct": -2.7656477438136817
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "以有效OHLCV計算，不從圖像猜價格。",
+            "量比使用前20筆、不含當日的均量。",
+            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
+          ]
+        },
+        "flow": {
+          "label": "法人・籌碼・流動性",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "foreign_net_shares",
+            "trust_net_shares",
+            "dealer_net_shares"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "macro_policy": {
+          "label": "總經・產業・法規",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "policy_rate_pct",
+            "usd_twd"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        }
+      },
+      "analyses": []
+    },
+    {
+      "symbol": "2603.TW",
+      "name": "長榮",
+      "factors": {
+        "news": {
+          "label": "新聞與公司政策",
+          "status": "partial",
+          "values": {
+            "events": 8,
+            "verified_events": 0
+          },
+          "missing": [],
+          "notes": [
+            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
+          ]
+        },
+        "social": {
+          "label": "社群關注與情緒",
+          "status": "missing",
+          "values": {},
+          "missing": [
+            "社群來源未授權、未執行或連線失敗；不可填0熱度"
+          ],
+          "sample_scope": true
+        },
+        "fundamental": {
+          "label": "基本・財務・估值",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "revenue_yoy_pct",
+            "eps_ttm",
+            "roe_pct",
+            "ocf",
+            "pe",
+            "pb"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "technical": {
+          "label": "K線・技術・量價",
+          "status": "available",
+          "available_at": "2026-10-30T14:30:00+08:00",
+          "quote_date": "2026-10-30",
+          "bar_count": 519,
+          "values": {
+            "ma5": 263.4,
+            "ma20": 252.725,
+            "ma60": 238.41666666666666,
+            "close": 271.5,
+            "rsi14": 68.19035654520049,
+            "atr14": 9.642857142857142,
+            "volume": 23291706.0,
+            "volume_ratio_previous20": 1.7924039712761097,
+            "macd": 7.475608204899174,
+            "macd_hist": 0.7432236968505066,
+            "macd_new_cross_up": false,
+            "k9": 70.56584195730028,
+            "d9": 65.8937020387063,
+            "kd_new_cross_up": true,
+            "volatility20_pct": 43.10597308906255,
+            "support20": 231.0,
+            "resistance20": 271.5,
+            "return20_pct": 14.075630252100835
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "以有效OHLCV計算，不從圖像猜價格。",
+            "量比使用前20筆、不含當日的均量。",
+            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
+          ]
+        },
+        "flow": {
+          "label": "法人・籌碼・流動性",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "foreign_net_shares",
+            "trust_net_shares",
+            "dealer_net_shares"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "macro_policy": {
+          "label": "總經・產業・法規",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "policy_rate_pct",
+            "usd_twd"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        }
+      },
+      "analyses": []
+    },
+    {
+      "symbol": "2615.TW",
+      "name": "萬海",
+      "factors": {
+        "news": {
+          "label": "新聞與公司政策",
+          "status": "partial",
+          "values": {
+            "events": 8,
+            "verified_events": 0
+          },
+          "missing": [],
+          "notes": [
+            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
+          ]
+        },
+        "social": {
+          "label": "社群關注與情緒",
+          "status": "missing",
+          "values": {},
+          "missing": [
+            "社群來源未授權、未執行或連線失敗；不可填0熱度"
+          ],
+          "sample_scope": true
+        },
+        "fundamental": {
+          "label": "基本・財務・估值",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "revenue_yoy_pct",
+            "eps_ttm",
+            "roe_pct",
+            "ocf",
+            "pe",
+            "pb"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "technical": {
+          "label": "K線・技術・量價",
+          "status": "available",
+          "available_at": "2026-10-30T14:30:00+08:00",
+          "quote_date": "2026-10-30",
+          "bar_count": 519,
+          "values": {
+            "ma5": 117.9,
+            "ma20": 116.75,
+            "ma60": 110.53666661580404,
+            "close": 120.0,
+            "rsi14": 55.25689306098155,
+            "atr14": 6.142857142857143,
+            "volume": 14178533.0,
+            "volume_ratio_previous20": 1.0118681253400845,
+            "macd": 1.5180257393025443,
+            "macd_hist": -0.35532802029375743,
+            "macd_new_cross_up": false,
+            "k9": 32.99477466555966,
+            "d9": 33.754162632891905,
+            "kd_new_cross_up": false,
+            "volatility20_pct": 47.60683973068029,
+            "support20": 110.0,
+            "resistance20": 129.5,
+            "return20_pct": 8.108108108108114
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "以有效OHLCV計算，不從圖像猜價格。",
+            "量比使用前20筆、不含當日的均量。",
+            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
+          ]
+        },
+        "flow": {
+          "label": "法人・籌碼・流動性",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "foreign_net_shares",
+            "trust_net_shares",
+            "dealer_net_shares"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "macro_policy": {
+          "label": "總經・產業・法規",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "policy_rate_pct",
+            "usd_twd"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        }
+      },
+      "analyses": []
+    },
+    {
+      "symbol": "0050.TW",
+      "name": "元大台灣50",
+      "factors": {
+        "news": {
+          "label": "新聞與公司政策",
+          "status": "partial",
+          "values": {
+            "events": 8,
+            "verified_events": 0
+          },
+          "missing": [],
+          "notes": [
+            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
+          ]
+        },
+        "social": {
+          "label": "社群關注與情緒",
+          "status": "missing",
+          "values": {},
+          "missing": [
+            "社群來源未授權、未執行或連線失敗；不可填0熱度"
+          ],
+          "sample_scope": true
+        },
+        "fundamental": {
+          "label": "基本・財務・估值",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "revenue_yoy_pct",
+            "eps_ttm",
+            "roe_pct",
+            "ocf",
+            "pe",
+            "pb"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "technical": {
+          "label": "K線・技術・量價",
+          "status": "available",
+          "available_at": "2026-10-30T14:30:00+08:00",
+          "quote_date": "2026-10-30",
+          "bar_count": 514,
+          "values": {
+            "ma5": 107.05,
+            "ma20": 111.06250076293945,
+            "ma60": 108.02500038146972,
+            "close": 104.94999694824219,
+            "rsi14": 36.66110153342141,
+            "atr14": 2.0642858232770647,
+            "volume": 226322152.0,
+            "volume_ratio_previous20": 2.1021245522301677,
+            "macd": -0.87636181391413,
+            "macd_hist": -0.8987553642860848,
+            "macd_new_cross_up": false,
+            "k9": 18.106022258938378,
+            "d9": 17.129814677260857,
+            "kd_new_cross_up": false,
+            "volatility20_pct": 23.927093858694125,
+            "support20": 103.8499984741211,
+            "resistance20": 116.5999984741211,
+            "return20_pct": -6.628117861654504
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "以有效OHLCV計算，不從圖像猜價格。",
+            "量比使用前20筆、不含當日的均量。",
+            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
+          ]
+        },
+        "flow": {
+          "label": "法人・籌碼・流動性",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "foreign_net_shares",
+            "trust_net_shares",
+            "dealer_net_shares"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "macro_policy": {
+          "label": "總經・產業・法規",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "policy_rate_pct",
+            "usd_twd"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        }
+      },
+      "analyses": []
+    },
+    {
+      "symbol": "0056.TW",
+      "name": "元大高股息",
+      "factors": {
+        "news": {
+          "label": "新聞與公司政策",
+          "status": "partial",
+          "values": {
+            "events": 8,
+            "verified_events": 0
+          },
+          "missing": [],
+          "notes": [
+            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
+          ]
+        },
+        "social": {
+          "label": "社群關注與情緒",
+          "status": "missing",
+          "values": {},
+          "missing": [
+            "社群來源未授權、未執行或連線失敗；不可填0熱度"
+          ],
+          "sample_scope": true
+        },
+        "fundamental": {
+          "label": "基本・財務・估值",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "revenue_yoy_pct",
+            "eps_ttm",
+            "roe_pct",
+            "ocf",
+            "pe",
+            "pb"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "technical": {
+          "label": "K線・技術・量價",
+          "status": "available",
+          "available_at": "2026-10-30T14:30:00+08:00",
+          "quote_date": "2026-10-30",
+          "bar_count": 519,
+          "values": {
+            "ma5": 56.939999389648435,
+            "ma20": 57.69999942779541,
+            "ma60": 55.13999964396159,
+            "close": 55.849998474121094,
+            "rsi14": 43.57167643951452,
+            "atr14": 1.2071426936558314,
+            "volume": 83802079.0,
+            "volume_ratio_previous20": 1.5136240740625413,
+            "macd": 0.25573520242883774,
+            "macd_hist": -0.39458626619416814,
+            "macd_new_cross_up": false,
+            "k9": 26.52519636054316,
+            "d9": 33.76886729164644,
+            "kd_new_cross_up": false,
+            "volatility20_pct": 23.891531439288208,
+            "support20": 54.95000076293945,
+            "resistance20": 59.70000076293945,
+            "return20_pct": -1.4121854019586433
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "以有效OHLCV計算，不從圖像猜價格。",
+            "量比使用前20筆、不含當日的均量。",
+            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
+          ]
+        },
+        "flow": {
+          "label": "法人・籌碼・流動性",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "foreign_net_shares",
+            "trust_net_shares",
+            "dealer_net_shares"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "macro_policy": {
+          "label": "總經・產業・法規",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "policy_rate_pct",
+            "usd_twd"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        }
+      },
+      "analyses": []
+    },
+    {
+      "symbol": "00878.TW",
+      "name": "國泰永續高股息",
+      "factors": {
+        "news": {
+          "label": "新聞與公司政策",
+          "status": "partial",
+          "values": {
+            "events": 8,
+            "verified_events": 0
+          },
+          "missing": [],
+          "notes": [
+            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
+          ]
+        },
+        "social": {
+          "label": "社群關注與情緒",
+          "status": "missing",
+          "values": {},
+          "missing": [
+            "社群來源未授權、未執行或連線失敗；不可填0熱度"
+          ],
+          "sample_scope": true
+        },
+        "fundamental": {
+          "label": "基本・財務・估值",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "revenue_yoy_pct",
+            "eps_ttm",
+            "roe_pct",
+            "ocf",
+            "pe",
+            "pb"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "technical": {
+          "label": "K線・技術・量價",
+          "status": "available",
+          "available_at": "2026-10-30T14:30:00+08:00",
+          "quote_date": "2026-10-30",
+          "bar_count": 519,
+          "values": {
+            "ma5": 35.30400085449219,
+            "ma20": 35.161000633239745,
+            "ma60": 34.09933376312256,
+            "close": 34.810001373291016,
+            "rsi14": 48.054409157090575,
+            "atr14": 0.5007141658238002,
+            "volume": 98425944.0,
+            "volume_ratio_previous20": 3.4414816930830328,
+            "macd": 0.24054023501738442,
+            "macd_hist": -0.07112240442988349,
+            "macd_new_cross_up": false,
+            "k9": 58.424792581149156,
+            "d9": 63.68255444041192,
+            "kd_new_cross_up": false,
+            "volatility20_pct": 13.541814005713423,
+            "support20": 34.400001525878906,
+            "resistance20": 35.75,
+            "return20_pct": -0.20068719231837173
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "以有效OHLCV計算，不從圖像猜價格。",
+            "量比使用前20筆、不含當日的均量。",
+            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
+          ]
+        },
+        "flow": {
+          "label": "法人・籌碼・流動性",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "foreign_net_shares",
+            "trust_net_shares",
+            "dealer_net_shares"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "macro_policy": {
+          "label": "總經・產業・法規",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "policy_rate_pct",
+            "usd_twd"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        }
+      },
+      "analyses": []
+    },
+    {
+      "symbol": "00919.TW",
+      "name": "群益台灣精選高息",
+      "factors": {
+        "news": {
+          "label": "新聞與公司政策",
+          "status": "partial",
+          "values": {
+            "events": 8,
+            "verified_events": 0
+          },
+          "missing": [],
+          "notes": [
+            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
+          ]
+        },
+        "social": {
+          "label": "社群關注與情緒",
+          "status": "missing",
+          "values": {},
+          "missing": [
+            "社群來源未授權、未執行或連線失敗；不可填0熱度"
+          ],
+          "sample_scope": true
+        },
+        "fundamental": {
+          "label": "基本・財務・估值",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "revenue_yoy_pct",
+            "eps_ttm",
+            "roe_pct",
+            "ocf",
+            "pe",
+            "pb"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "technical": {
+          "label": "K線・技術・量價",
+          "status": "available",
+          "available_at": "2026-10-30T14:30:00+08:00",
+          "quote_date": "2026-10-30",
+          "bar_count": 519,
+          "values": {
+            "ma5": 32.6379997253418,
+            "ma20": 32.19650001525879,
+            "ma60": 31.605333360036216,
+            "close": 32.59000015258789,
+            "rsi14": 55.95245851598759,
+            "atr14": 0.4399998528616769,
+            "volume": 76511612.0,
+            "volume_ratio_previous20": 1.1035112352380692,
+            "macd": 0.22802862111671374,
+            "macd_hist": 0.03087705185411216,
+            "macd_new_cross_up": false,
+            "k9": 63.38706755390879,
+            "d9": 63.72314067773878,
+            "kd_new_cross_up": false,
+            "volatility20_pct": 12.792790669773005,
+            "support20": 31.40999984741211,
+            "resistance20": 33.099998474121094,
+            "return20_pct": 2.3876852990998954
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "以有效OHLCV計算，不從圖像猜價格。",
+            "量比使用前20筆、不含當日的均量。",
+            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
+          ]
+        },
+        "flow": {
+          "label": "法人・籌碼・流動性",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "foreign_net_shares",
+            "trust_net_shares",
+            "dealer_net_shares"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "macro_policy": {
+          "label": "總經・產業・法規",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "policy_rate_pct",
+            "usd_twd"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        }
+      },
+      "analyses": []
+    },
+    {
+      "symbol": "5274.TWO",
+      "name": "信驊",
+      "factors": {
+        "news": {
+          "label": "新聞與公司政策",
+          "status": "partial",
+          "values": {
+            "events": 8,
+            "verified_events": 0
+          },
+          "missing": [],
+          "notes": [
+            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
+          ]
+        },
+        "social": {
+          "label": "社群關注與情緒",
+          "status": "missing",
+          "values": {},
+          "missing": [
+            "社群來源未授權、未執行或連線失敗；不可填0熱度"
+          ],
+          "sample_scope": true
+        },
+        "fundamental": {
+          "label": "基本・財務・估值",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "revenue_yoy_pct",
+            "eps_ttm",
+            "roe_pct",
+            "ocf",
+            "pe",
+            "pb"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "technical": {
+          "label": "K線・技術・量價",
+          "status": "available",
+          "available_at": "2026-10-30T14:30:00+08:00",
+          "quote_date": "2026-10-30",
+          "bar_count": 519,
+          "values": {
+            "ma5": 16454.0,
+            "ma20": 17300.25,
+            "ma60": 17361.25,
+            "close": 15970.0,
+            "rsi14": 41.49847275526687,
+            "atr14": 1104.2857142857142,
+            "volume": 515001.0,
+            "volume_ratio_previous20": 1.7260418317993935,
+            "macd": -473.2061590668927,
+            "macd_hist": -99.55579702337997,
+            "macd_new_cross_up": false,
+            "k9": 39.12000365704713,
+            "d9": 34.44364197801778,
+            "kd_new_cross_up": false,
+            "volatility20_pct": 61.09843171545947,
+            "support20": 15500.0,
+            "resistance20": 19895.0,
+            "return20_pct": -17.659190513018817
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "以有效OHLCV計算，不從圖像猜價格。",
+            "量比使用前20筆、不含當日的均量。",
+            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
+          ]
+        },
+        "flow": {
+          "label": "法人・籌碼・流動性",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "foreign_net_shares",
+            "trust_net_shares",
+            "dealer_net_shares"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "macro_policy": {
+          "label": "總經・產業・法規",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "policy_rate_pct",
+            "usd_twd"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        }
+      },
+      "analyses": []
+    },
+    {
+      "symbol": "8299.TWO",
+      "name": "群聯",
+      "factors": {
+        "news": {
+          "label": "新聞與公司政策",
+          "status": "partial",
+          "values": {
+            "events": 7,
+            "verified_events": 0
+          },
+          "missing": [],
+          "notes": [
+            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
+          ]
+        },
+        "social": {
+          "label": "社群關注與情緒",
+          "status": "missing",
+          "values": {},
+          "missing": [
+            "社群來源未授權、未執行或連線失敗；不可填0熱度"
+          ],
+          "sample_scope": true
+        },
+        "fundamental": {
+          "label": "基本・財務・估值",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "revenue_yoy_pct",
+            "eps_ttm",
+            "roe_pct",
+            "ocf",
+            "pe",
+            "pb"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "technical": {
+          "label": "K線・技術・量價",
+          "status": "available",
+          "available_at": "2026-10-30T14:30:00+08:00",
+          "quote_date": "2026-10-30",
+          "bar_count": 519,
+          "values": {
+            "ma5": 1962.0,
+            "ma20": 1990.0,
+            "ma60": 2036.1666666666667,
+            "close": 1930.0,
+            "rsi14": 45.428794410472314,
+            "atr14": 100.71428571428571,
+            "volume": 3091896.0,
+            "volume_ratio_previous20": 1.2880320715776665,
+            "macd": -29.363113815563565,
+            "macd_hist": 5.301751240977914,
+            "macd_new_cross_up": false,
+            "k9": 60.335262954999855,
+            "d9": 51.67946814164384,
+            "kd_new_cross_up": false,
+            "volatility20_pct": 50.18921972146612,
+            "support20": 1785.0,
+            "resistance20": 2215.0,
+            "return20_pct": -8.747044917257686
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "以有效OHLCV計算，不從圖像猜價格。",
+            "量比使用前20筆、不含當日的均量。",
+            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
+          ]
+        },
+        "flow": {
+          "label": "法人・籌碼・流動性",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "foreign_net_shares",
+            "trust_net_shares",
+            "dealer_net_shares"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "macro_policy": {
+          "label": "總經・產業・法規",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "policy_rate_pct",
+            "usd_twd"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        }
+      },
+      "analyses": []
+    }
+  ],
+  "limits": [
+    "社群只代表採樣範圍；公開不等於可訓練。",
+    "日期有效不等於來源數字已獨立認證。",
+    "未經前瞻驗證，不把adapter信心當預期報酬。"
+  ]
+}
