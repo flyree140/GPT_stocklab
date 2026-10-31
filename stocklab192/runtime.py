@@ -33,24 +33,14 @@ def lock(path):
         finally:fcntl.flock(f,fcntl.LOCK_UN)
 
 
-def reserve(root,keys,day,limit=6):
-    path=Path(root)/'data/system/qwen-state.json';lockp=Path(root)/'.cache/qwen192.lock'
-    with lock(lockp):
-        state=read(path,{}) or {};state.setdefault('cache',{})
-        if state.get('day')!=day:state.update(day=day,attempts=0)
-        cached={k:state['cache'][k] for k in keys if k in state['cache']}
-        remaining=max(0,min(6,int(limit))-int(state.get('attempts',0)))
-        selected=[k for k in keys if k not in cached][:remaining]
-        state['attempts']=int(state.get('attempts',0))+len(selected);atomic(path,state)
-    return selected,cached
-
+def reserve(root,keys,day,limit=None):
+    from stocklab193.budget import reserve as shared_reserve
+    chosen,cached,_=shared_reserve(root,keys,day,limit_override=limit)
+    return chosen,cached
 
 def cache_results(root,values):
-    path=Path(root)/'data/system/qwen-state.json'
-    with lock(Path(root)/'.cache/qwen192.lock'):
-        state=read(path,{}) or {};state.setdefault('cache',{});state['cache'].update(values)
-        state['cache']=dict(list(state['cache'].items())[-1000:]);atomic(path,state)
-
+    from stocklab193.budget import save_results
+    save_results(root,values)
 
 def make_record(stock,event,cutoff):
     text=(str(event.get('title',''))+'\n'+str(event.get('excerpt',''))[:900]).strip()
@@ -84,18 +74,20 @@ def run(root,allow_model=None):
            baseline=meta.get('social_baseline',[]),collection_key=meta.get('collection_key','unset'))
         outputs.append({'symbol':stock['symbol'],'name':stock.get('name'),
             'factors':six_factors(stock,cutoff,social_summary=social,extra_facts=meta.get('facts',[])),'analyses':[]})
-    # Round-robin prevents first ticker using the entire daily budget.
-    for i in range(8):
-        for stock in stocks[:30]:
-            news=stock.get('news',[])
-            if i>=len(news):continue
-            event=news[i]
+    # Round-robin with deterministic day/window rotation; never select using outcomes.
+    queues=[]
+    for stock in stocks[:30]:
+        queue=[]
+        for event in stock.get('news',[])[:20]:
             if event.get('category') in ('profile','promotion','price_commentary'):continue
             rec=make_record(stock,event,cutoff)
-            if rec:requests.append(rec)
+            if rec:queue.append(rec)
+        queues.append(queue)
+    from stocklab193.budget import fair_round_robin
+    requests,selection_offset=fair_round_robin(queues)
     repo=os.getenv('STOCKLAB_ADAPTER_REPO','');revision=os.getenv('STOCKLAB_ADAPTER_REVISION','')
-    model_status={'enabled_requested':own,'adapter_repo':repo,'adapter_revision':revision,'mode':'shadow_only',
-       'daily_max_attempts':6,'attempts_this_run':0,'cache_hits':0,'note':'此面板不改寫既有分數、試買或成交帳'}
+    model_status={'enabled_requested':own,'adapter_repo':repo,'adapter_revision':revision,'mode':'shadow_only','selection_offset':selection_offset,
+       'daily_max_attempts':__import__('stocklab193.budget',fromlist=['limits']).limits()['day'], 'per_run_max_attempts':__import__('stocklab193.budget',fromlist=['limits']).limits()['run'],'attempts_this_run':0,'cache_hits':0,'note':'此面板不改寫既有分數、試買或成交帳'}
     results={}
     if own:
         if not repo or len(revision)!=40:raise ValueError('啟用自有模型前需填HF repo與40位commit SHA')
@@ -108,11 +100,11 @@ def run(root,allow_model=None):
             work=root/'.cache/adapter192-jobs';work.mkdir(parents=True,exist_ok=True)
             with tempfile.TemporaryDirectory(dir=work) as td:
                 inp=Path(td)/'input.json';out=Path(td)/'output.json'
-                atomic(inp,{'repo':repo,'revision':revision,'requests':[{**keyed[k],'cache_key':k} for k in chosen]})
+                atomic(inp,{'repo':repo,'revision':revision,'wall_seconds':__import__('stocklab193.budget',fromlist=['limits']).limits()['seconds'],'requests':[{**keyed[k],'cache_key':k} for k in chosen]})
                 vals={k:None for k in chosen}
                 try:
                     proc=subprocess.run([sys.executable,'-m','stocklab192.worker',str(inp),str(out)],cwd=root,
-                        timeout=720,capture_output=True,text=True)
+                        timeout=__import__('stocklab193.budget',fromlist=['limits']).limits()['seconds'],capture_output=True,text=True)
                     if proc.returncode:raise RuntimeError('worker_failed')
                     payload=read(out,{}) or {}
                     for k,v in payload.items():
@@ -120,13 +112,18 @@ def run(root,allow_model=None):
                     model_status['result']='completed_with_validation'
                 except (subprocess.TimeoutExpired,RuntimeError,ValueError):
                     model_status['result']='timeout_or_model_failed; use existing rules, no auto retry'
-                finally:cache_results(root,vals)
+                finally:
+                    # Preserve successful completed rows even when the batch was killed later.
+                    partial=read(out,{}) or {}
+                    for k,v in partial.items():
+                        if k in vals and not check_gold(v,keyed[k]):vals[k]=v;results[keyed[k]['id']]=v
+                    cache_results(root,vals)
     else:model_status['result']='disabled_or_demo_or_historical; CPU factors only'
     index={s['symbol']:s for s in outputs}
     for r in requests:
         if r['id'] in results:index[r['issuer']['symbol']]['analyses'].append({'id':r['id'],'output':results[r['id']],
            'model_revision':revision,'automatically_changes_position':False})
-    summary={'version':'19.2.0','as_of':asof,'cutoff':cutoff,'created_at':datetime.now(ZoneInfo('Asia/Taipei')).isoformat(),
+    summary={'version':'19.3.0','as_of':asof,'cutoff':cutoff,'created_at':datetime.now(ZoneInfo('Asia/Taipei')).isoformat(),
       'source_snapshot_sha256':digest(snap),'demo':demo,'model_status':model_status,'stocks':outputs,
       'limits':['社群只代表採樣範圍；公開不等於可訓練。','日期有效不等於來源數字已獨立認證。','未經前瞻驗證，不把adapter信心當預期報酬。']}
     dest=root/'data/research192';atomic(dest/(digest(summary)+'.json'),summary);atomic(dest/'latest.json',summary)

@@ -5,7 +5,7 @@ from datetime import date
 from .common import ROOT,now,read_json,write_json,dt
 from .storage import settings_file,store,validate_snapshot
 from .market import history,current_info,market_score
-from .news import fetch as fetch_news
+from .news import fetch as fetch_news, LAST_STATS
 from .events import group_items,analyze,categorize
 from .decision import decide
 from .qwen import QwenHints
@@ -47,25 +47,37 @@ def run(as_of,force=False):
         bars=history(meta['symbol'],as_of,520)
         if not bars:failures.append(meta['symbol']);continue
         facts=current_info(meta['symbol']) if not historical else {'source':'historical current facts disabled'}
-        raw=fetch_news(meta['name'],meta['symbol'],as_of,3,8)+curated.get(meta['symbol'],[])
+        raw=fetch_news(meta['name'],meta['symbol'],as_of,3,max(1,min(40,int(os.getenv('NEWS_PER_STOCK','20')))))+curated.get(meta['symbol'],[])
         safe=[]
         for item in raw:
             try:
                 if max(dt(item['published_at']),dt(item.get('available_at') or item['published_at']))<=dt(cutoff):safe.append(item)
             except (ValueError,KeyError):continue
-        grouped=group_items(safe,meta);events=[]
+        grouped=group_items(safe,meta)
+        built.append({**meta,'analysis_at':cutoff,'candles':bars,'facts':facts,'news':[],'_grouped':grouped,'market_score':mscore})
+    # Select one eligible event per stock per round, rather than spending all budget on the first stock.
+    queues=[]
+    for stock in built:
+        eligible=[(stock,item) for item in stock['_grouped'] if categorize(item) in ('unclear','partnership','capital','orders','macro')]
+        queues.append(eligible)
+    from stocklab193.budget import fair_round_robin
+    selected,selection_offset=fair_round_robin(queues)
+    hints=qwen.batch([item for stock,item in selected]);hint_map={id(item):h for (_,item),h in zip(selected,hints)}
+    grouped_total=0
+    for stock in built:
+        grouped=stock.pop('_grouped');grouped_total+=len(grouped)
         for item in grouped:
-            # Numeric, clear and low-value stories do not spend a generation call.
-            hint=qwen.hint(item['title'],item.get('excerpt','')) if categorize(item) in ('unclear','partnership','capital','orders','macro') else None
-            try:events.append(analyze(item,meta,cutoff,hint))
+            try:stock['news'].append(analyze(item,stock,cutoff,hint_map.get(id(item))))
             except (ValueError,KeyError) as exc:print('Excluded event:',str(exc)[:120])
-        built.append({**meta,'analysis_at':cutoff,'candles':bars,'facts':facts,'news':events,'market_score':mscore})
     if not built:raise RuntimeError('No usable price data; retaining all prior production files')
     peer_percentiles(built)
     for s in built:s['decision']=decide(s,as_of)
     top=[s['symbol'] for s in sorted(built,key=lambda x:x['decision']['score'],reverse=True) if s['decision']['code'] in ('conditional_buy','watch') and s['decision']['score']>=50][:5]
-    payload={'version':'18.0.0','as_of':as_of,'generated_at':now().isoformat(),'stocks':built,'top_picks':top,
+    payload={'version':'19.3.0','as_of':as_of,'generated_at':now().isoformat(),'stocks':built,'top_picks':top,
        'mode':'historical_reconstruction' if historical else 'live','demo':False,'qwen_used':qwen.used,'qwen_cache_hits':qwen.cached,
+       'news_pipeline':{'sources':[LAST_STATS.get(m['symbol'],{}) for m in metas], 'stocks_requested':len(metas), 'after_grouping':grouped_total,
+          'rule_analyzed':sum(len(s['news']) for s in built),'qwen_eligible':len(selected),'selection_offset':selection_offset,'qwen_reserved_this_run':qwen.used,'qwen':qwen.stats,
+          'coverage_note':'有限股票池、Google RSS可取得標題／使用者提供節錄，不是全網新聞，也不是每則全文均由Qwen讀過。'},
        'coverage':{'completed':len(built),'requested':len(metas),'failed':failures},
        'limitations':['歷史重建使用現存核心名單，存在存續偏誤','新聞只分析實際取得的標題／使用者節錄','法人與可比估值缺資料時保留缺值，不偽裝全市場完整健檢'],
        'note':'規則研究訊號，不是機率或交易指令。'}

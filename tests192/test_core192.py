@@ -114,7 +114,7 @@ def test_collector_needs_permission():
 def test_quota_shared_and_failed_attempt_counts(tmp_path):
     keys=['a','b','c','d'];chosen,_=reserve(tmp_path,keys,'2026-10-28');assert len(chosen)==4
     cache_results(tmp_path,{k:None for k in chosen});chosen,cached=reserve(tmp_path,keys+['e','f','g'],'2026-10-28')
-    assert len(chosen)==2 and len(cached)==4
+    assert chosen==['e','f'] and len(cached)==0  # failures counted, never cached as valid analysis
     assert reserve(tmp_path,['h'],'2026-10-28')[0]==[]
     assert len(reserve(tmp_path,['h'],'2026-10-29')[0])==1
 

@@ -1,63 +1,43 @@
-# StockLab v18：只放進 GitHub 的部署包
+# StockLab 19.3｜同一試驗、可還原刪除、清楚結算
 
-這不是簡報包，也不是展示包。解壓後，**裡面所有內容都可以合併覆蓋到原本的 GPT_stocklab 根目錄**，不用逐一挑檔案。
-本包是現有網站的升級部署包，需要你原本的正式資料；不是空白 Repository 的首次安裝資料包。
+## 只把 GitHub 專用ZIP合併到網站
 
-## 你只要做四件事
+備份後將ZIP內的全部內容合併到 GPT_stocklab 根目錄，包含隱藏 `.github`。不要先清空Repository。保留正式data、config、cloud-config.json與.git。包內只有 data/demo 示範資料，不攜帶你的正式快照／行情／Qwen計數狀態。
 
-1. 先備份目前 Repository。不要清空舊專案。
-2. 解壓本 ZIP，把裡面的所有檔案及資料夾「合併」到 Repository 根目錄；同名程式檔選覆蓋。**一定要包含 `.github/`。** 不要多包一層 StockLab 資料夾；不要用整個空資料夾取代舊的 `data/` 或 `config/`。
-3. Commit 並 Push 到 `main`。GitHub Pages 的 Source 保持 GitHub Actions。
-4. Actions → **Update Life Mode** → **Run workflow**。它讀取你既有資料，重算衍生報告與規劃資料，不啟動 Qwen。成功後，**Deploy StockLab 16 Pages** 會接續部署（名稱沿用原版）。
+stocklab16、stocklab17、stocklab18、stocklab192、stocklab193都是相依模組，不是五選一。tests為Actions品質檢查所需。Colab筆記本與私人訓練資料不要上傳公開網站。
 
-若首頁提示缺少 `data/life/latest.json`，先完成第4步，不要拿以前下載的舊 JSON 填回去。
-之後需要抓取新新聞與行情，再執行 **Daily StockLab 16 research**；這個工作流程與「重新整理部署包」不同。
-若 Actions 沒有新增項目，先確認 `.github/workflows/` 確實位於 GitHub 根目錄。
+1. 合併並Push main後，確認 `Deploy StockLab 16 Pages` 成功；名稱沿用舊版本。
+2. `Ctrl+Shift+R` 強制更新頁面即可。不要清除localStorage，避免丟失本機試驗。
+3. 到「管理試驗／回收桶」找到原試驗；按「修改」再「儲存目前試驗（不另開）」。未操作前可更正本金；有試單／持股後，用入金／提款調整資金，舊成本和歷史不改。
+4. 要取得新日K／新聞，跑 `Daily StockLab 16 research`。只跑Update Life Mode不會下載新行情。
+5. 首次可勾skip_qwen驗證資料管線；要使用新推論，取消勾選。這是每日流程的人工省額度選項，不是Notebook的跳格要求。
 
-## 本包每個資料夾的用途
+## 截圖中的日曆問題
 
-| 檔案／資料夾 | 處理方式 | 用途 |
-|---|---|---|
-| `.github/` | 整個合併上傳 | 每日更新、重算、測試與部署；不可漏掉 |
-| `assets/`、`*.html`、`runtime.json` | 上傳並覆蓋同名檔 | 網站、帳本介面、圖表與教學 |
-| `stocklab16/`、`stocklab17/`、`stocklab18/` | 三個全部上傳 | 程式互有相依，不是可任選的三個版本 |
-| `tests/`、`requirements*.txt` | 全部上傳 | Actions 要執行的檢查與套件清單 |
-| `config/*.default.json` | 上傳 | 缺少個人設定時的預設檔；不蓋掉正式設定 |
-| `data/demo/` | 上傳 | 標示為示範的測試固定資料；不是你的真實行情 |
-| `google-apps-script/` | 可以一併上傳 | 收藏同步原始碼；上傳 GitHub 不等於更新 Google Apps Script 部署 |
-| `docs/`、`README.md`、`START_HERE.md`、其他根目錄小檔 | 一起上傳即可 | 少量必要文件、啟動與檢查檔 |
+原版先計算60交易日到期日，超過2026年日曆時直接中斷整份提案。新版本保留股數、風險、新聞及分析，只將確切跨年到期日標為待官方日曆更新。日結仍按已核對的實際交易日計數；到未知日之前會暫停，不把所有週一至週五猜成交易日。
 
-## 這些既有檔案必須保留；本包不包含它們
+每日工作流程會嘗試從TWSE取得本年／次年日曆。空資料、回傳錯年或改動既有日期時，保留原日曆並記錄錯誤，不能宣稱2027假期已驗證。這不改變你的60交易日設定。
 
-- `.git/`（僅在本機 Repository 存在，不是要上傳的資料夾）
-- `data/latest.json`、`data/manifest.json`、`data/universe.json`
-- 正式 `data/snapshots/`、`data/market/`、`data/system/`
-- `config/stocks.json`、`config/settings.json`、`config/market-calendar.json`
-- 已存在的 `data/life/`、`data/evaluation/`、`data/plans/`、`data/plan_runs/`
+## 一條動線
 
-重算工作流程只更新衍生資料，原始快照保留。**部署包不附舊的衍生 JSON**，避免覆蓋你後來產生的新結果。
-設定檔要用「合併檔案」方式更新，不能整個刪除資料夾。
+設定 → 完整分析／系統配置 → 確認試買 → 檢查行情與日結 → 成果。
 
-## 已從舊完整包移除，不必再上傳的內容
+「確認」只保存試單。只有該日開盤、價量、限價、資金等條件都通過，才虛擬買進。缺行情會顯示股票、需要日期、檔案最新日期與路徑。未達限價會顯示未成交，不反覆建立相同試單。
 
-- `report18/`：PowerPoint、PDF、報告附件與重複的CSV。
-- `previews18/`：截圖、相簿與渲染記錄。
-- `qa/`：僅供本次開發使用的畫面渲染腳本。
-- 舊建置報告、舊SHA清單及重複部署文件。
-- 以前那次執行產生的 `data/life/`、`data/evaluation/`、`data/plans/`。
+向前模式沒有持股／待成交時可「更新今天研究（同一試驗）」。不允許現在確認已開盤日的回溯交易。歷史模式維持主動逐日揭曉。
 
-簡報和PDF留在電腦即可。本部署包移除了指向已移除PDF的按鈕；**逐日比對、成果頁、CSV下載仍由實際資料重算後提供**。
-舊 Repository 中若已留有 report18/、previews18/ 或 qa/，可暫時不刪，不影響這次升級；新版 Pages 打包不會把簡報和預覽搬上網站。
+刪除是移到回收桶並暫停，可還原同一ID及原試單。雲端歷史版本保留，並非永久抹除個人資料。不同裝置分岔仍需要核對。
 
-## 個人帳本與設定
+## 新聞預算不是平台API額度
 
-保持相同 GitHub Pages 網址及路徑、同一瀏覽器使用，不要清除網站資料。
-此部署包未改動瀏覽器儲存鍵與投資／帳務計算程式。仍建議升級前按一次「下載私人備份」。
-**私人帳本備份、成交CSV、券商帳密、Token都不能上傳公開Repository。**
-Google Sheets 原功能只同步收藏；不會因為上傳這包而自動同步實際帳本。
+預設每次工作流程6次新Qwen嘗試、台北一天共12次。早08:17和晚21:17排程共用計數；排程可能延遲，早晨不保證開盤前完成。人工執行也計入全天預算。成功快取不重算；失敗也計數。每批只載入一次模型，按股票輪流且早晚輪替起點。
 
-## 驗證界線
+可在GitHub Actions Variables設定 QWEN_DAILY_LIMIT=24、QWEN_RUN_LIMIT=12；程式就以24/12為硬上限，並受每批720秒限制。不是已完成24次成功推論的承諾，先看執行時間與失敗率，勿直接無限增加。
 
-本次是部署檔案整理與本地驗證，不是重新驗證策略收益，也沒有替你提交 GitHub 或執行券商交易。
-真實 GitHub 工作流程、外部新聞連線、Qwen下載與Google授權仍以你的實際部署結果為準。
-詳見 `BUILD_REPORT.md`。
+新聞收集預設20檔、每檔最多20則（NEWS_PER_STOCK最多40），看近3日可取得的Google News RSS標題。去重後規則分析全部取得事件，Qwen只補充部分事件。不等於全部國內外新聞、更不等於閱讀每篇完整內文。新快照保存真實處理量；舊快照不會偽造統計。
+
+## 訓練自己的權重
+
+另外下載配套A、B Notebook，兩份使用同一個19.3版本：A CPU從上到下四格 → Drive READY → B GPU從上到下四格。不回頭、不上傳StockLab192資料夾。C是另備的CPU工具箱，不是主線前置。
+
+本次沒有執行真GPU微調、沒有下載實際Qwen權重、沒有核對你帳號的帳單或Google授權。完整說明見 guide193.html 與 BUILD_REPORT.md。

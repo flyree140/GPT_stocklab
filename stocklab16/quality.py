@@ -26,7 +26,7 @@ def check(root=ROOT):
                 if not rel or not p.is_relative_to(root.resolve()) or not p.is_file():errors.append('manifest path missing/unsafe '+rel);continue
                 if r.get('sha256') and hashlib.sha256(p.read_bytes()).hexdigest()!=r['sha256']:errors.append('hash mismatch '+rel)
                 payload=read_json(p,{}) or {}
-                if str(payload.get('version','')).startswith(('16.1','17.','18.')):
+                if str(payload.get('version','')).startswith(('16.1','17.','18.','19.')):
                     errors.extend(rel+': '+e for e in validate_snapshot(payload))
     for p in (root/'assets').glob('*.mjs'):
         try:

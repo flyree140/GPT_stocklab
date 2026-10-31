@@ -138,7 +138,7 @@ def test_qwen_budget_and_cache(tmp_path,monkeypatch):
     monkeypatch.setenv('ENABLE_QWEN','1');monkeypatch.setenv('QWEN_DAILY_LIMIT','1000')
     calls=[]
     def worker(cmd,**kw):
-        calls.append(cmd);write_json(Path(cmd[-1]),{'category':'partnership','evidence':'合作條件仍在洽談'});return SimpleNamespace(returncode=0,stderr='')
+        calls.append(cmd);payload=read_json(Path(cmd[-2]));write_json(Path(cmd[-1]),{row['key']:{'category':'partnership','evidence':'合作條件仍在洽談'} for row in payload['requests']});return SimpleNamespace(returncode=0,stderr='')
     monkeypatch.setattr(subprocess,'run',worker)
     q=QwenHints(root=tmp_path)
     for i in range(10):q.hint(f'{i} 群聯合作條件仍在洽談')

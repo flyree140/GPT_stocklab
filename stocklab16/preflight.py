@@ -5,7 +5,7 @@ from .common import ROOT,read_json,now
 
 def already_completed(snapshot,schedule,current):
     if snapshot.get('mode')!='live' or not snapshot.get('stocks') or snapshot.get('as_of')!=current.date().isoformat():return False
-    windows={'37 10 * * *':1837,'17 13 * * *':2117}
+    windows={'17 0 * * *':817,'37 10 * * *':1837,'17 13 * * *':2117}
     if schedule not in windows:return False
     try:
         stamp=datetime.fromisoformat(str(snapshot['generated_at']).replace('Z','+00:00')).astimezone(current.tzinfo)

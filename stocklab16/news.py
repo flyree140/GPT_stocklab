@@ -4,7 +4,12 @@ from datetime import date,timedelta,timezone
 from email.utils import parsedate_to_datetime
 from .common import now,TZ
 
-def fetch(company, symbol, as_of, lookback=3, limit=8):
+LAST_STATS={}
+
+def fetch(company, symbol, as_of, lookback=3, limit=20):
+    limit=max(1,min(int(limit),40))
+    stats={"symbol":symbol,"requested_limit":limit,"lookback_days":lookback,"provider":"Google News RSS","returned":0,"eligible":0,"error":None,"full_text":False}
+    LAST_STATS[symbol]=stats
     end=date.fromisoformat(as_of)+timedelta(days=1); start=end-timedelta(days=lookback+1)
     q=f'"{company}" OR "{symbol.split(".")[0]}" after:{start.isoformat()} before:{end.isoformat()}'
     url='https://news.google.com/rss/search?q='+urllib.parse.quote_plus(q)+'&hl=zh-TW&gl=TW&ceid=TW:zh-Hant'
@@ -12,8 +17,9 @@ def fetch(company, symbol, as_of, lookback=3, limit=8):
     try:
         body=urllib.request.urlopen(req,timeout=25).read(); root=ET.fromstring(body)
     except Exception as exc:
-        print('news unavailable',company,exc); return []
+        stats['error']=type(exc).__name__;print('news unavailable',company,exc); return []
     out=[]
+    stats['returned']=len(root.findall('.//item'))
     for item in root.findall('.//item'):
         title=html.unescape((item.findtext('title') or '').strip()); link=(item.findtext('link') or '').strip(); raw=item.findtext('pubDate') or ''
         try: published=parsedate_to_datetime(raw)
@@ -24,4 +30,5 @@ def fetch(company, symbol, as_of, lookback=3, limit=8):
         source=item.find('source'); publisher=(source.text or '').strip() if source is not None else ''
         out.append({'title':title,'url':link,'source_url':source.attrib.get('url',link) if source is not None else link,'publisher':publisher,'published_at':published.isoformat(),'available_at':published.isoformat(),'fetched_at':now().isoformat()})
         if len(out)>=limit: break
+    stats["eligible"]=len(out)
     return out

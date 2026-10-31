@@ -1,0 +1,27 @@
+import assert from 'node:assert/strict';import fs from 'node:fs';
+import * as E from '../assets/paper-engine.mjs';import {splitCheckpoint,decodeCheckpoints} from '../assets/paper-cloud.mjs';
+const rd=name=>JSON.parse(fs.readFileSync(new URL('../assets/'+name,import.meta.url)));
+const snap=rd('paper-demo-snapshot.json'),market=rd('paper-demo-market.json'),cal=rd('paper-calendar.json');
+const ctx={at:snap.generated_at,generatedAt:snap.generated_at,asOf:snap.as_of,path:'assets/paper-demo-snapshot.json',hash:'example',mode:'demo',cal};
+const base=()=>E.newExperiment(E.DEFAULTS,ctx),p=r=>E.propose(snap.stocks[0],r.settings,ctx,r);
+let passed=0;async function t(name,fn){await fn();passed++;console.log('PASS',name)}
+await t('60交易日跨2027仍有分析與股數',()=>{const s=E.copy(snap.stocks[0]);const d='2026-10-29';s.candles.at(-1).date=d;s.news[0].available_at=d+'T10:00:00+08:00';const c={...ctx,asOf:d,at:d+'T21:00:00+08:00',generatedAt:d+'T21:00:00+08:00'};const r=E.newExperiment({...E.DEFAULTS,capital:40000,budget:4000,hold:60},c);const x=E.propose(s,r.settings,c,r);assert.equal(x.deadline,null);assert.equal(x.calendarStatus,'future_calendar_pending');assert.equal(x.validFor,'2026-10-30');assert.ok(x.quantity>0&&x.analysis.length&&x.events.length);assert.equal(x.blocks.length,0);assert.ok(x.warnings.some(w=>w.includes('60個交易日')))});
+await t('其他阻擋仍顯示原始新聞，而非全抹除',()=>{const r=base(),s=E.copy(snap.stocks[0]);s.candles=[];const x=E.propose(s,r.settings,ctx,r);assert.ok(x.blocks.length&&x.events.length&&x.analysis.length)});
+await t('修改設定仍相同ID',()=>{const r=base(),x=E.updateSettings(r,{hold:60,goal:500,name:'新名稱'});assert.equal(x.id,r.id);assert.equal(x.settings.hold,60);assert.equal(x.name,'新名稱');assert.equal(r.settings.hold,10)});
+await t('修改設定不改已確認試單',()=>{const r=E.approve(base(),p(base()),'h'),before=E.canonical(r.orders);const x=E.updateSettings(r,{hold:60,goal:500});assert.equal(E.canonical(x.orders),before);assert.equal(x.settings.hold,60)});
+await t('可更正未操作本金',()=>{const x=E.updateSettings(base(),{capital:40000});assert.equal(E.balance(x).equity,40000);assert.equal(E.balance(x).pnl,0);assert.ok(E.validateRun(x))});
+await t('已有試單不可回寫本金',()=>{const r=E.approve(base(),p(base()),'h');assert.throws(()=>E.updateSettings(r,{capital:40000}),/本金/)});
+await t('更改策略需留下混合規則紀錄',()=>{const x=E.updateSettings(base(),{strategy:'original'});assert.ok(x.mixedStrategies);assert.equal(x.events.at(-1).payload.before.strategy,'candidate')});
+await t('刪除不假裝成交或丟失試單',()=>{const r=E.approve(base(),p(base()),'h'),x=E.trashExperiment(r,true);assert.ok(x.deletedAt);assert.equal(x.orders.length,1);assert.equal(x.cash,4000);assert.equal(E.settlementNeeds(x,cal).state,'deleted');const back=E.trashExperiment(x,false);assert.ok(!back.deletedAt);assert.equal(back.id,r.id);assert.equal(back.orders[0].status,'pending');assert.ok(E.validateRun(back))});
+await t('回收桶狀態可跨雲端還原',async()=>{const x=E.trashExperiment(base(),true);const parts=splitCheckpoint(x),h=await E.sha(parts.raw);const out=await decodeCheckpoints(parts.parts.map((v,i)=>[x.id,x.revision,h,i,parts.parts.length,v]));assert.ok(out[0].run.deletedAt)});
+await t('未收盤不假造成交',()=>{const r=E.approve(base(),p(base()),'h');assert.equal(E.settlementNeeds(r,cal,'2026-09-11T11:00:00+08:00').state,'not_closed')});
+await t('已收盤明確指出需要哪個行情檔',()=>{const r=E.approve(base(),p(base()),'h'),x=E.settlementNeeds(r,cal,'2026-09-11T17:00:00+08:00');assert.equal(x.state,'need_bars');assert.equal(x.date,'2026-09-11');assert.deepEqual(x.symbols,['DEMO.TW'])});
+await t('缺行情不等於沒有試單',()=>{const x=E.diagnoseMarket({candles:[{date:'2026-09-10'}]},'2317.TW','2026-10-30','data/market/2317_TW.json');assert.equal(x.state,'missing_bar');assert.match(x.message,/2026-10-30/);assert.match(x.message,/2026-09-10/)});
+await t('沒有需估值部位是現金日，不報沒紀錄',()=>assert.equal(E.settlementNeeds(base(),cal).state,'cash_day'));
+await t('有效行情才允許結算',()=>{const x=E.diagnoseMarket(market,'DEMO.TW','2026-09-11','assets/paper-demo-market.json');assert.ok(x.ok);const r=E.approve(base(),p(base()),'h');const done=E.advance(r,x.bar.date,{'DEMO.TW':x.bar},cal);assert.ok(done.position);assert.equal(done.position.quantity,36)});
+await t('提款與入金不改變已實現損益',()=>{const x=E.withdraw(base(),1000);assert.equal(x.cash,3000);assert.equal(E.balance(x).pnl,0);assert.ok(E.validateRun(x))});
+await t('不能提領待成交預留資金',()=>{const r=E.approve(base(),p(base()),'h');assert.throws(()=>E.withdraw(r,1000))});
+await t('日曆只兼容延長不偷偷改歷史日',()=>{const next={...cal,end:'2027-12-31',closed:[...cal.closed,'2027-01-01']};assert.equal(E.compatibleCalendar(cal,next).end,'2027-12-31');next.closed.push('2026-09-11');assert.equal(E.compatibleCalendar(cal,next).end,cal.end)});
+await t('forward不能事後補買已開盤當天',()=>{const r=base();r.mode='forward';const x=p(r);assert.throws(()=>E.approve(r,x,'h','2026-09-11T10:00:00+08:00'),/事後/)});
+await t('更新向前研究不另開ID，不對歷史倒填',()=>{const r=base();r.mode='forward';const c={...ctx,at:'2026-09-14T18:00:00+08:00'};const n=E.attachForwardSnapshot(r,c,cal,c.at);assert.equal(n.id,r.id);assert.equal(n.events.at(-1).type,'forward_research_refresh');assert.throws(()=>E.attachForwardSnapshot(base(),c,cal,c.at),/歷史/)});
+console.log(JSON.stringify({total:passed,passed}));

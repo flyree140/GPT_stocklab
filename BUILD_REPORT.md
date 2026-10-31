@@ -1,23 +1,16 @@
-# StockLab PaperLab 19.2｜建置與驗證報告
+# StockLab 19.3 實際建置報告
 
-## 實際通過
+- Python：149項本地回歸測試通過（原134＋新增15）。CI未安裝sklearn時CPU分類器測試可明示skip。
+- JavaScript：159項（原140＋新增19）通過。
+- 瀏覽器：44項互動／版面斷言通過，JavaScript執行錯誤0。
+- A Notebook：4個CPU儲存格實際依序完成，16/4/4教材切分；另起程序可讀READY。
+- B Notebook：語法、未同意GPU守門、無CUDA拒絕檢查通過。沒有真正訓練GPU。
+- C Notebook：語法及原任務單元測試通過；未連線社群或HF發布。
+- 與原使用者ZIP資料合併：91份正式資料與設定SHA256未變；不是對線上GitHub的保證。
+- 原19.2.1 fetch修補與原localStorage名稱保留。
 
-- Python：134項（含新增33項）。
-- JavaScript：140項既有試驗、帳務、成本、雲端格式與日期檢查。
-- Notebook：24格／14格程式，nbformat與語法合格；預設CPU路徑完整執行，0錯誤。TRAIN_NOW=False。
-- 瀏覽器：9項研究頁／教學／導覽與320、360、390px版面檢查，0 JavaScript錯誤。
-- 與使用者提供的GPT_stocklab-main.zip合併：91份正式資料與設定SHA-256保持不變。
-- 真實上傳檔案的20檔股票可產生CPU研究附檔，沒有模型呼叫，不改原快照。
-- 工作流程YAML已解析；ZIP另做解壓及雜湊驗證。
+瀏覽器HTTP導航受環境政策阻擋。使用實際發布HTML/CSS/module，加本地讀檔、記憶體localStorage與SHA適配器測試；另以HTTP確認專案子路徑的4個檔案可讀。Google使用單元測試替身，沒有真實帳號授權。預覽均為合成驗收案例，不是模型成功投資的證據。
 
-## 範圍限制
+沒有下載真實Qwen權重、沒有跑GPU、沒有校準投資機率、沒有保證免費帳號額度。JSON／計算正確不等於來源資料或策略已獲市場驗證。
 
-本環境無CUDA訓練，容器無法透過DNS取得模型。沒有執行真GPU微調、Qwen/adapter下載、使用者帳號授權或GitHub實際排程。沒有讀取使用者Billing或剩餘額度，沒有模型精度或投資報酬改善的證明。
-
-瀏覽器的HTTP導航遭環境政策阻擋，因此使用實際發布HTML/CSS/JS搭配離線fetch適配器渲染，資料為合成示例；不宣稱正式網站或真實Google/HF API已測通。
-
-## 發布與資料保護
-
-部署包的data只含data/demo，config只含default/example；不帶正式latest、manifest、快照、市場歷史、cloud-config.json或自訂設定。依路徑合併，不先刪掉data/config；stocklab16/17/18是既有相依模組，stocklab192是新增。
-
-自己的adapter預設關閉、僅影子輸出，與舊Qwen共用每日6次嘗試。LoRA訓練與比較成功、資料授權核對後，才能明確設定GitHub Variables/Secret。合成練習權重禁止進入網站研究流程。
+詳見 reports193/tests.json。ZIP外另提供VERIFICATION.json記錄乾淨解壓重測與逐檔校驗。
