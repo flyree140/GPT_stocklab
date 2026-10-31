@@ -1,0 +1,325 @@
+{
+  "version": "19.3.0",
+  "built_at": "2026-10-30T10:16:08.741553+00:00",
+  "python": {
+    "passed": 149,
+    "stdout": "........................................................................ [ 48%]\n........................................................................ [ 96%]\n.....                                                                    [100%]\n149 passed in 2.34s\n"
+  },
+  "javascript": {
+    "assertions": 159,
+    "suites": [
+      {
+        "test": "test_cloud19.mjs",
+        "passed": true,
+        "stdout": "PASS canonical serialization order stable\nPASS row round trip verifies hash\nPASS edited sheet body detected\nPASS repeat append de-duplicates by ID\nPASS same id different payload is refused\nPASS remote ledger recover without local event\nPASS overspending concurrent withdrawals rejected\nPASS settings forks detected\nPASS explicit settings resolution preserves history\nPASS oversize cell rejected before upload\nPASS Google writes request RAW and no public permissions\nPASS sync uploads then confirms by reading back\nPASS unacknowledged append never called synced\nPASS expired token stops network\nPASS API cannot send authorization to arbitrary URL\nPASS private field scope only\nPASS disconnect forgets token and current sheet\nPASS write cap stops accidental high volume\n18 cloud tests passed (mock API, not a real Google account)\n"
+      },
+      {
+        "test": "test_engine.mjs",
+        "passed": true,
+        "stdout": "PASS locked never touches future data\nPASS T+1 valid open\nPASS missing open is not replaced with close\nPASS gap stop uses opening price\nPASS same day ambiguity uses stop first\nPASS corporate action stops simplified model\nPASS not enough future sessions stays open\nPASS costs decrease return\nPASS invalid capital rejected\nPASS fractional holding period rejected\nPASS no compounding overlapping trades\nPASS delete tombstone is returned\nPASS pending local edits are retained\nPASS flat Wilder RSI 50\n{\"node_tests\":14,\"ok\":true}\n"
+      },
+      {
+        "test": "test_intent19.mjs",
+        "passed": true,
+        "stdout": "PASS morning today uses previous completed close\nPASS after close is closed not bearish\nPASS evening plan names next date\nPASS morning tomorrow waits for evening\nPASS old quote means missing data not avoid\nPASS source generated in future blocks\nPASS cash confirmation remains and has setup route\nPASS official failure cannot produce buy\nPASS risk avoid is distinct\nPASS holiday next day skips weekend and configured closure\nPASS calendar not covered is explicit\nPASS labels do not conflate minimum fee and bearish\n12 intent tests passed\n"
+      },
+      {
+        "test": "test_life18.mjs",
+        "passed": true,
+        "stdout": "PASS deposit not profit\nPASS buy debits fee; unrealized separated\nPASS partial sale FIFO and T+2\nPASS overselling rejected\nPASS buying without funds rejected\nPASS pending sale cannot fund next-day buy\nPASS withdrawals do not produce loss\nPASS cash dividend counted once\nPASS future actual fill rejected\nPASS fee NaN rejected\nPASS duplicate ID rejected\nPASS holiday fill rejected\nPASS cannot void buy supporting sell\nPASS void purchase without dependents\nPASS sell settlement cannot precede T+2\nPASS zero-volume quote not used by prepared data test is Python\nPASS year not covered rejected\nPASS expected close uses Taipei not UTC\nPASS old quote before fill is not marked\nPASS future quotes not used for historical valuation\nPASS profile no negative or impossible values\nPASS stock and ETF taxes differ\nPASS archive stale/uncertified cannot release shares\nPASS loss budget and cash limits\nPASS increasing goal cannot silently increase shares/risk\nPASS no return promise\nPASS existing holding blocks another position\nPASS valid fixture gates can produce conditional plan, not always zero\nPASS reserve confirmation required\nPASS nonexistent calendar date rejected\nPASS void target must exist\nPASS invalid valuation not silently marked\nPASS corporate action pending blocks profit mark\nPASS timeline deposits do not draw artificial profit\nLife mode 34 tests passed\n"
+      },
+      {
+        "test": "test_paper193.mjs",
+        "passed": true,
+        "stdout": "PASS 60交易日跨2027仍有分析與股數\nPASS 其他阻擋仍顯示原始新聞，而非全抹除\nPASS 修改設定仍相同ID\nPASS 修改設定不改已確認試單\nPASS 可更正未操作本金\nPASS 已有試單不可回寫本金\nPASS 更改策略需留下混合規則紀錄\nPASS 刪除不假裝成交或丟失試單\nPASS 回收桶狀態可跨雲端還原\nPASS 未收盤不假造成交\nPASS 已收盤明確指出需要哪個行情檔\nPASS 缺行情不等於沒有試單\nPASS 沒有需估值部位是現金日，不報沒紀錄\nPASS 有效行情才允許結算\nPASS 提款與入金不改變已實現損益\nPASS 不能提領待成交預留資金\nPASS 日曆只兼容延長不偷偷改歷史日\nPASS forward不能事後補買已開盤當天\nPASS 更新向前研究不另開ID，不對歷史倒填\n{\"total\":19,\"passed\":19}\n"
+      },
+      {
+        "test": "test_paperlab.mjs",
+        "passed": true,
+        "stdout": "PASS 設定拒絕NaN與負數\nPASS 不要求真實生活費或券商授權\nPASS 合成原標籤保持watch，不冒充買單\nPASS 忠實原標籤組不轉換觀望為買進\nPASS 正式買進標籤在忠實組可以研究\nPASS 沒有前瞻驗證不提供預期報酬\nPASS 最高買進成本不超過可用資金\nPASS 股數按成本後最大損失約束\nPASS 增加獲利願望不增加股數\nPASS 減少可用現金重新限制部位\nPASS 當日前未完成收盤不可當完整K線\nPASS 晚於決策時點的來源拒絕\nPASS 晚於時點的新聞不進分析\nPASS 行情缺日清楚阻擋，不用舊價格冒充\nPASS 固定持有期限不依後來漲跌選\nPASS 確認只建待成交，不花錢、不增加持股\nPASS 重複確認遭阻擋\nPASS 未凍結提案hash不能確認\nPASS 原提案深拷貝，之後修改設定不回寫\nPASS 下一交易日開盤含滑價估計成交\nPASS 當日未結束不提前製造收盤結果\nPASS 不准跳過或倒退交易日\nPASS 缺開盤資料不以收盤代替\nPASS 缺行情不修改原狀態\nPASS 零成交量停止而非當作可成交\nPASS 除權息拆股標記停止\nPASS 超過限價即未成交，不偷用日內最低\nPASS 開盤已跌破停止條件不抄底成交\nPASS 鎖單一價位的日K不假裝必成交\nPASS 同一天停止與目標雙觸：停止優先\nPASS 跳空按開盤，可能超過規劃風險\nPASS 到目標才賣出，不把期望報酬當結果\nPASS T+2待交割不能立刻重用\nPASS T+2到日入帳且不重複\nPASS 持倉不計入完成勝率\nPASS 手動試賣需要下一日行情，不即時按收盤成交\nPASS 未同意自動退出不偷偷試賣\nPASS 持有到期按原先期限退出\nPASS 更改未來期限不修改已持有計畫\nPASS 取消試單不產生成本\nPASS 虛擬入金不是獲利，單位化淨值不變\nPASS 禁止持股時重複買進\nPASS 帳務恆等式每步成立\nPASS 前一夜到次日盤前快照不跳過交易日\nPASS 不可讀取尚未推進那天的盤後快照\nPASS 雲端分段還原與雜湊核對\nPASS 雲端中斷缺分段不宣稱已完成\nPASS 雲端不同內容hash拒絕\nPASS 多裝置同版本分岔拒絕合併\nPASS 不使用實際帳本appProperties\n{\"total\":50,\"passed\":50,\"failed\":0}\n"
+      },
+      {
+        "test": "test_risk17.mjs",
+        "passed": true,
+        "stdout": "risk17: 12 assertions passed\n"
+      }
+    ]
+  },
+  "release_json_check": {
+    "ok": true,
+    "errors": [],
+    "json_count": 21
+  },
+  "notebooks": {
+    "gpu_training_executed": false,
+    "actual_drive_authorization": false,
+    "checks": [
+      {
+        "notebook": "StockLab-19.3-A-CPU.ipynb",
+        "code_cells_syntax_valid": 4
+      },
+      {
+        "notebook": "StockLab-19.3-B-GPU.ipynb",
+        "code_cells_syntax_valid": 4
+      },
+      {
+        "notebook": "StockLab-19.3-C-CPU-Tools.ipynb",
+        "code_cells_syntax_valid": 2
+      }
+    ],
+    "A_cpu_execution": {
+      "cells": 4,
+      "errors": 0,
+      "counts": {
+        "train": 16,
+        "validation": 4,
+        "test": 4
+      },
+      "handoff_created": true
+    },
+    "independent_B_handoff": {
+      "train": 16,
+      "validation": 4,
+      "test": 4
+    },
+    "B_consent_guard": "passed",
+    "B_no_cuda_guard": "passed"
+  },
+  "browser": {
+    "scope": "Actual release HTML/CSS/modules loaded on about:blank with local-file fetch, memory localStorage and SHA adapter. Local HTTP navigation blocked by browser administration. No live Google, model or broker calls. Synthetic UI fixtures are NOT investment performance.",
+    "checks": [
+      {
+        "name": "onboarding明确编辑/新增",
+        "pass": true
+      },
+      {
+        "name": "create exactly one virtual trial",
+        "pass": true
+      },
+      {
+        "name": "auto allocation visible",
+        "pass": true
+      },
+      {
+        "name": "no future bar request before reveal",
+        "pass": true
+      },
+      {
+        "name": "full evidence and confirm ticket",
+        "pass": true
+      },
+      {
+        "name": "save edits same id no duplicates",
+        "pass": true
+      },
+      {
+        "name": "second save remains same trial",
+        "pass": true
+      },
+      {
+        "name": "approval pending no virtual holding",
+        "pass": true
+      },
+      {
+        "name": "future bar not requested on approval",
+        "pass": true
+      },
+      {
+        "name": "existing approved order immutable after settings",
+        "pass": true
+      },
+      {
+        "name": "delete creates recoverable tombstone",
+        "pass": true
+      },
+      {
+        "name": "restore same identity and pending order",
+        "pass": true
+      },
+      {
+        "name": "cancel reveal no market read",
+        "pass": true
+      },
+      {
+        "name": "missing bar retains original pending",
+        "pass": true
+      },
+      {
+        "name": "missing bar gives exact date instead of no record",
+        "pass": true
+      },
+      {
+        "name": "valid future bar fills virtual order",
+        "pass": true
+      },
+      {
+        "name": "settlement success message persists",
+        "pass": true
+      },
+      {
+        "name": "390px home no full page overflow",
+        "pass": true
+      },
+      {
+        "name": "390px analysis no full page overflow",
+        "pass": true
+      },
+      {
+        "name": "390px settings no full page overflow",
+        "pass": true
+      },
+      {
+        "name": "390px portfolio no full page overflow",
+        "pass": true
+      },
+      {
+        "name": "390px manage no full page overflow",
+        "pass": true
+      },
+      {
+        "name": "390px results no full page overflow",
+        "pass": true
+      },
+      {
+        "name": "390px cloud no full page overflow",
+        "pass": true
+      },
+      {
+        "name": "390px guide no full page overflow",
+        "pass": true
+      },
+      {
+        "name": "360px home no full page overflow",
+        "pass": true
+      },
+      {
+        "name": "360px analysis no full page overflow",
+        "pass": true
+      },
+      {
+        "name": "360px settings no full page overflow",
+        "pass": true
+      },
+      {
+        "name": "360px portfolio no full page overflow",
+        "pass": true
+      },
+      {
+        "name": "360px manage no full page overflow",
+        "pass": true
+      },
+      {
+        "name": "360px results no full page overflow",
+        "pass": true
+      },
+      {
+        "name": "360px cloud no full page overflow",
+        "pass": true
+      },
+      {
+        "name": "360px guide no full page overflow",
+        "pass": true
+      },
+      {
+        "name": "320px home no full page overflow",
+        "pass": true
+      },
+      {
+        "name": "320px analysis no full page overflow",
+        "pass": true
+      },
+      {
+        "name": "320px settings no full page overflow",
+        "pass": true
+      },
+      {
+        "name": "320px portfolio no full page overflow",
+        "pass": true
+      },
+      {
+        "name": "320px manage no full page overflow",
+        "pass": true
+      },
+      {
+        "name": "320px results no full page overflow",
+        "pass": true
+      },
+      {
+        "name": "320px cloud no full page overflow",
+        "pass": true
+      },
+      {
+        "name": "320px guide no full page overflow",
+        "pass": true
+      },
+      {
+        "name": "cross 2027 auto allocation available",
+        "pass": true
+      },
+      {
+        "name": "cross year no blank analysis or fabricated holiday",
+        "pass": true
+      },
+      {
+        "name": "cross year mobile width",
+        "pass": true
+      }
+    ],
+    "page_errors": [],
+    "http_navigation": "ERR_BLOCKED_BY_ADMINISTRATOR",
+    "requests": [
+      "assets/paper-calendar.json",
+      "data/manifest.json",
+      "cloud-config.json",
+      "assets/paper-demo-snapshot.json",
+      "assets/paper-demo-snapshot.json",
+      "data/manifest.json",
+      "assets/paper-calendar.json",
+      "assets/paper-demo-market.json",
+      "data/manifest.json",
+      "assets/paper-calendar.json",
+      "assets/paper-demo-market.json"
+    ],
+    "passed": true
+  },
+  "merge_protection": {
+    "baseline": "user-upload GPT_stocklab-main.zip, NOT live GitHub",
+    "source_archive_sha256": "e36f4484b4ab161dc01a7641022fd14464faa39483b86d637e15ac51c3f24564",
+    "protected_files": 91,
+    "protected_hashes_unchanged": true,
+    "changed": [],
+    "collision": [],
+    "integration_scope": "Original data and config byte preservation; complete new deploy program merged",
+    "known_cloud_fetch_fix_preserved": true,
+    "localstorage_namespace_unchanged": true,
+    "project_path_http_files": [
+      {
+        "path": "index.html",
+        "status": 200
+      },
+      {
+        "path": "assets/paper.mjs",
+        "status": 200
+      },
+      {
+        "path": "assets/paper-engine.mjs",
+        "status": 200
+      },
+      {
+        "path": "guide193.html",
+        "status": 200
+      }
+    ],
+    "seconds": 3.13
+  },
+  "training_kit_tests": ".................................                                        [100%]\n33 passed in 0.16s\n",
+  "not_verified": [
+    "Live user repository/browser localStorage contents",
+    "Live Google OAuth or Sheets",
+    "Real Qwen model download or CPU generation performance",
+    "GPU LoRA/QLoRA training or claimed model accuracy",
+    "Account billing/Colab availability",
+    "2027 official exchange calendar when not available",
+    "Investment profitability"
+  ]
+}

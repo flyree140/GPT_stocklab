@@ -2,7 +2,7 @@
  * Decisions are frozen before replay. Money is rounded to cents, not legal
  * brokerage rounding. Day-OHLC executions are explicit approximations.
  */
-export const LAB_VERSION='19.1-paper.1';
+export const LAB_VERSION='19.3-paper.1';
 export const DEFAULTS=Object.freeze({capital:4000,budget:4000,maxLoss:200,goal:150,hold:10,feeRate:0.001425,minFee:20,slip:0.001,strategy:'candidate',autoExit:true,autoFollow:true});
 export const m=n=>Math.round((n+Number.EPSILON)*100)/100;
 export const copy=x=>structuredClone(x);
@@ -22,11 +22,16 @@ export function size(limit,stop,s,cash){const cap=Math.min(cash,s.budget),risk=M
 function goalPrice(q,entry,s,tax){let lo=entry,hi=entry*10;for(let i=0;i<64;i++){const v=(lo+hi)/2;if(scenario(q,entry,v,s,tax).pnl>=s.goal)hi=v;else lo=v}return Math.ceil(hi*100)/100}
 function lastClosedDay(at,cal){let d=dayAt(at);const h=Number(new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Taipei',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).format(new Date(at)).replace(':',''));if(h<1330)d=add(d,-1);for(let i=0;i<20;i++,d=add(d,-1)){if(session(d,cal))return d}throw Error('找不到上一交易日')}
 /** Proposal never inspects future market files. No live-budget/reserve check. */
-export function propose(stock,s0,ctx,account=null){
+function proposeCore(stock,s0,ctx,account=null){
  const s=settings(s0),p={version:LAB_VERSION,symbol:stock.symbol,name:stock.name,sector:stock.sector,sourcePath:ctx.path,sourceHash:ctx.hash,sourceGeneratedAt:ctx.generatedAt,asOf:ctx.asOf,decisionAt:ctx.at,dataMode:ctx.mode,settings:copy(s),original:copy(stock.decision||{}),blocks:[],warnings:[],analysis:[],expectedReturn:null,reasonForNoForecast:'尚未以未見資料校準，不把目標或研究分當成預期報酬／機率',quantity:0,tax:stock.sector==='ETF'||stock.type==='etf'?.001:.003};
  if(!Number.isFinite(Date.parse(ctx.at)))throw Error('缺少分析時點');if(new Date(ctx.generatedAt)>new Date(ctx.at))p.blocks.push('來源在試驗時點之後才產生，不能倒填');
  const maxDay=lastClosedDay(ctx.at,ctx.cal);const bars=(stock.candles||[]).filter(b=>b.date<=ctx.asOf&&b.date<=maxDay).sort((a,b)=>a.date.localeCompare(b.date));const b=bars.at(-1),dec=p.original;
- p.referenceDate=b?.date;p.referencePrice=b?.close;p.cutoff=ctx.at;p.validFor=decisionSession(ctx.at,ctx.cal);p.deadline=nextSession(p.validFor,ctx.cal,s.hold-1);p.reviewDate=nextSession(p.validFor,ctx.cal,Math.min(5,s.hold)-1);
+ p.referenceDate=b?.date;p.referencePrice=b?.close;p.cutoff=ctx.at;
+ p.validFor=decisionSession(ctx.at,ctx.cal);
+ // A missing FUTURE calendar must not erase today's price/analysis/allocation.
+ const horizon=horizonDates(p.validFor,s.hold,ctx.cal);
+ p.deadline=horizon.deadline;p.reviewDate=horizon.reviewDate;p.calendarStatus=horizon.status;
+ if(horizon.warning)p.warnings.push(horizon.warning);
  if(!b){p.blocks.push('截止時點前沒有可用日K');return p}try{checkBar(b,b.date)}catch(e){p.blocks.push(e.message);return p}
  if(b.date!==maxDay)p.blocks.push(`行情缺日：當時應有 ${maxDay}，只有 ${b.date}；可改選資料完整的歷史日`);
  if(account&&(account.position||account.orders?.some(o=>o.status==='pending')))p.blocks.push('此試驗同時只持有一筆，已有部位或待成交試單');
@@ -50,15 +55,29 @@ export function propose(stock,s0,ctx,account=null){
  p.testLabel=s.strategy==='original'?'忠實原建議組':'候選股探索試驗';p.action=p.blocks.length?'不建立新試單':'可確認試買';return p;
 }
 export function newExperiment(s0,ctx,id=crypto.randomUUID()){
- const s=settings(s0);return {schema:1,version:LAB_VERSION,id,mode:ctx.mode,start:ctx.at,cursor:ctx.at,source:copy(ctx),settings:s,cash:m(s.capital),receivables:[],contributions:m(s.capital),units:s.capital,unitValue:1,peakUnit:1,maxDrawdown:0,position:null,orders:[],closed:[],events:[],revision:0,history:[{date:dayAt(ctx.at),at:ctx.at,equity:s.capital,pnl:0,cash:s.capital,unit:1}],createdAt:new Date().toISOString()};
+ const s=settings(s0);return {schema:1,version:LAB_VERSION,id,mode:ctx.mode,start:ctx.at,cursor:ctx.at,name:'我的封閉試驗',source:copy(ctx),settings:s,cash:m(s.capital),receivables:[],contributions:m(s.capital),units:s.capital,unitValue:1,peakUnit:1,maxDrawdown:0,position:null,orders:[],closed:[],events:[],revision:0,history:[{date:dayAt(ctx.at),at:ctx.at,equity:s.capital,pnl:0,cash:s.capital,unit:1}],createdAt:new Date().toISOString()};
 }
 function addEvent(r,type,payload,at=r.cursor){r.revision++;r.events.push({id:r.id+':'+r.revision,runId:r.id,seq:r.revision,type,at,recordedAt:new Date().toISOString(),payload:copy(payload)});return r}
-export function approve(run,proposal,hash){const r=copy(run);if(proposal.blocks.length)throw Error('條件未通過：'+proposal.blocks.join('；'));if(r.position||r.orders.some(o=>o.status==='pending'))throw Error('已有持股或待成交試單，勿重複確認');if(proposal.decisionAt!==r.cursor)throw Error('試驗時間已變，請重算提案');if(proposal.settings.strategy!==r.settings.strategy)throw Error('規則不同，需另開試驗');if(proposal.validFor<dayAt(r.cursor))throw Error('試單已過期');if(proposal.downside.buy>r.cash)throw Error('現金不足');if(!hash)throw Error('提案未凍結雜湊');const o={id:crypto.randomUUID(),status:'pending',side:'buy',proposal:copy(proposal),hash,decisionAt:r.cursor};r.orders.push(o);return addEvent(r,'approve_buy',o)}
+export function approve(run,proposal,hash,wallNow=new Date()){const r=copy(run);if(r.deletedAt)throw Error('已移到回收桶');if(proposal.blocks.length)throw Error('條件未通過：'+proposal.blocks.join('；'));if(r.position||r.orders.some(o=>o.status==='pending'))throw Error('已有持股或待成交試單，勿重複確認');if(proposal.decisionAt!==r.cursor)throw Error('試驗時間已變，請重算提案');if(canonical(proposal.settings)!==canonical(r.settings))throw Error('設定已改變，請重算提案再確認');if(proposal.validFor<dayAt(r.cursor))throw Error('試單已過期');if(proposal.downside.buy>r.cash)throw Error('現金不足');if(r.mode==='forward'&&new Date(wallNow)>=new Date(proposal.validFor+'T09:00:00+08:00'))throw Error('向前試驗不能事後補買已開盤的日期。先更新今天研究，產生下一有效交易日的新計畫。');if(!hash)throw Error('提案未凍結雜湊');const o={id:crypto.randomUUID(),status:'pending',side:'buy',proposal:copy(proposal),hash,decisionAt:r.cursor};r.orders.push(o);return addEvent(r,'approve_buy',o)}
 export function queueSell(run,cal){const r=copy(run);if(!r.position)throw Error('沒有試驗持股');if(r.orders.some(o=>o.status==='pending'))throw Error('已有待成交指令');const o={id:crypto.randomUUID(),status:'pending',side:'sell',symbol:r.position.symbol,quantity:r.position.quantity,validFor:decisionSession(r.cursor,cal),decisionAt:r.cursor};r.orders.push(o);return addEvent(r,'approve_sell',o)}
 export function cancel(run,id){const r=copy(run),o=r.orders.find(x=>x.id===id&&x.status==='pending');if(!o)throw Error('沒有可取消指令');o.status='cancelled';return addEvent(r,'cancel_order',{id})}
 export function deposit(run,amount){const r=copy(run);if(!Number.isFinite(amount)||amount<=0||amount>1e9)throw Error('虛擬入金金額不合法');r.cash=m(r.cash+amount);r.contributions=m(r.contributions+amount);r.units+=amount/r.unitValue;return addEvent(r,'virtual_deposit',{amount})}
-export function updateSettings(run,p){const r=copy(run),s=settings({...r.settings,...p});if(s.strategy!==r.settings.strategy)throw Error('變更策略須另開試驗，不能改舊樣本');r.settings=s;return addEvent(r,'settings_for_future_only',s)}
-export function balance(r){const val=r.position?m(r.position.quantity*r.position.mark):0,recv=m(r.receivables.reduce((a,b)=>a+b.amount,0)),eq=m(r.cash+recv+val),realized=m(r.closed.reduce((a,b)=>a+b.pnl,0)),unreal=r.position?m(val-r.position.cost):0;return {cash:r.cash,reserved:m(r.orders.filter(o=>o.status==='pending'&&o.side==='buy').reduce((a,o)=>a+o.proposal.downside.buy,0)),receivable:recv,marketValue:val,equity:eq,pnl:m(eq-r.contributions),realized,unrealized:unreal,returnPct:m((eq-r.contributions)/r.contributions*100),unitReturn:m((r.unitValue-1)*100),maxDrawdown:r.maxDrawdown,closed:r.closed.length,wins:r.closed.filter(t=>t.pnl>0).length,winRate:r.closed.length?m(r.closed.filter(t=>t.pnl>0).length/r.closed.length*100):null}}
+export function updateSettings(run,p){
+ const r=copy(run);if(r.deletedAt)throw Error('試驗在回收桶；先還原再修改');
+ const patch={...p};delete patch.name;
+ if(patch.capital!==undefined&&patch.capital!==r.settings.capital){
+  const operated=r.orders.length||r.closed.length||r.position||r.events.some(e=>!['settings_for_future_only','rename_experiment'].includes(e.type));
+  if(operated)throw Error('已有試單或日結：本金請用虛擬入金／提款調整，不回寫原本金');
+  settings({...r.settings,...patch});r.cash=m(patch.capital);r.contributions=m(patch.capital);r.units=patch.capital;r.unitValue=1;r.peakUnit=1;r.maxDrawdown=0;
+  r.history=[{date:dayAt(r.cursor),at:r.cursor,equity:r.cash,pnl:0,cash:r.cash,unit:1}];
+ }
+ const s=settings({...r.settings,...patch});
+ if(s.strategy!==r.settings.strategy){r.mixedStrategies=true;r.strategyChanges=(r.strategyChanges||0)+1}
+ const previous=copy(r.settings);r.settings=s;
+ if(p.name!==undefined)r.name=String(p.name).trim().slice(0,60)||r.name;
+ return addEvent(r,'settings_for_future_only',{before:previous,after:s,name:r.name||null,pendingAndHoldingsUnchanged:true});
+}
+export function balance(r){const val=r.position?m(r.position.quantity*r.position.mark):0,recv=m(r.receivables.reduce((a,b)=>a+b.amount,0)),eq=m(r.cash+recv+val),realized=m(r.closed.reduce((a,b)=>a+b.pnl,0)),unreal=r.position?m(val-r.position.cost):0;return {cash:r.cash,reserved:m(r.orders.filter(o=>o.status==='pending'&&o.side==='buy').reduce((a,o)=>a+o.proposal.downside.buy,0)),receivable:recv,marketValue:val,equity:eq,pnl:m(eq-r.contributions),realized,unrealized:unreal,returnPct:r.contributions>0?m((eq-r.contributions)/r.contributions*100):null,unitReturn:m((r.unitValue-1)*100),maxDrawdown:r.maxDrawdown,closed:r.closed.length,wins:r.closed.filter(t=>t.pnl>0).length,winRate:r.closed.length?m(r.closed.filter(t=>t.pnl>0).length/r.closed.length*100):null}}
 /** Advance one completed daily bar. Throws before mutating on missing data.
  * Execution: next-session open with adverse slippage, capped by buy limit.
  * This is deliberately NOT 'a limit touched during the day therefore filled'.
@@ -66,7 +85,7 @@ export function balance(r){const val=r.position?m(r.position.quantity*r.position
 export function advance(run,date,bars,cal,wallNow=new Date()){
  if(!session(date,cal))throw Error('不是日曆中的交易日');if(new Date(date+'T13:30:00+08:00')>new Date(wallNow))throw Error('這個交易日尚未結束，不能提前產生答案');
  const next=nextReplayDate(run,cal);if(date!==next)throw Error('只能逐日往後推進，不可跳過或倒退');
- const r=copy(run);const end=date+'T16:00:00+08:00';
+ const r=copy(run);if(r.deletedAt)throw Error('已移到回收桶；暫停日結');const end=date+'T16:00:00+08:00';
  const pending=r.orders.filter(o=>o.status==='pending');
  if(r.position)checkBar(bars[r.position.symbol],date);
  for(const o of pending){const d=o.side==='buy'?o.proposal.validFor:o.validFor;if(d===date)checkBar(bars[o.side==='buy'?o.proposal.symbol:o.symbol],date)}
@@ -92,3 +111,85 @@ export function nextReplayDate(run,cal){const d=dayAt(run.cursor);const h=Number
 export function validateRun(r){if(!r||r.schema!==1||!r.id||!dateValid(dayAt(r.cursor)))throw Error('試驗格式不正確');settings(r.settings);if(!Array.isArray(r.events)||r.events.length!==r.revision)throw Error('試驗事件數量不符');const ids=new Set;let at=r.start;for(const e of r.events){if(e.runId!==r.id||ids.has(e.id)||e.seq!==ids.size+1||new Date(e.at)<new Date(at))throw Error('事件重複、順序不符或倒退');ids.add(e.id);at=e.at}const b=balance(r);if(r.cash<-.01||Math.abs(b.pnl-b.realized-b.unrealized)>.06)throw Error('現金或帳務恆等式不符');if(r.position&&(!Number.isInteger(r.position.quantity)||r.position.quantity<=0))throw Error('試驗持股無效');return true}
 /** Load the next evening/early-morning snapshot without skipping a market day. */
 export function attachSnapshot(run,ctx,cal){const r=copy(run);if(new Date(ctx.at)<new Date(r.cursor))throw Error('不倒退試驗時間');const next=nextReplayDate(r,cal);if(new Date(ctx.at)>=new Date(next+'T09:00:00+08:00'))throw Error('先結算下一交易日，不能提前載入盤後訊號');if(new Date(ctx.generatedAt)>new Date(ctx.at))throw Error('來源尚未可用');r.source=copy(ctx);r.cursor=ctx.at;return addEvent(r,'snapshot_update',{path:ctx.path,hash:ctx.hash,generatedAt:ctx.generatedAt},ctx.at)}
+
+/** Future horizon is a session COUNT; do not invent next year's holidays. */
+export function horizonDates(entry,hold,cal){
+ const offset=n=>{try{return nextSession(entry,cal,n)}catch(e){if(String(e.message).startsWith('交易日曆未涵蓋'))return null;throw e}};
+ const deadline=offset(hold-1),reviewDate=offset(Math.min(5,hold)-1);
+ return {deadline,reviewDate,status:deadline?'verified':'future_calendar_pending',
+  warning:deadline?null:`最長持有${hold}個交易日維持不變；日曆目前至${cal.end}，確切到期日待更新。這不阻擋目前有效交易日的試單，但不能推進到未核對的交易日。`};
+}
+function sourceDetails(stock,ctx){
+ const dec=stock.decision||{},at=Date.parse(ctx.at);
+ const events=(stock.news||[]).filter(e=>e.included!==false).filter(e=>{
+  const time=Date.parse(e.available_at||e.published_at||'');return Number.isFinite(time)&&time<=at;
+ }).sort((a,b)=>Math.abs(b.impact_score||0)-Math.abs(a.impact_score||0)).slice(0,3).map(e=>({
+  id:e.id,title:e.title,url:e.source_url||e.url,summary:e.summary||e.mechanism||'',category:e.category_label||e.category,impact:e.impact_score,
+  chain:Array.isArray(e.chain)?e.chain:[],confirmation:e.confirmation||'',invalidation:e.invalidation||e.reversal_condition||'',
+  kpi:e.watch_metric||'',missing:Array.isArray(e.missing)?e.missing:[],evidence:Array.isArray(e.evidence)?e.evidence.slice(0,2):[],
+  coverage:e.source_assessment?.coverage||'未標示',verified:!!e.source_assessment?.verified}));
+ return {events,factors:copy(Array.isArray(dec.factors)?dec.factors:[]),originalReasons:copy(dec.reasons||[]),originalRisks:copy(dec.risks||[])};
+}
+export function propose(stock,s0,ctx,account=null){
+ let p;
+ try{p=proposeCore(stock,s0,ctx,account)}catch(e){
+  p={version:LAB_VERSION,symbol:stock.symbol,name:stock.name,original:copy(stock.decision||{}),settings:copy(s0),
+   blocks:[String(e.message)],warnings:[],quantity:0,expectedReturn:null,sourcePath:ctx.path,sourceHash:ctx.hash};
+ }
+ Object.assign(p,sourceDetails(stock,ctx));
+ if(!p.analysis?.length)p.analysis=[
+  {name:'原始研究',known:p.originalReasons.join('；')||stock.decision?.summary||'原來源沒有提供支持理由',unknown:'計畫計算未完成，不等於新聞和基本面都是空白。'},
+  {name:'新聞',known:p.events[0]?.summary||'來源未提供可在此時點使用的事件',unknown:p.events[0]?.missing.join('；')||'只有實際取得的文字可以當證據。'},
+  {name:'未通過的步驟',known:p.blocks.join('；')||'請查看各項資料',unknown:'不補造行情、不把設定或日曆故障解讀為市場看空。'}
+ ];
+ p.action=p.blocks.length?'條件待處理':'可確認試買';
+ p.reasonForNoForecast??='目標金額是情境，不是經校準的預期報酬。';
+ return p;
+}
+export function trashExperiment(run,deleted=true){
+ const r=copy(run);if(!!r.deletedAt===!!deleted)return r;
+ r.deletedAt=deleted?new Date().toISOString():null;
+ // Retain pending orders, balances and historical evidence. Deleted = paused, not sold.
+ return addEvent(r,deleted?'experiment_deleted':'experiment_restored',{deletedAt:r.deletedAt,paused:deleted});
+}
+export function withdraw(run,amount){
+ const r=copy(run),reserved=balance(r).reserved;
+ if(!Number.isFinite(amount)||amount<=0||amount>r.cash-reserved||amount>=r.units*r.unitValue)throw Error('提款超過未預留現金或將耗盡試驗資產');
+ r.cash=m(r.cash-amount);r.contributions=m(r.contributions-amount);r.units-=amount/r.unitValue;
+ return addEvent(r,'virtual_withdrawal',{amount});
+}
+export function settlementNeeds(run,cal,wallNow=new Date()){
+ if(run.deletedAt)return {state:'deleted',message:'這個試驗已移到回收桶，先還原再結算',symbols:[]};
+ let date;try{date=nextReplayDate(run,cal)}catch(e){return {state:'calendar_missing',message:e.message,symbols:[]}};
+ const orders=run.orders.filter(o=>o.status==='pending'),symbols=[...new Set([run.position?.symbol,...orders.filter(o=>(o.proposal?.validFor||o.validFor)===date).map(o=>o.proposal?.symbol||o.symbol)].filter(Boolean))];
+ const pending=orders.map(o=>({symbol:o.proposal?.symbol||o.symbol,date:o.proposal?.validFor||o.validFor,quantity:o.proposal?.quantity||o.quantity}));
+ if(new Date(date+'T13:30:00+08:00')>new Date(wallNow))return {state:'not_closed',date,symbols,pending,message:`${date}尚未收盤；試單只是待成交，不能提前製造結果。`};
+ return {state:symbols.length?'need_bars':'cash_day',date,symbols,pending,message:symbols.length?`需要${date}的${symbols.join('、')}完整日K`:'這一天沒有需成交／估值的股票，只推進現金與待交割款'};
+}
+export function diagnoseMarket(payload,symbol,date,path){
+ const rows=payload?.candles;
+ if(!Array.isArray(rows))return {ok:false,state:'bad_format',message:`${path}沒有candles陣列，不是「沒交易紀錄」。`,path};
+ const latest=rows.map(x=>x.date).filter(dateValid).sort().at(-1)||'無';
+ const b=rows.find(x=>x.date===date);
+ if(!b)return {ok:false,state:'missing_bar',path,latest,required:date,symbol,
+  message:`等待行情：${symbol}需要${date}，檔案最新只有${latest}。試單仍保留；請更新每日行情並部署，不要重複按確認試買。`};
+ try{checkBar(b,date);return {ok:true,state:'ready',bar:b,latest,path}}catch(e){return {ok:false,state:'invalid_bar',path,latest,message:e.message+'；停止日結，試單保留。'}}
+}
+/** Only compatible calendar updates can replace a trial's calendar. Past days never change silently. */
+export function compatibleCalendar(old,latest){
+ if(!old)return copy(latest);if(!latest||latest.end<=old.end)return copy(old);
+ for(let d=old.start;d<=old.end;d=add(d,1))if(d>=latest.start&&session(d,old)!==session(d,latest))return copy(old);
+ if(latest.start>old.start)return copy(old);
+ return copy(latest);
+}
+
+export function attachForwardSnapshot(run,ctx,cal,wallNow=new Date()){
+ const r=copy(run);if(r.mode!=='forward')throw Error('歷史重播請逐日揭曉，不直接跳至今天');
+ if(r.deletedAt||r.position||r.orders.some(o=>o.status==='pending'))throw Error('已有試單或持股：先結算／取消原試單，不覆蓋確認過的計畫');
+ const wall=new Date(wallNow),at=new Date(ctx.at),src=new Date(ctx.generatedAt);
+ if(!Number.isFinite(+at)||Math.abs(wall-at)>60000||src>wall||at<new Date(r.cursor))throw Error('向前研究時點不符，不允許倒填');
+ if(r.receivables.some(x=>x.date<=dayAt(at)))throw Error('先日結入帳待交割款，再更新研究時點');
+ const next=decisionSession(ctx.at,cal); // Must be a verified entry session.
+ r.cursor=ctx.at;r.source=copy(ctx);
+ return addEvent(r,'forward_research_refresh',{path:ctx.path,hash:ctx.hash,validFor:next,not_a_trade:true},ctx.at);
+}
