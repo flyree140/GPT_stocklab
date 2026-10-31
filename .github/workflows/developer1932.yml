@@ -1,0 +1,55 @@
+name: Developer validation 19.3.2
+on:
+  workflow_dispatch:
+    inputs:
+      import_archive:
+        description: Register older saved snapshots as retrospective reference (NOT forward validation)
+        type: boolean
+        default: true
+      refresh_prices:
+        description: Fetch up to 40 previously studied symbols (CPU, no Qwen)
+        type: boolean
+        default: true
+permissions:
+  contents: write
+concurrency:
+  group: stocklab16-data
+  cancel-in-progress: false
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      PRICE_REFRESH_LIMIT: ${{ vars.PRICE_REFRESH_LIMIT || '40' }}
+      IMPORT_ARCHIVE: ${{ inputs.import_archive }}
+    steps:
+      - uses: actions/checkout@v6
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v6
+        with: {python-version: '3.11', cache: pip}
+      - run: pip install -r requirements.txt
+      - name: Register saved analyses and rebuild outcome index
+        run: |
+          if [ "$IMPORT_ARCHIVE" = "true" ]; then
+            python -m stocklab1932.developer --include-archive
+          else
+            python -m stocklab1932.developer
+          fi
+      - name: Refresh missing future prices
+        if: inputs.refresh_prices
+        run: python -m stocklab1932.refresh_prices
+      - name: Update outcomes with newly available bars
+        run: |
+          python -m stocklab1932.developer
+          python -m stocklab16.quality
+          pytest -q tests/test_developer1932.py
+          node tests/test_developer1932.mjs
+          node tests/test_devcloud1932.mjs
+      - name: Commit only public research data
+        run: |
+          git config user.name stocklab-bot
+          git config user.email stocklab-bot@users.noreply.github.com
+          git add data
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data: 19.3.2 all-signal validation'
+          git push origin HEAD:main

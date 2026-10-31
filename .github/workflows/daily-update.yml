@@ -37,7 +37,9 @@ jobs:
       HF_HUB_DISABLE_TELEMETRY: '1'
       FAVORITES_FEED_URL: ${{ secrets.FAVORITES_FEED_URL }}
       FAVORITES_READ_TOKEN: ${{ secrets.FAVORITES_READ_TOKEN }}
-      DEEP_STOCK_LIMIT: '20'
+      DEEP_STOCK_LIMIT: ${{ vars.DEEP_STOCK_LIMIT || '20' }}
+      ROTATING_STOCKS: ${{ vars.ROTATING_STOCKS || '8' }}
+      PRICE_REFRESH_LIMIT: ${{ vars.PRICE_REFRESH_LIMIT || '40' }}
       TARGET_DATE: ${{ inputs.as_of }}
       TRIGGER_SCHEDULE: ${{ github.event.schedule }}
     steps:
@@ -73,6 +75,9 @@ jobs:
       - name: Refresh verified market calendar (retain previous if unavailable)
         if: steps.preflight.outputs.skip != 'true'
         run: python -m stocklab193.calendar_update
+      - name: Collect official institutional flow (bounded; missing remains missing)
+        if: steps.preflight.outputs.skip != 'true'
+        run: python -m stocklab1932.institutional --root .
       - name: Generate new snapshot
         if: steps.preflight.outputs.skip != 'true'
         shell: bash
@@ -88,6 +93,12 @@ jobs:
       - name: Build six-factor research and optional own-adapter shadow
         if: steps.preflight.outputs.skip != 'true'
         run: python -m stocklab192.runtime --root .
+      - name: Refresh prices for previously analyzed symbols (no model calls)
+        if: steps.preflight.outputs.skip != 'true'
+        run: python -m stocklab1932.refresh_prices --root .
+      - name: Register every signal and update developer outcomes (CPU)
+        if: steps.preflight.outputs.skip != 'true'
+        run: python -m stocklab1932.developer --root .
       - name: Test before publication
         if: steps.preflight.outputs.skip != 'true'
         run: |
@@ -99,6 +110,8 @@ jobs:
           node tests/test_cloud19.mjs
           node tests/test_paperlab.mjs
           node tests/test_paper193.mjs
+          node tests/test_developer1932.mjs
+          node tests/test_devcloud1932.mjs
       - name: Commit valid data
         if: steps.preflight.outputs.skip != 'true'
         run: |
@@ -106,7 +119,7 @@ jobs:
           git config user.email stocklab-bot@users.noreply.github.com
           git add data
           if git diff --cached --quiet; then exit 0; fi
-          git commit -m "data: StockLab 19.3 $(TZ=Asia/Taipei date +%F)"
+          git commit -m "data: StockLab 19.3.2 $(TZ=Asia/Taipei date +%F)"
           git push origin HEAD:main
       - name: Persist attempted model quota after failure (no invalid snapshots)
         if: failure()
