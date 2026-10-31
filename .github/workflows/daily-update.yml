@@ -11,7 +11,7 @@ on:
         type: string
         required: false
   schedule:
-    - cron: '37 10 * * *' # UTC -> Taipei 18:37
+    - cron: '17 0 * * *' # UTC -> Taipei 08:17; not a guaranteed delivery time
     - cron: '17 13 * * *' # UTC -> Taipei 21:17; second news pass; same-day earlier run does not skip it
 permissions:
   contents: write
@@ -29,7 +29,10 @@ jobs:
       STOCKLAB_ADAPTER_REVISION: ${{ vars.STOCKLAB_ADAPTER_REVISION }}
       HF_TOKEN: ${{ secrets.HF_TOKEN }}
       SKIP_ADAPTER192: ${{ github.event_name == 'workflow_dispatch' && inputs.skip_qwen && '1' || '0' }}
-      QWEN_DAILY_LIMIT: '6'
+      QWEN_DAILY_LIMIT: ${{ vars.QWEN_DAILY_LIMIT || '12' }}
+      QWEN_RUN_LIMIT: ${{ vars.QWEN_RUN_LIMIT || '6' }}
+      QWEN_BATCH_SECONDS: '720'
+      NEWS_PER_STOCK: ${{ vars.NEWS_PER_STOCK || '20' }}
       HF_HOME: ${{ github.workspace }}/.cache/huggingface
       HF_HUB_DISABLE_TELEMETRY: '1'
       FAVORITES_FEED_URL: ${{ secrets.FAVORITES_FEED_URL }}
@@ -67,6 +70,9 @@ jobs:
       - name: Refresh company catalog
         if: steps.preflight.outputs.skip != 'true'
         run: python -m stocklab16.universe
+      - name: Refresh verified market calendar (retain previous if unavailable)
+        if: steps.preflight.outputs.skip != 'true'
+        run: python -m stocklab193.calendar_update
       - name: Generate new snapshot
         if: steps.preflight.outputs.skip != 'true'
         shell: bash
@@ -91,6 +97,8 @@ jobs:
           node tests/test_life18.mjs
           node tests/test_intent19.mjs
           node tests/test_cloud19.mjs
+          node tests/test_paperlab.mjs
+          node tests/test_paper193.mjs
       - name: Commit valid data
         if: steps.preflight.outputs.skip != 'true'
         run: |
@@ -98,7 +106,7 @@ jobs:
           git config user.email stocklab-bot@users.noreply.github.com
           git add data
           if git diff --cached --quiet; then exit 0; fi
-          git commit -m "data: StockLab 18 $(TZ=Asia/Taipei date +%F)"
+          git commit -m "data: StockLab 19.3 $(TZ=Asia/Taipei date +%F)"
           git push origin HEAD:main
       - name: Persist attempted model quota after failure (no invalid snapshots)
         if: failure()
