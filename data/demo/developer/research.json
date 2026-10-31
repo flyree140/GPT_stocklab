@@ -1,0 +1,524 @@
+{
+  "demo": true,
+  "cutoff": "2026-09-10T20:00:00+08:00",
+  "stocks": [
+    {
+      "symbol": "DEMOA.TW",
+      "name": "教學公司甲（合成）",
+      "factors": {
+        "news": {
+          "label": "新聞與公司政策",
+          "status": "missing",
+          "values": {
+            "events": 0,
+            "verified_events": 0
+          },
+          "missing": [
+            "沒有時間可核對的新聞"
+          ],
+          "notes": [
+            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
+          ]
+        },
+        "social": {
+          "label": "社群關注與情緒",
+          "status": "missing",
+          "values": {},
+          "missing": [
+            "未連接有權使用的社群樣本"
+          ]
+        },
+        "fundamental": {
+          "label": "基本・財務・估值",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "revenue_yoy_pct",
+            "eps_ttm",
+            "roe_pct",
+            "ocf",
+            "pe",
+            "pb"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "technical": {
+          "label": "K線・技術・量價",
+          "status": "available",
+          "available_at": "2026-09-10T14:30:00+08:00",
+          "quote_date": "2026-09-10",
+          "bar_count": 74,
+          "values": {
+            "ma5": 99.712,
+            "ma20": 99.088,
+            "ma60": 97.48266666666666,
+            "close": 100.0,
+            "rsi14": 100.0,
+            "atr14": 2.1285714285714286,
+            "volume": 100000.0,
+            "volume_ratio_previous20": 1.0,
+            "macd": 0.5691344262712192,
+            "macd_hist": 0.01191381481787146,
+            "macd_new_cross_up": false,
+            "k9": 64.17484688311916,
+            "d9": 63.72738205086143,
+            "kd_new_cross_up": false,
+            "volatility20_pct": 0.5526741163836174,
+            "support20": 97.22,
+            "resistance20": 101.0,
+            "return20_pct": 1.791530944625408
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "以有效OHLCV計算，不從圖像猜價格。",
+            "量比使用前20筆、不含當日的均量。",
+            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
+          ]
+        },
+        "flow": {
+          "label": "法人・籌碼・流動性",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "foreign_net_shares",
+            "trust_net_shares",
+            "dealer_net_shares"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "macro_policy": {
+          "label": "總經・產業・法規",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "policy_rate_pct",
+            "usd_twd"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        }
+      },
+      "foreign_defense": {
+        "label": "外資流向支撐代理線（非真實成本）",
+        "method_version": "net-buy-typical-price-v1",
+        "cutoff": "2026-09-10T20:00:00+08:00",
+        "window_sessions": 20,
+        "matched_sessions": 20,
+        "required_sessions": 5,
+        "actual_institutional_cost": false,
+        "value": 98.9267,
+        "alert": "接近代理線（距離2%內）",
+        "status": "available",
+        "formula": "Σ[當日典型價×max(外資淨買股數,0)] / Σmax(外資淨買股數,0)",
+        "limitations": [
+          "不含外資實際成交價與存量部位，不是外資真實成本或保證支撐",
+          "只用截至分析時間已取得的法人資料；不同市場分開處理",
+          "缺交易日、不足樣本、沒有淨買時不造線；不以此單獨買進"
+        ],
+        "reference_close": 100,
+        "distance_pct": 1.085,
+        "positive_buy_sessions": 17,
+        "foreign_net_5": -300000,
+        "three_session_net_selling": true,
+        "synthetic_demo": true
+      },
+      "analyses": []
+    },
+    {
+      "symbol": "DEMOB.TW",
+      "name": "教學公司乙（合成）",
+      "factors": {
+        "news": {
+          "label": "新聞與公司政策",
+          "status": "missing",
+          "values": {
+            "events": 0,
+            "verified_events": 0
+          },
+          "missing": [
+            "沒有時間可核對的新聞"
+          ],
+          "notes": [
+            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
+          ]
+        },
+        "social": {
+          "label": "社群關注與情緒",
+          "status": "missing",
+          "values": {},
+          "missing": [
+            "未連接有權使用的社群樣本"
+          ]
+        },
+        "fundamental": {
+          "label": "基本・財務・估值",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "revenue_yoy_pct",
+            "eps_ttm",
+            "roe_pct",
+            "ocf",
+            "pe",
+            "pb"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "technical": {
+          "label": "K線・技術・量價",
+          "status": "available",
+          "available_at": "2026-09-10T14:30:00+08:00",
+          "quote_date": "2026-09-10",
+          "bar_count": 74,
+          "values": {
+            "ma5": 99.712,
+            "ma20": 99.088,
+            "ma60": 97.48266666666666,
+            "close": 100.0,
+            "rsi14": 100.0,
+            "atr14": 2.1285714285714286,
+            "volume": 100000.0,
+            "volume_ratio_previous20": 1.0,
+            "macd": 0.5691344262712192,
+            "macd_hist": 0.01191381481787146,
+            "macd_new_cross_up": false,
+            "k9": 64.17484688311916,
+            "d9": 63.72738205086143,
+            "kd_new_cross_up": false,
+            "volatility20_pct": 0.5526741163836174,
+            "support20": 97.22,
+            "resistance20": 101.0,
+            "return20_pct": 1.791530944625408
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "以有效OHLCV計算，不從圖像猜價格。",
+            "量比使用前20筆、不含當日的均量。",
+            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
+          ]
+        },
+        "flow": {
+          "label": "法人・籌碼・流動性",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "foreign_net_shares",
+            "trust_net_shares",
+            "dealer_net_shares"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "macro_policy": {
+          "label": "總經・產業・法規",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "policy_rate_pct",
+            "usd_twd"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        }
+      },
+      "foreign_defense": {
+        "label": "外資流向支撐代理線（非真實成本）",
+        "method_version": "net-buy-typical-price-v1",
+        "cutoff": "2026-09-10T20:00:00+08:00",
+        "window_sessions": 20,
+        "matched_sessions": 20,
+        "required_sessions": 5,
+        "actual_institutional_cost": false,
+        "value": 98.9267,
+        "alert": "接近代理線（距離2%內）",
+        "status": "available",
+        "formula": "Σ[當日典型價×max(外資淨買股數,0)] / Σmax(外資淨買股數,0)",
+        "limitations": [
+          "不含外資實際成交價與存量部位，不是外資真實成本或保證支撐",
+          "只用截至分析時間已取得的法人資料；不同市場分開處理",
+          "缺交易日、不足樣本、沒有淨買時不造線；不以此單獨買進"
+        ],
+        "reference_close": 100,
+        "distance_pct": 1.085,
+        "positive_buy_sessions": 17,
+        "foreign_net_5": -300000,
+        "three_session_net_selling": true,
+        "synthetic_demo": true
+      },
+      "analyses": []
+    },
+    {
+      "symbol": "DEMOC.TW",
+      "name": "教學公司丙（合成）",
+      "factors": {
+        "news": {
+          "label": "新聞與公司政策",
+          "status": "missing",
+          "values": {
+            "events": 0,
+            "verified_events": 0
+          },
+          "missing": [
+            "沒有時間可核對的新聞"
+          ],
+          "notes": [
+            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
+          ]
+        },
+        "social": {
+          "label": "社群關注與情緒",
+          "status": "missing",
+          "values": {},
+          "missing": [
+            "未連接有權使用的社群樣本"
+          ]
+        },
+        "fundamental": {
+          "label": "基本・財務・估值",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "revenue_yoy_pct",
+            "eps_ttm",
+            "roe_pct",
+            "ocf",
+            "pe",
+            "pb"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "technical": {
+          "label": "K線・技術・量價",
+          "status": "available",
+          "available_at": "2026-09-10T14:30:00+08:00",
+          "quote_date": "2026-09-10",
+          "bar_count": 74,
+          "values": {
+            "ma5": 99.712,
+            "ma20": 99.088,
+            "ma60": 97.48266666666666,
+            "close": 100.0,
+            "rsi14": 100.0,
+            "atr14": 2.1285714285714286,
+            "volume": 100000.0,
+            "volume_ratio_previous20": 1.0,
+            "macd": 0.5691344262712192,
+            "macd_hist": 0.01191381481787146,
+            "macd_new_cross_up": false,
+            "k9": 64.17484688311916,
+            "d9": 63.72738205086143,
+            "kd_new_cross_up": false,
+            "volatility20_pct": 0.5526741163836174,
+            "support20": 97.22,
+            "resistance20": 101.0,
+            "return20_pct": 1.791530944625408
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "以有效OHLCV計算，不從圖像猜價格。",
+            "量比使用前20筆、不含當日的均量。",
+            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
+          ]
+        },
+        "flow": {
+          "label": "法人・籌碼・流動性",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "foreign_net_shares",
+            "trust_net_shares",
+            "dealer_net_shares"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "macro_policy": {
+          "label": "總經・產業・法規",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "policy_rate_pct",
+            "usd_twd"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        }
+      },
+      "foreign_defense": {
+        "label": "外資流向支撐代理線（非真實成本）",
+        "method_version": "net-buy-typical-price-v1",
+        "cutoff": "2026-09-10T20:00:00+08:00",
+        "window_sessions": 20,
+        "matched_sessions": 20,
+        "required_sessions": 5,
+        "actual_institutional_cost": false,
+        "value": 98.9267,
+        "alert": "接近代理線（距離2%內）",
+        "status": "available",
+        "formula": "Σ[當日典型價×max(外資淨買股數,0)] / Σmax(外資淨買股數,0)",
+        "limitations": [
+          "不含外資實際成交價與存量部位，不是外資真實成本或保證支撐",
+          "只用截至分析時間已取得的法人資料；不同市場分開處理",
+          "缺交易日、不足樣本、沒有淨買時不造線；不以此單獨買進"
+        ],
+        "reference_close": 100,
+        "distance_pct": 1.085,
+        "positive_buy_sessions": 17,
+        "foreign_net_5": -300000,
+        "three_session_net_selling": true,
+        "synthetic_demo": true
+      },
+      "analyses": []
+    },
+    {
+      "symbol": "DEMOD.TW",
+      "name": "教學公司丁（合成）",
+      "factors": {
+        "news": {
+          "label": "新聞與公司政策",
+          "status": "missing",
+          "values": {
+            "events": 0,
+            "verified_events": 0
+          },
+          "missing": [
+            "沒有時間可核對的新聞"
+          ],
+          "notes": [
+            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
+          ]
+        },
+        "social": {
+          "label": "社群關注與情緒",
+          "status": "missing",
+          "values": {},
+          "missing": [
+            "未連接有權使用的社群樣本"
+          ]
+        },
+        "fundamental": {
+          "label": "基本・財務・估值",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "revenue_yoy_pct",
+            "eps_ttm",
+            "roe_pct",
+            "ocf",
+            "pe",
+            "pb"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "technical": {
+          "label": "K線・技術・量價",
+          "status": "missing",
+          "values": {},
+          "missing": [
+            "至少2筆有效、已收盤OHLCV"
+          ],
+          "rejected": []
+        },
+        "flow": {
+          "label": "法人・籌碼・流動性",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "foreign_net_shares",
+            "trust_net_shares",
+            "dealer_net_shares"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "macro_policy": {
+          "label": "總經・產業・法規",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "policy_rate_pct",
+            "usd_twd"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        }
+      },
+      "foreign_defense": {
+        "label": "外資流向支撐代理線（非真實成本）",
+        "method_version": "net-buy-typical-price-v1",
+        "cutoff": "2026-09-10T20:00:00+08:00",
+        "window_sessions": 20,
+        "matched_sessions": 0,
+        "required_sessions": 5,
+        "actual_institutional_cost": false,
+        "value": null,
+        "alert": "資料不足",
+        "status": "missing",
+        "formula": "Σ[當日典型價×max(外資淨買股數,0)] / Σmax(外資淨買股數,0)",
+        "limitations": [
+          "不含外資實際成交價與存量部位，不是外資真實成本或保證支撐",
+          "只用截至分析時間已取得的法人資料；不同市場分開處理",
+          "缺交易日、不足樣本、沒有淨買時不造線；不以此單獨買進"
+        ],
+        "synthetic_demo": true
+      },
+      "analyses": []
+    }
+  ]
+}
