@@ -1,0 +1,20 @@
+import assert from 'node:assert/strict';import fs from 'node:fs';import * as P from '../assets/paper-engine.mjs';import * as D from '../assets/dev1932-engine.mjs';
+const load=f=>JSON.parse(fs.readFileSync(new URL('../assets/'+f,import.meta.url)));
+const snap=load('paper-demo-snapshot.json'),cal=load('paper-calendar.json'),market=load('paper-demo-market.json');
+const ctx={at:snap.generated_at,generatedAt:snap.generated_at,asOf:snap.as_of,path:'assets/paper-demo-snapshot.json',hash:'fixture',mode:'demo',cal};
+let count=0;async function t(name,fn){await fn();count++;console.log('PASS',name)}
+const s={...D.DEFAULT,capital:4000,budget:4000,maxLoss:200,goal:150};
+const both=P.copy(snap);both.stocks.push({...P.copy(snap.stocks[0]),symbol:'DEMO2.TW',name:'第二虛構公司'});
+await t('every analyzed row retained, no shared 4000 constraint',async()=>{const rs=D.prepare(both,ctx,s);assert.equal(rs.length,2);assert.ok(rs.every(r=>r.eligible));const b=await D.confirmBatch(rs,ctx,s);assert.equal(b.rows[0].account.cash,4000);assert.equal(b.rows[1].account.cash,4000);assert.ok(await D.validateBatch(b));});
+await t('blocked original label remains with passive observation',()=>{const x=P.copy(both);x.stocks[1].decision.code='avoid';const rs=D.prepare(x,ctx,s);assert.equal(rs.length,2);assert.equal(rs[1].eligible,false);assert.equal(rs[1].baselineTracked,true)});
+await t('confirmation never instantly buys',async()=>{const b=await D.confirmBatch(D.prepare(both,ctx,s),ctx,s);assert.equal(b.rows[0].account.position,null);assert.equal(b.rows[0].account.orders[0].status,'pending');assert.equal(b.rows[0].account.cash,4000)});
+await t('same snapshot settings cannot duplicate',async()=>{const rs=D.prepare(both,ctx,s),b=await D.confirmBatch(rs,ctx,s);await assert.rejects(()=>D.confirmBatch(rs,ctx,s,[b]),/已確認/)});
+await t('missing one stock does not stop all',async()=>{const b=await D.confirmBatch(D.prepare(both,ctx,s),ctx,s);const out=await D.advanceBatch(b,{'DEMO.TW':market},cal,'2026-09-11T18:00:00+08:00',1);assert.ok(out.rows[0].account.position);assert.equal(out.rows[1].account.position,null);assert.ok(out.rows[1].lastError);assert.equal(b.rows[0].account.position,null);assert.ok(await D.validateBatch(out));});
+await t('no future settlement before close',async()=>{const b=await D.confirmBatch(D.prepare(both,ctx,s),ctx,s);const out=await D.advanceBatch(b,{'DEMO.TW':market},cal,'2026-09-11T10:00:00+08:00');assert.equal(out.rows[0].account.position,null);assert.ok(out.rows[0].lastError)});
+await t('deleted batch pauses without erasing',async()=>{const b=await D.confirmBatch(D.prepare(both,ctx,s),ctx,s);const d=D.trash(b);assert.ok(d.deletedAt);await assert.rejects(()=>D.advanceBatch(d,{},cal));const x=D.trash(d,false);assert.equal(x.id,b.id);assert.ok(await D.validateBatch(x))});
+await t('tampered frozen plan refused',async()=>{const b=await D.confirmBatch(D.prepare(both,ctx,s),ctx,s);b.rows[0].proposal.quantity++;await assert.rejects(()=>D.validateBatch(b),/計畫/)});
+await t('tampered budget refused',async()=>{const b=await D.confirmBatch(D.prepare(both,ctx,s),ctx,s);b.settings.capital++;await assert.rejects(()=>D.validateBatch(b),/設定/)});
+await t('duplicate symbols refused',()=>{const x=P.copy(both);x.stocks[1].symbol=x.stocks[0].symbol;assert.throws(()=>D.prepare(x,ctx,s),/重複/)});
+await t('future publication refused',()=>{const x=P.copy(snap);x.generated_at='2099-01-01T00:00:00+08:00';assert.throws(()=>D.prepare(x,ctx,s),/尚未/)});
+await t('mean independent returns not portfolio',async()=>{const b=await D.confirmBatch(D.prepare(both,ctx,s),ctx,s);const v=D.batchSummary(b);assert.equal(v.observed,2);assert.ok(v.notPortfolio);assert.equal(v.completedWinRate,null)});
+console.log(JSON.stringify({total:count,passed:count}));

@@ -35,8 +35,14 @@ def run(as_of,force=False):
     day=date.fromisoformat(as_of);today=now().date()
     if day>today:raise ValueError('Future as_of is forbidden')
     historical=day<today
-    base=load_stocks();metas=([] if historical else favorite_metas(base))+base
-    metas=list({m['symbol']:m for m in metas}.values())[:max(1,min(30,int(os.getenv('DEEP_STOCK_LIMIT','20'))))]
+    base=load_stocks();limit=max(1,min(30,int(os.getenv('DEEP_STOCK_LIMIT','20'))))
+    if historical:
+        metas=list({m['symbol']:m for m in base}.values())[:limit]
+        coverage_selection={'mode':'historical_core_only','unselected_not_analyzed':True}
+    else:
+        from stocklab1932.coverage import select
+        catalog=read_json(ROOT/'data/universe.json',{}).get('instruments',[])
+        metas,coverage_selection=select(base,favorite_metas(base),catalog,limit,int(os.getenv('ROTATING_STOCKS','8')),now())
     qwen=QwenHints();qwen.enabled=qwen.enabled and not historical
     benchmark=history('0050.TW',as_of,260);mscore=market_score(benchmark)
     cutoff=as_of+'T23:59:59+08:00' if historical else now().isoformat()
@@ -71,14 +77,17 @@ def run(as_of,force=False):
             except (ValueError,KeyError) as exc:print('Excluded event:',str(exc)[:120])
     if not built:raise RuntimeError('No usable price data; retaining all prior production files')
     peer_percentiles(built)
+    from stocklab1932.institutional import attach
+    for item in built:
+        item['foreign_defense'],item['flow_facts']=attach(ROOT,item,cutoff)
     for s in built:s['decision']=decide(s,as_of)
     top=[s['symbol'] for s in sorted(built,key=lambda x:x['decision']['score'],reverse=True) if s['decision']['code'] in ('conditional_buy','watch') and s['decision']['score']>=50][:5]
-    payload={'version':'19.3.0','as_of':as_of,'generated_at':now().isoformat(),'stocks':built,'top_picks':top,
+    payload={'version':'19.3.2','as_of':as_of,'generated_at':now().isoformat(),'stocks':built,'top_picks':top,
        'mode':'historical_reconstruction' if historical else 'live','demo':False,'qwen_used':qwen.used,'qwen_cache_hits':qwen.cached,
        'news_pipeline':{'sources':[LAST_STATS.get(m['symbol'],{}) for m in metas], 'stocks_requested':len(metas), 'after_grouping':grouped_total,
           'rule_analyzed':sum(len(s['news']) for s in built),'qwen_eligible':len(selected),'selection_offset':selection_offset,'qwen_reserved_this_run':qwen.used,'qwen':qwen.stats,
           'coverage_note':'有限股票池、Google RSS可取得標題／使用者提供節錄，不是全網新聞，也不是每則全文均由Qwen讀過。'},
-       'coverage':{'completed':len(built),'requested':len(metas),'failed':failures},
+       'coverage':{'completed':len(built),'requested':len(metas),'failed':failures,'selection':coverage_selection},
        'limitations':['歷史重建使用現存核心名單，存在存續偏誤','新聞只分析實際取得的標題／使用者節錄','法人與可比估值缺資料時保留缺值，不偽裝全市場完整健檢'],
        'note':'規則研究訊號，不是機率或交易指令。'}
     errs=validate_snapshot(payload)

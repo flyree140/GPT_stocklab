@@ -67,13 +67,17 @@ def run(root,allow_model=None):
     own=own and not demo and asof==day and os.getenv('SKIP_ADAPTER192','0')!='1'
     # Only explicit as-of facts are accepted; current_info with no release date is NOT backfilled.
     extra=read(root/f'.cache/features192/{asof}.json',{}) or {}
+    from stocklab1932.institutional import attach
+    from stocklab1932.facts import observed_facts
     outputs=[];requests=[]
     for stock in stocks[:30]:
         meta=extra.get(stock['symbol'],{})
         social=summarize(meta.get('social_posts',[]),cutoff,source_ok=meta.get('social_source_ok',False),
            baseline=meta.get('social_baseline',[]),collection_key=meta.get('collection_key','unset'))
-        outputs.append({'symbol':stock['symbol'],'name':stock.get('name'),
-            'factors':six_factors(stock,cutoff,social_summary=social,extra_facts=meta.get('facts',[])),'analyses':[]})
+        proxy,flows=attach(root,stock,cutoff)
+        facts=meta.get('facts',[])+flows+observed_facts(stock,cutoff)
+        outputs.append({'symbol':stock['symbol'],'name':stock.get('name'),'foreign_defense':proxy,
+            'factors':six_factors(stock,cutoff,social_summary=social,extra_facts=facts),'analyses':[]})
     # Round-robin with deterministic day/window rotation; never select using outcomes.
     queues=[]
     for stock in stocks[:30]:
@@ -123,8 +127,8 @@ def run(root,allow_model=None):
     for r in requests:
         if r['id'] in results:index[r['issuer']['symbol']]['analyses'].append({'id':r['id'],'output':results[r['id']],
            'model_revision':revision,'automatically_changes_position':False})
-    summary={'version':'19.3.0','as_of':asof,'cutoff':cutoff,'created_at':datetime.now(ZoneInfo('Asia/Taipei')).isoformat(),
-      'source_snapshot_sha256':digest(snap),'demo':demo,'model_status':model_status,'stocks':outputs,
+    summary={'version':'19.3.2','as_of':asof,'cutoff':cutoff,'created_at':datetime.now(ZoneInfo('Asia/Taipei')).isoformat(),
+      'source_snapshot_sha256':digest(snap),'source_file_sha256':hashlib.sha256((root/('data/demo/latest.json' if demo else 'data/latest.json')).read_bytes()).hexdigest(),'demo':demo,'model_status':model_status,'stocks':outputs,
       'limits':['社群只代表採樣範圍；公開不等於可訓練。','日期有效不等於來源數字已獨立認證。','未經前瞻驗證，不把adapter信心當預期報酬。']}
     dest=root/'data/research192';atomic(dest/(digest(summary)+'.json'),summary);atomic(dest/'latest.json',summary)
     print(json.dumps({'ok':True,'path':str(dest/'latest.json'),'stocks':len(outputs),'model':model_status},ensure_ascii=False));return summary
