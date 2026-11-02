@@ -40,7 +40,7 @@ function proposeCore(stock,s0,ctx,account=null){
  if(s.strategy==='original'&&dec.code!=='conditional_buy')p.blocks.push('忠實原建議組：原標籤不是條件式買入');
  if(s.strategy==='candidate'&&(!Number.isFinite(dec.score)||dec.score<50||dec.code==='avoid'))p.blocks.push('候選試買組：需原分數≥50且不是避開；此為固定研究規則，非最佳化績效');
  if(![b.atr,b.resistance].every(n=>Number.isFinite(n)&&n>0)){p.blocks.push('缺ATR或近期壓力，不能用預設百分比冒充個股分析');return p}
- const supportStop=dec.plan?.stop_reference,stop=Number.isFinite(supportStop)&&supportStop>0&&supportStop<b.close?supportStop:b.close-2*b.atr;
+ const supportStop=ctx.priceEvidence?.[stock.symbol]?null:dec.plan?.stop_reference,stop=Number.isFinite(supportStop)&&supportStop>0&&supportStop<b.close?supportStop:b.close-2*b.atr;
  p.stop=m(stop);p.pressure=m(b.resistance);p.limit=m(b.close);if(p.stop<=0||p.stop>=p.limit||p.pressure<=p.limit){p.blocks.push('停止價或上方參考空間無效');return p}
  p.quantity=size(p.limit,p.stop,{...s,tax:p.tax},account?.cash??s.capital);
  if(p.quantity<=0){p.blocks.push('資金與損失預算不容許一股及成本');return p}

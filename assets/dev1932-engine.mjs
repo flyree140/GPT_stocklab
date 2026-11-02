@@ -1,6 +1,9 @@
 /** Independent virtual account per analyzed symbol. Not one real funded portfolio. */
 import * as P from './paper-engine.mjs';
+import {rowState} from './updates1933.mjs';
+// Frozen identity domain: do NOT bump for an operational UX patch.
 export const VERSION='19.3.2';
+export const RUNTIME_VERSION='19.3.3';
 export const DEFAULT={capital:100000,budget:100000,maxLoss:1000,goal:1500,hold:10,feeRate:.001425,minFee:20,slip:.001,strategy:'candidate',autoExit:true,autoFollow:false};
 export function prepare(snapshot,ctx,settings={}){
  const s=P.settings({...DEFAULT,...settings});if(snapshot.stocks.length>100)throw Error('單批上限100檔；避免瀏覽器超載');
@@ -8,13 +11,14 @@ export function prepare(snapshot,ctx,settings={}){
  const by=new Set();return snapshot.stocks.map(stock=>{
   if(by.has(stock.symbol))throw Error('同一批股票重複');by.add(stock.symbol);
   const proposal=P.propose(stock,s,ctx);
+  if(ctx.priceEvidence?.[stock.symbol]){proposal.priceEvidence=P.copy(ctx.priceEvidence[stock.symbol]);proposal.warnings.push(proposal.priceEvidence.note);}
   return {symbol:stock.symbol,name:stock.name,originalCode:stock.decision?.code,originalLabel:stock.decision?.label,proposal,eligible:proposal.blocks.length===0&&proposal.quantity>0,
    baselineTracked:true,baselineNote:'所有股票均被動追蹤；未通過不硬買，也不刪掉觀察／避開樣本'};
  });
 }
 export async function confirmBatch(rows,ctx,settings,existing=[],wallNow=new Date()){
  wallNow=new Date(wallNow);if(!Number.isFinite(+wallNow))throw Error('無效確認時間');
- const identity=await P.sha({sourceHash:ctx.hash,settings:P.settings({...DEFAULT,...settings}),engine:VERSION});
+ const identity=await P.sha({sourceHash:ctx.hash,settings:P.settings({...DEFAULT,...settings}),engine:VERSION,...(ctx.priceEvidence&&Object.keys(ctx.priceEvidence).length?{priceEvidence:ctx.priceEvidence}:{})});
  if(existing.some(b=>b.identity===identity))throw Error('同快照與設定已確認過；請開既有批次，不重複計入');
  const frozen=[];
  for(const row of rows){const p=P.copy(row.proposal),hash=await P.sha(p);let account=null;
@@ -40,12 +44,13 @@ export async function advanceBatch(batch,market,cal,wallNow=new Date(),maxSessio
    let need;try{need=P.settlementNeeds(a,cal,wallNow)}catch(e){row.lastError=e.message;break}
    if(['not_closed','calendar_missing','deleted'].includes(need.state)){row.lastError=need.message;break}
    let bars={},failed=false;
-   for(const sy of need.symbols){const payload=market[sy];const diag=P.diagnoseMarket(payload,sy,need.date,`data/market/${sy.replaceAll('.','_')}.json`);if(!diag.ok){row.lastError=diag.message;failed=true;break}bars[sy]=diag.bar;}
+   for(const sy of need.symbols){const payload=market[sy];const diag=P.diagnoseMarket(payload,sy,need.date,`data/market/${sy.replaceAll('.','_')}.json`);if(!diag.ok){row.lastError=payload?._transportError||diag.message;failed=true;break}bars[sy]=diag.bar;}
    if(failed)break;
    try{const next=P.advance(a,need.date,bars,cal,wallNow);next.events.at(-1).payload.barHashes=await P.sha(bars);P.validateRun(next);row.account=next;changed++;}catch(e){row.lastError=e.message;break;}
   }
  }
- b.revision++;b.events.push({seq:b.revision,type:'batch_settlement',at:wallNow.toISOString(),sessions:changed});return b;
+ for(const row of b.rows)row.lastCheck={...rowState(row,b,cal,wallNow,market),at:wallNow.toISOString()};
+ b.revision++;b.events.push({seq:b.revision,type:'batch_settlement',at:wallNow.toISOString(),sessions:changed,engine:RUNTIME_VERSION});return b;
 }
 export function batchSummary(b){const active=b.rows.filter(r=>r.account),done=active.filter(r=>r.account.closed.length),balances=active.map(r=>P.balance(r.account));return {
  observed:b.rows.length,eligible:active.length,blocked:b.rows.length-active.length,pending:active.filter(r=>r.account.orders.some(o=>o.status==='pending')).length,
@@ -56,7 +61,7 @@ export function batchSummary(b){const active=b.rows.filter(r=>r.account),done=ac
 export async function validateBatch(b){
  if(b?.schema!=='dev1932-batch-1'||!Array.isArray(b.rows)||!b.id||!b.context||b.rows.length>100)throw Error('不是開發者批次格式');P.settings(b.settings);
  if(!Array.isArray(b.events)||b.events.length!==b.revision||b.events.some((e,i)=>e.seq!==i+1))throw Error('批次事件順序錯誤');
- const expected=await P.sha({sourceHash:b.context.hash,settings:b.settings,engine:VERSION});if(expected!==b.identity)throw Error('批次設定／來源已更動');
+ const expected=await P.sha({sourceHash:b.context.hash,settings:b.settings,engine:VERSION,...(b.context.priceEvidence&&Object.keys(b.context.priceEvidence).length?{priceEvidence:b.context.priceEvidence}:{})});if(expected!==b.identity)throw Error('批次設定／來源已更動');
  const seen=new Set;
  for(const r of b.rows){if(seen.has(r.symbol))throw Error('重複標的');seen.add(r.symbol);if(await P.sha(r.proposal)!==r.planHash)throw Error('計畫已被改寫');if(r.proposal.symbol!==r.symbol)throw Error('標的不符');if(r.account){P.validateRun(r.account);for(const o of r.account.orders)if(o.side==='buy'&&o.hash!==r.planHash)throw Error('試單雜湊不符');}}
  return true;
