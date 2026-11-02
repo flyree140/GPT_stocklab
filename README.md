@@ -1,8 +1,10 @@
-# StockLab PaperLab 19.3.2
+# StockLab PaperLab 19.3.3
 
-相容19.3的合併升級：真實教材、自己的LoRA接線、核心＋輪替股票池、所有分析的開發者驗證、外資流向支撐代理。原個人試驗、Google雲端設定、歷史資料均保留。不連券商、不送真實委託。
+相容19.3.2的合併升級：真實教材、自己的LoRA接線、核心＋輪替股票池、所有分析的開發者驗證、外資流向支撐代理。原個人試驗、Google雲端設定、歷史資料均保留。不連券商、不送真實委託。
 
-請先閱讀 START_HERE.md；流程圖與操作教學在 pipeline1932.html。新入口 developer1932.html。正式與測試邊界詳見 BUILD_REPORT.md。
+本次修正行情日期判斷、增設CPU補價排程、確認前重讀價格、逐檔日結診斷及Google登入引導；不動訓練包或既有已確認計畫。
+
+請先閱讀 START_HERE.md 與 developer-help.html；流程圖與操作教學在 pipeline1932.html。新入口 developer1932.html。正式與測試邊界詳見 BUILD_REPORT.md。
 
 ## 新功能與限制
 - 每檔獨立虛擬預算，一鍵保存全部決策；只對符合規則者建試單，原避開／觀望仍保留。

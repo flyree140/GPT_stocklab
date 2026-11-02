@@ -1,0 +1,32 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>StockLab 19.3.3｜更新、虛擬成交與Google活頁簿教學</title><link rel="stylesheet" href="assets/dev1932.css"></head><body>
+<header><strong>StockLab 19.3.3 操作引導</strong><nav><a href="developer1932.html">回開發者模式</a><a href="#google">Google活頁簿設定</a></nav></header><main>
+<section class="hero"><div class="eyebrow">這是封閉日K實驗，不是券商或即時撮合</div><h1>先分清楚：確認、資料更新、虛擬成交</h1><p class="lead">已確認批次 = 把當時的計畫凍結。需要有效日結束、行情來源公布、GitHub部署成功，瀏覽器才可以估計成交。不是按一次確認就立刻買進。</p><div class="progress"><span>① 看全部配置</span><span>② 確認合格試單</span><span>③ 更新已發布行情並日結</span><span>④ 看原因或持股</span><span>⑤ 保存私人Google活頁簿</span></div></section>
+<section class="card"><h2>我按了「結算」，結果仍然0筆，怎麼看？</h2><div class="table-scroll"><table><thead><tr><th>頁面狀態</th><th>意思</th><th>你要做什麼</th></tr></thead><tbody>
+<tr><td>未建立試單</td><td>該股票不符合本組規則，只保存分析。</td><td>看未通過原因。結算不會替你強迫買進，所有分析仍有被動追蹤。</td></tr>
+<tr><td>等有效日收盤</td><td>日K模型不能在盤中使用當日最終高低收。</td><td>看有效日；如果在當日9:00之後才確認最新提案，通常是下一交易日。不是等券商。</td></tr>
+<tr><td>缺指定日行情</td><td>有試單，但網站檔案缺需要的那一天。</td><td>點「補抓行情工作流程」→ Run workflow → Pages綠色成功 → 回網站重讀／日結。</td></tr>
+<tr><td>下載行情失敗</td><td>404、網路或格式錯誤。</td><td>畫面會列路徑及錯誤。先更新資料；不要重複按確認試買。</td></tr>
+<tr><td>本次未成交</td><td>開盤加滑價高於限價、開盤已失效或流動性條件未達。</td><td>這是可用的試驗結果，不是功能沒執行。固定計畫不改成看過答案後一定成交。</td></tr>
+<tr><td>已虛擬持有／已完成</td><td>已產生虛擬買進或已退出。</td><td>核對日期、價格、股數、費用及損益；需要時保存到Google。</td></tr>
+</tbody></table></div><p class="note">不清除localStorage、不重建舊批次、不用其他日期價格補成交。來源錯誤與投資觀點分開顯示。</p></section>
+<section class="card" id="schedule"><h2>這版設定的更新時間（全部台北時間）</h2><div class="table-scroll"><table><thead><tr><th>時間</th><th>工作</th><th>是否呼叫Qwen</th></tr></thead><tbody>
+<tr><td>08:17、21:17（每日）</td><td>新聞與研究快照；保留現有早晚排程</td><td>依設定，每批最多6次；每日共12次</td></tr>
+<tr><td>09:17、12:17（週一至五）</td><td>檢查行情來源，補前一個已收盤交易日；不拿當日日K當完成</td><td>否</td></tr>
+<tr><td>14:17、16:17（週一至五）</td><td>盤後完整日K、落後股票補價與全訊號結果更新</td><td>否</td></tr>
+<tr><td>21:47（週一至五）</td><td>晚間補價備援</td><td>否</td></tr>
+</tbody></table></div><p>GitHub排程是目標時間，不保證準時；行情來源也可能延遲。早午刷新不是即時行情feed。資料沒有就顯示缺失，不會以目前價補造早上成交。</p><p>按「更新已發布行情並結算」會帶時間戳重新下載本站JSON。它不能在公開GitHub Pages匿名啟動爬蟲；需要立即補抓時，透過下方工作流程，由你自己的GitHub登入按Run workflow。不在前端或試算表放GitHub Token。</p><a class="button" target="_blank" rel="noopener" href="https://github.com/flyree140/GPT_stocklab/actions/workflows/market-refresh.yml">開啟補抓行情工作流程</a></section>
+<section class="card"><h2>更新價格，不改寫原分析</h2><p>最新向前計畫會重讀完整市場日K，重算尚未確認的價帶與股數，另存價格雜湊。原新聞、原標籤與分數保留原時間；不是說補價工作已重做全部六面向。歷史重播不讀最新價格作為當時決策，已確認試單也不被新行情改寫。</p><h2>週末、盤中、關閉網頁的行為</h2><p>一般交易時段為台北09:00～13:30，假日及特殊休市依日曆。試驗以完整日K回算，不是零股逐筆撮合。本頁使用Asia/Taipei轉換，但仍依你的裝置時鐘，請在系統開啟自動日期／時間。</p><p>勾選自動核對後，只有本頁開啟且可見時，每5分鐘讀已發布資料、處理已確認試單。歷史批次要先手動同意揭曉；不會自動新增買進。關閉頁面後，GitHub可繼續更新公開行情，但沒有你的私人瀏覽器試單，因此不會替私人帳戶日結。</p></section>
+<section class="hero" id="google"><div class="eyebrow">PRIVATE GOOGLE DRIVE + SHEETS</div><h1>連接你自己的開發者活頁簿</h1><p>已經用主頁建立個人試驗活頁簿？這裡可以沿用同一個Client ID，但要在開發者頁再次登入，並建立／選擇獨立的開發者帳本。</p></section>
+<section class="card"><h2>已設定過Google：直接這樣做</h2><ol><li>到開發者頁第4個分頁「Google活頁簿」。看第①格是否顯示Client ID已設定；可沿用<code>cloud-config.json</code>或同瀏覽器的主頁設定。</li><li>按「登入Google」，選擇你要存檔的帳號並授權。登入只代表取得短效權杖，還沒存入資料。</li><li>按「尋找既有」。沒有「StockLab 開發者驗證」才按「建立新活頁簿」。不把個人實盤或PaperLab帳本拿來覆蓋。</li><li>按「保存全部並讀回核對」。必須看到已讀回核對的訊息，才算雲端保存成功。</li><li>按「打開我的Google活頁簿」。<code>批次版本</code>分頁保存分段JSON、版本與SHA-256。請勿手改主資料；平常從網站閱讀配置、成交與結果。</li></ol><p class="note">重新整理／換頁後可能需重登，Token只存在記憶體。不清除網站資料；登入Google也不會自動搬移另一台電腦的批次，要選回帳本並按「從雲端還原」。事件分岔會停下來，不靜默覆寫。</p></section>
+<section class="card"><h2>從未設定Google：一次性管理者設定</h2><ol>
+<li>到 <a href="https://console.cloud.google.com/" target="_blank" rel="noopener">Google Cloud Console</a>，建立或使用你的StockLab專案。</li>
+<li>「API和服務 → 程式庫」啟用 <b>Google Drive API</b> 和 <b>Google Sheets API</b>。這個功能不需要付費模型API或API key。</li>
+<li>Google Auth Platform／OAuth同意畫面：填應用名稱與聯絡email；個人測試選External／外部、Testing／測試，把自己的Google帳號加入測試使用者。</li>
+<li>資料存取只加入 <code>https://www.googleapis.com/auth/drive.file</code>，不要求全硬碟讀寫。</li>
+<li>Clients／用戶端 → 建立OAuth用戶端 → <b>網頁應用程式</b>。已授權JavaScript來源填 <code>https://flyree140.github.io</code>，不要加<code>/GPT_stocklab/</code>、<code>index.html</code>或<code>#</code>。本版是瀏覽器token popup，不需要你建OAuth後端。</li>
+<li>複製公開的Client ID（形如<code>123456-abc.apps.googleusercontent.com</code>），貼進開發者頁的Client ID欄位，按「保存ID並準備登入」。<b>不是Client Secret。</b></li>
+<li>希望各裝置都能讀到公開ID，可在Repository根目錄放<code>cloud-config.json</code>，僅包含下方欄位，再部署一次。</li>
+</ol><pre>{ "client_id": "你的公開ClientID.apps.googleusercontent.com" }</pre><p>不用把活頁簿公開分享。不把Google access token、GitHub token、私人批次或模型密鑰提交GitHub。</p></section>
+<section class="card"><h2>常見Google問題對照</h2><div class="table-scroll"><table><thead><tr><th>訊息</th><th>處理</th></tr></thead><tbody><tr><td>尚未設定Client ID</td><td>貼公開Web Client ID；主頁只在本機設定時，新頁會嘗試沿用，但不同瀏覽器需要再設定或發布cloud-config.json。</td></tr><tr><td>origin_mismatch</td><td>核對來源是 https://flyree140.github.io，只有主機沒有路徑。</td></tr><tr><td>access_denied／測試使用者問題</td><td>核對登入帳號是否已加入OAuth測試使用者，及授權是否同意。</td></tr><tr><td>403／API未啟用</td><td>確定同一Google Cloud專案已啟用Drive與Sheets API；查看錯誤，不以重新建立無限多帳本解決。</td></tr><tr><td>401／登入到期</td><td>重新登入；本機批次保留，然後再保存並讀回核對。</td></tr><tr><td>版本分岔</td><td>先下載本機備份。不要清空雲端主資料，也不要手改雜湊欄位。</td></tr></tbody></table></div></section>
+<section class="card"><h2>本次修正範圍與官方依據</h2><p>修正行情判斷以實際日K日期為準、補價排程、確認前重讀資料、逐檔日結摘要、台北時鐘與Google設定入口。沒有修改你的LoRA／Colab訓練程式，也沒有繞過風險限制。</p><p>已確認批次維持原身份與計畫雜湊；不重寫過去提案。完整測試結果見部署包的BUILD_REPORT_19.3.3.md。尚未登入你的GitHub或Google帳號，線上行情來源與Google授權需部署後驗證。</p><p><a href="https://docs.github.com/en/actions/how-tos/troubleshoot-workflows">GitHub排程限制</a> · <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages">GitHub Pages靜態網站</a> · <a href="https://www.twse.com.tw/zh/products/system/trading.html">證交所交易時間</a> · <a href="https://developers.google.com/workspace/drive/api/quickstart/js">Google OAuth Web設定</a> · <a href="https://developers.google.com/workspace/drive/api/guides/api-specific-auth">drive.file權限</a> · <a href="https://developers.google.com/identity/oauth2/web/guides/use-token-model">短效Token與再次授權</a></p></section>
+</main><footer>StockLab 19.3.3｜封閉試驗不等於券商交易；程序正確不代表投資獲利。</footer></body></html>

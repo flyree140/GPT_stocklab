@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';import fs from 'node:fs';import * as P from '../assets/paper-engine.mjs';import * as D from '../assets/dev1932-engine.mjs';import {previewPrices} from '../assets/reprice1933.mjs';
+const get=n=>JSON.parse(fs.readFileSync(new URL('../assets/'+n,import.meta.url)));
+const snap=get('paper-demo-snapshot.json'),market=get('paper-demo-market.json'),cal=get('paper-calendar.json');
+const ctx={hash:'source-hash',path:'data/latest.json',generatedAt:snap.generated_at,at:'2026-09-11T15:00:00+08:00',asOf:'2026-09-11',mode:'forward',cal};
+let n=0;async function t(name,f){await f();n++;console.log('PASS',name)}
+await t('only forward derives new complete price without altering original',async()=>{const before=P.canonical(snap),x=await previewPrices(snap,ctx,{'DEMO.TW':{...market,demo:false}});assert.equal(P.canonical(snap),before);assert.equal(x.snapshot.stocks[0].candles.at(-1).date,'2026-09-11');assert.equal(x.evidence['DEMO.TW'].original_analysis_at,snap.generated_at);assert.equal(P.canonical(x.snapshot.stocks[0].decision),P.canonical(snap.stocks[0].decision))});
+await t('historical mode cannot borrow future prices',async()=>{const x=await previewPrices(snap,{...ctx,mode:'historical'},{'DEMO.TW':market});assert.deepEqual(x.snapshot,snap);assert.deepEqual(x.evidence,{})});
+await t('midday does not use incomplete daily candle',async()=>{const x=await previewPrices(snap,{...ctx,at:'2026-09-11T12:00:00+08:00'},{'DEMO.TW':market});assert.equal(x.snapshot.stocks[0].candles.at(-1).date,'2026-09-10')});
+await t('wrong symbol cannot replace quote',async()=>{const x=await previewPrices(snap,ctx,{'DEMO.TW':{...market,symbol:'OTHER.TW'}});assert.deepEqual(x.evidence,{})});
+await t('synthetic market never replaces production input',async()=>{const x=await previewPrices(snap,ctx,{'DEMO.TW':{...market,demo:true}});assert.deepEqual(x.evidence,{})});
+await t('new frozen identity binds reprice hash; old version still accepts existing batch',async()=>{const x=await previewPrices(snap,ctx,{'DEMO.TW':{...market,demo:false}});const c={...ctx,priceEvidence:x.evidence};const st={...D.DEFAULT,capital:4000,budget:4000,maxLoss:200,goal:150};const rows=D.prepare(x.snapshot,c,st);const b=await D.confirmBatch(rows,c,st,[],ctx.at);assert.ok(await D.validateBatch(b));b.context.priceEvidence['DEMO.TW'].quote_date='2026-09-12';await assert.rejects(()=>D.validateBatch(b),/設定/)});
+console.log(JSON.stringify({total:n,passed:n}));

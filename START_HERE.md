@@ -1,47 +1,37 @@
-# StockLab 19.3.2｜GitHub專用合併包
+# StockLab 19.3.3｜更新、批次日結與Google教學修補
 
-只把本包解壓內容合併到Repository根目錄，包含 `.github`。不要清空舊專案，原正式 `data/`、`config/stocks.json`、`config/settings.json`、`cloud-config.json`、瀏覽器個人試驗均保留。
+## 只合併，不清空
 
-## 第一次操作
+這是可直接合併到19.3.2的GitHub專用完整部署包。解壓內容全部合併到Repository根目錄，包含`.github/`。不要刪除舊data、config或瀏覽器localStorage。
 
-1. 備份目前Repository。合併本包並提交main（不是上傳ZIP檔本身）。
-2. 執行 `Actions → Developer validation 19.3.2 → Run workflow`。`import_archive`預設開啟，舊快照登記為**回溯參考**，不是當年就保存的前瞻結果。`refresh_prices`預設最多40檔CPU補行情，不呼叫Qwen。
-3. 確認 `Deploy StockLab 16 Pages` 成功；這個名稱為相容舊流程保留。
-4. 網站導覽選 **開發者・全股票驗證** (`developer1932.html`)。每檔獨立虛擬本金，不占用個人4,000元帳。
-5. 檢查全部配置與理由 → 一鍵確認全部合格試單 → 有完整日K後批次結算。未通過仍保留，被動追蹤全部股票1/5/10/20日。
-6. 「全部分析驗證」要先按揭曉。沒有結果JSON時，先做第2步，不把資料故障當看空。
+不攜帶正式data/latest.json、data/manifest.json、data/market、正式snapshots、config/stocks.json、config/settings.json或cloud-config.json。原正式資料與自訂設定保留。data/demo僅是明確合成測試。
 
-## 日常流程
+**Colab Notebook／LoRA權重不修改，不需要重訓。**
 
-原 `Daily StockLab 16 research` 保留08:17/21:17台北啟動設定（不保證準時完成）。預設20檔深度研究，以12核心＋8輪巡，最愛優先。每天原版與自有Qwen**共用12次新嘗試**、每批最多6次。抓新聞與CPU分析不占模型嘗試。
+## 提交後首次使用
 
-新增官方法人日表抓取、曾分析股票行情補充、全部訊號登記及成本後結果計算。未知日期、缺價格、公司行動不猜值。
+1. 到Actions，執行 **Refresh market data (no Qwen)** → Run workflow。
+2. 確認它成功，再確認 **Deploy StockLab 16 Pages** 綠色完成（名稱沿用）。
+3. 回網站強制重新整理Ctrl+Shift+R，不清除網站資料。
+4. 進「開發者驗證台」。看台北時間、研究日期、行情補價工作狀態。
+5. 開「已確認批次」，按 **更新已發布行情並結算**。
+6. 查看本次買進、賣出、確定未成交與仍待處理數量，以及每列有效日與缺少資料。
+7. 開「Google活頁簿」，沿用公開Client ID，登入→尋找／建立→保存並讀回核對。詳developer-help.html。
 
-`DEEP_STOCK_LIMIT` 可設1–30、`ROTATING_STOCKS` 預設8、`PRICE_REFRESH_LIMIT` 預設40（最高80），均是GitHub Actions Variables。更大不等於免費資源保證完成；保留平台限制與資料源節流。
+## 新排程（台北時間）
 
-## 你現在的合成adapter
+- 08:17、21:17：既有每日新聞研究。Qwen預設每批6次，一天12次共用。
+- 週一至五09:17、12:17：CPU行情檢查，只補前一完整交易日。
+- 週一至五14:17、16:17、21:47：CPU盤後補價／重試與被動結果更新。
 
-保留作流程成功證據，**不要部署為正式研究，不改manifest繞過限制**。打開 `pipeline1932.html` 看全流程。
+GitHub不保證排程準時，來源未公布就保留缺失。新流程不安裝或呼叫模型。所有寫資料的工作共用同一concurrency group，避免同時git push衝突。
 
-正式順序：D CPU真實來源/私人待核對清單 → annotation核對來源/時間/數字/訓練權利 → A MODE=reviewed → B GPU → E檢查與私人HF發布。
+## 不是即時撮合
 
-GitHub Variables：
-- `STOCKLAB_192_ENABLED=1`（只有正式adapter準備好後）
-- `STOCKLAB_ADAPTER_REPO=你的帳號/私人模型庫`
-- `STOCKLAB_ADAPTER_REVISION=40位commit SHA`（不是main）
+本版本仍採訊號後下一有效日開盤的日K代理成交。你在今天開盤後才確認的最新提案，不會倒填今天9點買進；有效日通常為下一交易日。確認也不會立即成交。只有有效日結束、完整日K已發布，才回算。
 
-Secret：`HF_TOKEN` 只讀該庫。Daily取消skip_qwen；新結果先寫入影子研究，不改舊快照與既有試單。
+頁面按鈕會重新下載發布資料（cache bust、no-store），不會把私人批次送給GitHub。公開Pages不能匿名啟動爬蟲；需即時要求補抓，透過你登入的Actions頁按Run workflow。不把GitHub token放前端。
 
-## 個人／開發者／公開研究資料分離
+## 個人資料
 
-- 原個人試驗保持既有storage key。
-- 開發者批次在自己的新storage key，可下載備份。
-- 開發者Google活頁簿獨立命名，不寫進個人帳本；沿用cloud-config Client ID。
-- GitHub保存的是公開研究快照及被動研究結果，不會讀到你的瀏覽器私人持股。
-- 新增雲端同步經測試替身驗證，尚未取得你的Google真實授權。
-
-## 外資提醒不是外資真實成本
-
-官方買賣超沒有完整成交成本及存量。這版只算「典型價×正淨買股數」的支撐代理，最低5期、近20期窗口完整、來源日期一致才顯示。資料缺漏、不新鮮、無淨買或跨公司行動時不畫線。每次取得保存首次可用時間，不把今天才下載的資料倒填成昨天就知道。
-
-完整圖解與限制：`pipeline1932.html`。檢查紀錄：`BUILD_REPORT.md`。
+19.3.2既有批次版本、主鍵、原計畫雜湊保持相容。未通過只保留觀察；零試單不會被自動改成買進。Google開發者活頁簿與個人試驗帳本分開。登入與建表不是已同步，讀回核對後才顯示成功。

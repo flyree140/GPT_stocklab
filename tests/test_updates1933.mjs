@@ -1,0 +1,27 @@
+import assert from 'node:assert/strict';import fs from 'node:fs';
+import * as P from '../assets/paper-engine.mjs';import * as D from '../assets/dev1932-engine.mjs';import * as U from '../assets/updates1933.mjs';
+const read=n=>JSON.parse(fs.readFileSync(new URL('../assets/'+n,import.meta.url)));
+const snap=read('paper-demo-snapshot.json'),cal=read('paper-calendar.json'),market=read('paper-demo-market.json');
+const ctx={at:snap.generated_at,generatedAt:snap.generated_at,asOf:snap.as_of,path:'fixture',hash:'fixture',mode:'demo',cal};
+const st={...D.DEFAULT,capital:4000,budget:4000,maxLoss:200,goal:150};
+const make=async()=>D.confirmBatch(D.prepare(snap,ctx,st),ctx,st);
+let count=0;async function t(name,fn){await fn();count++;console.log('PASS',name)}
+await t('Taipei UTC conversion independent of environment TZ',()=>{const c=U.taipeiClock('2026-11-02T04:17:00Z');assert.equal(c.date,'2026-11-02');assert.equal(c.hhmm,1217);assert.match(c.text,/12:17:00/)});
+await t('Taipei midnight moves date correctly',()=>assert.equal(U.taipeiClock('2026-11-01T16:05:00Z').date,'2026-11-02'));
+await t('bad wall time rejected',()=>assert.throws(()=>U.taipeiClock('bad')));
+await t('immutable identity version not changed by UX patch',()=>assert.equal(D.VERSION,'19.3.2'));
+await t('confirmation no instant fill',async()=>{const b=await make();assert.equal(b.rows[0].account.position,null);assert.equal(D.batchSummary(b).pending,1)});
+await t('before close clearly wait with date',async()=>{const b=await make(),s=U.rowState(b.rows[0],b,cal,'2026-09-11T11:00:00+08:00');assert.equal(s.state,'await_close');assert.equal(s.date,'2026-09-11')});
+await t('empty-account observational rows explain no order',async()=>{const b=await make(),r={...b.rows[0],account:null,proposal:{blocks:['資料不足']}};assert.equal(U.rowState(r,b,cal).state,'not_ordered')});
+await t('missing price preserves cash and order',async()=>{const b=await make(),x=await D.advanceBatch(b,{'DEMO.TW':{candles:[]}},cal,'2026-09-11T18:00:00+08:00');assert.equal(x.rows[0].account.cash,4000);assert.equal(x.rows[0].account.orders[0].status,'pending');assert.equal(x.rows[0].lastCheck.state,'missing_price');assert.equal(x.rows[0].lastCheck.date,'2026-09-11');assert.ok(await D.validateBatch(x))});
+await t('HTTP failure not swallowed as no records',async()=>{const b=await make(),x=await D.advanceBatch(b,{'DEMO.TW':{candles:[],_transportError:'data/market/DEMO_TW.json HTTP 404'}},cal,'2026-09-11T18:00:00+08:00');assert.match(x.rows[0].lastError,/404/);assert.equal(x.rows[0].lastCheck.state,'download_error')});
+await t('valid bar creates virtual buy and counts it',async()=>{const b=await make(),x=await D.advanceBatch(b,{'DEMO.TW':market},cal,'2026-09-11T18:00:00+08:00',1);assert.ok(x.rows[0].account.position);const diff=U.changeSummary(b,x);assert.equal(diff.bought,1);assert.equal(diff.sessions,1);assert.equal(b.rows[0].account.cash,4000)});
+await t('limit miss is outcome, not absent transaction',async()=>{const b=await make(),m=P.copy(market);Object.assign(m.candles.find(b=>b.date==='2026-09-11'),{open:103,high:104,low:102,close:103});const x=await D.advanceBatch(b,{'DEMO.TW':m},cal,'2026-09-11T18:00:00+08:00',1);assert.equal(U.changeSummary(b,x).unfilled,1);assert.equal(x.rows[0].lastCheck.state,'unfilled');assert.match(x.rows[0].lastCheck.message,/限價/)});
+await t('same closed day recheck cannot duplicate a buy',async()=>{const b=await make(),x=await D.advanceBatch(b,{'DEMO.TW':market},cal,'2026-09-11T18:00:00+08:00',1);const y=await D.advanceBatch(x,{'DEMO.TW':market},cal,'2026-09-11T18:00:00+08:00');assert.equal(U.changeSummary(x,y).bought,0);assert.equal(y.rows[0].account.events.filter(e=>e.type==='simulated_buy').length,1)});
+await t('latest actual bars, not as_of, explain freshness',()=>assert.equal(U.latestBarDate({as_of:'2026-11-02',candles:[{date:'2026-10-30'}]}),'2026-10-30'));
+await t('after open fresh proposals move to next session',()=>{const old={...ctx,mode:'forward',at:'2026-11-02T08:00:00+08:00'},next={...old,at:'2026-11-02T10:00:00+08:00'};assert.ok(U.approvalChanged(old,next,cal));assert.equal(P.decisionSession(next.at,cal),'2026-11-03')});
+await t('source changes must reconfirm',()=>assert.ok(U.approvalChanged(ctx,{...ctx,hash:'new'},cal)));
+await t('same source same valid day need not reconfirm again',()=>assert.equal(U.approvalChanged(ctx,{...ctx,at:'2026-09-10T22:00:00+08:00'},cal),false));
+await t('summary names buy sell unfilled and missing counts',()=>assert.match(U.summaryMessage({batches:1,bought:0,sold:0,unfilled:1,sessions:1,errors:2}),/確定未成交1筆/));
+await t('schedule list includes no-Qwen noon/after-close',()=>assert.ok(U.UPDATE_WINDOWS.some(r=>r.time==='12:17'&&r.kind==='price')&&U.UPDATE_WINDOWS.some(r=>r.time==='14:17'&&r.kind==='price')));
+console.log(JSON.stringify({total:count,passed:count,network:'none'}));
