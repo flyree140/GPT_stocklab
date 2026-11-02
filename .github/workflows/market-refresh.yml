@@ -1,0 +1,54 @@
+name: Refresh market data (no Qwen)
+on:
+  workflow_dispatch:
+  schedule:
+    # UTC -> Asia/Taipei 09:17, 12:17, 14:17, 16:17 on weekdays.
+    # Morning/noon runs repair PREVIOUS complete sessions, NOT intraday trading.
+    - cron: '17 1,4,6,8 * * 1-5'
+    # 21:47 Taipei: backup complete-bar refresh after evening research.
+    - cron: '47 13 * * 1-5'
+permissions:
+  contents: write
+concurrency:
+  group: stocklab16-data
+  cancel-in-progress: false
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PRICE_REFRESH_LIMIT: ${{ vars.PRICE_REFRESH_LIMIT || '40' }}
+      PRICE_REFRESH_SECONDS: '900'
+      ENABLE_QWEN: '0'
+      STOCKLAB_192_ENABLED: '0'
+      TZ: Asia/Taipei
+    steps:
+      - uses: actions/checkout@v6
+        with: {ref: main, fetch-depth: 0}
+      - uses: actions/setup-python@v6
+        with: {python-version: '3.11', cache: pip}
+      - name: Show trigger and Taipei clock
+        run: |
+          echo "Trigger ${{ github.event_name }}"
+          echo "UTC $(date -u)"
+          echo "Taipei $(TZ=Asia/Taipei date)"
+      - run: pip install -r requirements.txt
+      - name: Refresh exchange calendar (retain if unavailable)
+        run: python -m stocklab193.calendar_update
+      - name: Refresh actual latest complete bars (no models)
+        run: python -m stocklab1932.refresh_prices --root .
+      - name: Update public all-signal outcomes
+        run: python -m stocklab1932.developer --root .
+      - name: Validate public files before publication
+        run: |
+          python -m stocklab16.quality
+          pytest -q tests/test_refresh1933.py
+          node tests/test_updates1933.mjs
+      - name: Commit public market data (never browser private batches)
+        run: |
+          git config user.name stocklab-bot
+          git config user.email stocklab-bot@users.noreply.github.com
+          git add data
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "data: complete-bar refresh $(TZ=Asia/Taipei date +'%F %R')"
+          git push origin HEAD:main
