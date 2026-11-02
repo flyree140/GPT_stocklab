@@ -101,7 +101,7 @@ def run(as_of,force=False):
             cleaned,quarantined=clean_bars(list(merged.values()))
             if quarantined:write_json(ROOT/'data/quarantine'/f"{s['symbol'].replace('.','_')}.json",quarantined)
             merged={r['date']:r for r in cleaned}
-            write_json(p,{'symbol':s['symbol'],'as_of':as_of,'candles':[merged[d] for d in sorted(merged)]})
+            write_json(p,{'symbol':s['symbol'],'as_of':as_of,'latest_complete_date':max(merged,default=None),'refreshed_at':now().isoformat(),'candles':[merged[d] for d in sorted(merged)]})
     print('Snapshot saved',row['path']);return payload
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--as-of',default=now().date().isoformat());args=p.parse_args();run(args.as_of)
