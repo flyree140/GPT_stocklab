@@ -1,5 +1,5 @@
 {
-  "cutoff": "2026-11-04T00:19:54.771081+08:00",
+  "cutoff": "2026-11-04T04:08:45.589029+08:00",
   "budget_per_symbol": 100000,
   "rows": [
     {
@@ -108285,20 +108285,159 @@
       }
     },
     {
-      "symbol": "2308.TW",
-      "name": "台達電",
-      "original_label": "偏弱：先等止跌",
-      "original_code": "avoid",
-      "score": 32.7,
+      "symbol": "2101.TW",
+      "name": "南港",
+      "original_label": "價格／趨勢資料不足",
+      "original_code": "insufficient",
+      "score": 33.0,
       "top_pick": false,
       "factors": [
         {
           "key": "news",
           "name": "新聞事件",
-          "score": 50.3,
+          "score": 50.6,
           "weight": 0.3,
-          "contribution": 0.09,
-          "note": "10組相關事件時效折減後平均 +0.65，新聞因子＝50＋平均÷2；不是把每篇分數加在股票總分上"
+          "contribution": 0.18,
+          "note": "19組相關事件時效折減後平均 +1.27，新聞因子＝50＋平均÷2；不是把每篇分數加在股票總分上"
+        },
+        {
+          "key": "technical",
+          "name": "技術面",
+          "score": 18.0,
+          "weight": 0.2,
+          "contribution": -6.4,
+          "note": "MA20 29.52、MA60 31.08、RSI 34.9；價量截至 2026-11-02"
+        },
+        {
+          "key": "fundamental",
+          "name": "基本面",
+          "score": 85,
+          "weight": 0.2,
+          "contribution": 7.0,
+          "note": "來源回報成長 +211.2%（Yahoo revenueGrowth；比較期間未核對，非月營收）；未完成現金流／資產負債分析"
+        },
+        {
+          "key": "flow",
+          "name": "法人籌碼",
+          "score": null,
+          "weight": 0.12,
+          "contribution": 0,
+          "note": "本次未取得帶日期的三大法人買賣超；不寫成買超支持"
+        },
+        {
+          "key": "valuation",
+          "name": "估值",
+          "score": null,
+          "weight": 0.1,
+          "contribution": 0,
+          "note": "同產業至少5個正PE樣本才計分；不把少數跨產業股票混排"
+        },
+        {
+          "key": "market",
+          "name": "大盤",
+          "score": 26.0,
+          "weight": 0.08,
+          "contribution": -1.92,
+          "note": "0050與月線／季線的相對位置；不是景氣預測"
+        }
+      ],
+      "model_at_signal": {
+        "snapshot_version": "19.3.2",
+        "base_qwen_used": 6,
+        "adapter_shadow": {
+          "enabled_requested": false,
+          "adapter_repo": "",
+          "adapter_revision": "",
+          "mode": "shadow_only",
+          "selection_offset": 8,
+          "daily_max_attempts": 12,
+          "per_run_max_attempts": 6,
+          "attempts_this_run": 0,
+          "cache_hits": 0,
+          "note": "此面板不改寫既有分數、試買或成交帳",
+          "result": "disabled_or_demo_or_historical; CPU factors only"
+        },
+        "valid_adapter_analyses": 0,
+        "adapter_changes_original_score": false
+      },
+      "news_ids": [
+        "310d8280b1ac95ed05f4",
+        "3c38b24b11c3096f92a9",
+        "2e6081202ab56fac47df",
+        "044ee6771e0cba5be859",
+        "3b82c5941872f1872185",
+        "f68a817787ea74a32ab0",
+        "760d69ff43aaf8ca516a",
+        "a569bacb493fa1ab4d09",
+        "5822fced1444372630c9",
+        "c63d5a21bc71cfe3e1c9",
+        "02c8a929022227c6e837",
+        "0e1426fc570547d4e9d5",
+        "a59135672fd991556369",
+        "eb99635e0caf1b80603b",
+        "07386cbc8cadc446f39c",
+        "39bcc7aafe0433289820",
+        "70abfb01bed3c5a7e3c4",
+        "fd1fce5bd5cc6e9a20a7",
+        "948408c201637bd7e47b",
+        "64a38ed37ae929afa3af"
+      ],
+      "news_categories": [
+        "partnership",
+        "unclear"
+      ],
+      "news_count": 20,
+      "quote_date": "2026-11-02",
+      "etf": false,
+      "reasons": [
+        "營運成長指標 +211.2%（Yahoo revenueGrowth；比較期間未核對，非月營收），不是淨利成長保證",
+        "最有影響事件：南港：技術合作或新業務。先列追蹤，不直接上修盈餘"
+      ],
+      "risks": [
+        "收盤 28.60 低於月線 29.52 元（-3.13%）",
+        "收盤 28.60 低於季線 31.08 元（-7.98%）",
+        "價格截至 2026-11-02，相對 2026-11-04 已過期或沒有價格",
+        "缺少資料：法人籌碼、估值"
+      ],
+      "entry_date": "2026-11-04",
+      "source_sha256": "32a6bbee3146e0999ee2b21feb4572e93228ada808d1969332aa8b287617cba0",
+      "generated_at": "2026-11-04T04:08:24.774028+08:00",
+      "registered_at": "2026-11-04T04:08:45.589029+08:00",
+      "sample_mode": "prospective_registered",
+      "outcomes": {
+        "1": {
+          "status": "pending",
+          "needed_until": "2026-11-04"
+        },
+        "5": {
+          "status": "pending",
+          "needed_until": "2026-11-10"
+        },
+        "10": {
+          "status": "pending",
+          "needed_until": "2026-11-17"
+        },
+        "20": {
+          "status": "pending",
+          "needed_until": "2026-12-01"
+        }
+      }
+    },
+    {
+      "symbol": "2102.TW",
+      "name": "泰豐",
+      "original_label": "價格／趨勢資料不足",
+      "original_code": "insufficient",
+      "score": 22.9,
+      "top_pick": false,
+      "factors": [
+        {
+          "key": "news",
+          "name": "新聞事件",
+          "score": 52.1,
+          "weight": 0.3,
+          "contribution": 0.63,
+          "note": "3組相關事件時效折減後平均 +4.27，新聞因子＝50＋平均÷2；不是把每篇分數加在股票總分上"
         },
         {
           "key": "technical",
@@ -108306,7 +108445,881 @@
           "score": 13.0,
           "weight": 0.2,
           "contribution": -7.4,
-          "note": "MA20 1,677.50、MA60 1,747.83、RSI 24.9；價量截至 2026-11-03"
+          "note": "MA20 16.11、MA60 17.46、RSI 26.1；價量截至 2026-11-02"
+        },
+        {
+          "key": "fundamental",
+          "name": "基本面",
+          "score": 37.1,
+          "weight": 0.2,
+          "contribution": -2.58,
+          "note": "來源回報成長 -21.5%（Yahoo revenueGrowth；比較期間未核對，非月營收）；未完成現金流／資產負債分析"
+        },
+        {
+          "key": "flow",
+          "name": "法人籌碼",
+          "score": null,
+          "weight": 0.12,
+          "contribution": 0,
+          "note": "本次未取得帶日期的三大法人買賣超；不寫成買超支持"
+        },
+        {
+          "key": "valuation",
+          "name": "估值",
+          "score": null,
+          "weight": 0.1,
+          "contribution": 0,
+          "note": "同產業至少5個正PE樣本才計分；不把少數跨產業股票混排"
+        },
+        {
+          "key": "market",
+          "name": "大盤",
+          "score": 26.0,
+          "weight": 0.08,
+          "contribution": -1.92,
+          "note": "0050與月線／季線的相對位置；不是景氣預測"
+        }
+      ],
+      "model_at_signal": {
+        "snapshot_version": "19.3.2",
+        "base_qwen_used": 6,
+        "adapter_shadow": {
+          "enabled_requested": false,
+          "adapter_repo": "",
+          "adapter_revision": "",
+          "mode": "shadow_only",
+          "selection_offset": 8,
+          "daily_max_attempts": 12,
+          "per_run_max_attempts": 6,
+          "attempts_this_run": 0,
+          "cache_hits": 0,
+          "note": "此面板不改寫既有分數、試買或成交帳",
+          "result": "disabled_or_demo_or_historical; CPU factors only"
+        },
+        "valid_adapter_analyses": 0,
+        "adapter_changes_original_score": false
+      },
+      "news_ids": [
+        "ca03edc3de664dc2fca6",
+        "0689f5956c36b7d2dbc4",
+        "d96cd7a9e1e2dbf91067",
+        "38b0eeaac3f5eec3dcc6",
+        "c2ed4e3ba4be9cdf267a",
+        "702d03bcbdec8e373d8c",
+        "44005776d764f552944d",
+        "f3ce945344abb9b8e2f3"
+      ],
+      "news_categories": [
+        "governance",
+        "partnership",
+        "unclear"
+      ],
+      "news_count": 8,
+      "quote_date": "2026-11-02",
+      "etf": false,
+      "reasons": [
+        "最有影響事件：泰豐：技術合作或新業務。先列追蹤，不直接上修盈餘"
+      ],
+      "risks": [
+        "收盤 15.35 低於月線 16.11 元（-4.69%）",
+        "收盤 15.35 低於季線 17.46 元（-12.09%）",
+        "RSI 26.1 超賣：仍需止跌，不能用超賣當反彈保證",
+        "營運成長指標 -21.5%（Yahoo revenueGrowth；比較期間未核對，非月營收），不是淨利成長保證",
+        "價格截至 2026-11-02，相對 2026-11-04 已過期或沒有價格",
+        "缺少資料：法人籌碼、估值"
+      ],
+      "entry_date": "2026-11-04",
+      "source_sha256": "32a6bbee3146e0999ee2b21feb4572e93228ada808d1969332aa8b287617cba0",
+      "generated_at": "2026-11-04T04:08:24.774028+08:00",
+      "registered_at": "2026-11-04T04:08:45.589029+08:00",
+      "sample_mode": "prospective_registered",
+      "outcomes": {
+        "1": {
+          "status": "pending",
+          "needed_until": "2026-11-04"
+        },
+        "5": {
+          "status": "pending",
+          "needed_until": "2026-11-10"
+        },
+        "10": {
+          "status": "pending",
+          "needed_until": "2026-11-17"
+        },
+        "20": {
+          "status": "pending",
+          "needed_until": "2026-12-01"
+        }
+      }
+    },
+    {
+      "symbol": "2103.TW",
+      "name": "台橡",
+      "original_label": "價格／趨勢資料不足",
+      "original_code": "insufficient",
+      "score": 25.9,
+      "top_pick": false,
+      "factors": [
+        {
+          "key": "news",
+          "name": "新聞事件",
+          "score": null,
+          "weight": 0.3,
+          "contribution": 0,
+          "note": "缺少可確認公司關聯的新聞因子，不用50冒充已分析"
+        },
+        {
+          "key": "technical",
+          "name": "技術面",
+          "score": 18.0,
+          "weight": 0.2,
+          "contribution": -6.4,
+          "note": "MA20 28.33、MA60 27.49、RSI 39.0；價量截至 2026-11-02"
+        },
+        {
+          "key": "fundamental",
+          "name": "基本面",
+          "score": 68.12,
+          "weight": 0.2,
+          "contribution": 3.62,
+          "note": "來源回報成長 +30.2%（Yahoo revenueGrowth；比較期間未核對，非月營收）；未完成現金流／資產負債分析"
+        },
+        {
+          "key": "flow",
+          "name": "法人籌碼",
+          "score": null,
+          "weight": 0.12,
+          "contribution": 0,
+          "note": "本次未取得帶日期的三大法人買賣超；不寫成買超支持"
+        },
+        {
+          "key": "valuation",
+          "name": "估值",
+          "score": null,
+          "weight": 0.1,
+          "contribution": 0,
+          "note": "同產業至少5個正PE樣本才計分；不把少數跨產業股票混排"
+        },
+        {
+          "key": "market",
+          "name": "大盤",
+          "score": 26.0,
+          "weight": 0.08,
+          "contribution": -1.92,
+          "note": "0050與月線／季線的相對位置；不是景氣預測"
+        }
+      ],
+      "model_at_signal": {
+        "snapshot_version": "19.3.2",
+        "base_qwen_used": 6,
+        "adapter_shadow": {
+          "enabled_requested": false,
+          "adapter_repo": "",
+          "adapter_revision": "",
+          "mode": "shadow_only",
+          "selection_offset": 8,
+          "daily_max_attempts": 12,
+          "per_run_max_attempts": 6,
+          "attempts_this_run": 0,
+          "cache_hits": 0,
+          "note": "此面板不改寫既有分數、試買或成交帳",
+          "result": "disabled_or_demo_or_historical; CPU factors only"
+        },
+        "valid_adapter_analyses": 0,
+        "adapter_changes_original_score": false
+      },
+      "news_ids": [
+        "ef8661d9cf4fd03f9139",
+        "b83c7fdf254d9cc7c47b",
+        "94abf820a96f93df5252",
+        "59f941d81f57950feecd",
+        "be07fb85ccc068973655"
+      ],
+      "news_categories": [
+        "institutional_flow",
+        "orders",
+        "profile",
+        "unclear"
+      ],
+      "news_count": 5,
+      "quote_date": "2026-11-02",
+      "etf": false,
+      "reasons": [
+        "營運成長指標 +30.2%（Yahoo revenueGrowth；比較期間未核對，非月營收），不是淨利成長保證"
+      ],
+      "risks": [
+        "收盤 26.55 低於月線 28.33 元（-6.27%）",
+        "收盤 26.55 低於季線 27.49 元（-3.43%）",
+        "價格截至 2026-11-02，相對 2026-11-04 已過期或沒有價格",
+        "缺少資料：新聞事件、法人籌碼、估值"
+      ],
+      "entry_date": "2026-11-04",
+      "source_sha256": "32a6bbee3146e0999ee2b21feb4572e93228ada808d1969332aa8b287617cba0",
+      "generated_at": "2026-11-04T04:08:24.774028+08:00",
+      "registered_at": "2026-11-04T04:08:45.589029+08:00",
+      "sample_mode": "prospective_registered",
+      "outcomes": {
+        "1": {
+          "status": "pending",
+          "needed_until": "2026-11-04"
+        },
+        "5": {
+          "status": "pending",
+          "needed_until": "2026-11-10"
+        },
+        "10": {
+          "status": "pending",
+          "needed_until": "2026-11-17"
+        },
+        "20": {
+          "status": "pending",
+          "needed_until": "2026-12-01"
+        }
+      }
+    },
+    {
+      "symbol": "2104.TW",
+      "name": "國際中橡",
+      "original_label": "價格／趨勢資料不足",
+      "original_code": "insufficient",
+      "score": 24.6,
+      "top_pick": false,
+      "factors": [
+        {
+          "key": "news",
+          "name": "新聞事件",
+          "score": null,
+          "weight": 0.3,
+          "contribution": 0,
+          "note": "缺少可確認公司關聯的新聞因子，不用50冒充已分析"
+        },
+        {
+          "key": "technical",
+          "name": "技術面",
+          "score": 42.0,
+          "weight": 0.2,
+          "contribution": -1.6,
+          "note": "MA20 11.39、MA60 10.75、RSI 41.4；價量截至 2026-11-02"
+        },
+        {
+          "key": "fundamental",
+          "name": "基本面",
+          "score": 37.879999999999995,
+          "weight": 0.2,
+          "contribution": -2.42,
+          "note": "來源回報成長 -20.2%（Yahoo revenueGrowth；比較期間未核對，非月營收）；未完成現金流／資產負債分析"
+        },
+        {
+          "key": "flow",
+          "name": "法人籌碼",
+          "score": null,
+          "weight": 0.12,
+          "contribution": 0,
+          "note": "本次未取得帶日期的三大法人買賣超；不寫成買超支持"
+        },
+        {
+          "key": "valuation",
+          "name": "估值",
+          "score": null,
+          "weight": 0.1,
+          "contribution": 0,
+          "note": "同產業至少5個正PE樣本才計分；不把少數跨產業股票混排"
+        },
+        {
+          "key": "market",
+          "name": "大盤",
+          "score": 26.0,
+          "weight": 0.08,
+          "contribution": -1.92,
+          "note": "0050與月線／季線的相對位置；不是景氣預測"
+        }
+      ],
+      "model_at_signal": {
+        "snapshot_version": "19.3.2",
+        "base_qwen_used": 6,
+        "adapter_shadow": {
+          "enabled_requested": false,
+          "adapter_repo": "",
+          "adapter_revision": "",
+          "mode": "shadow_only",
+          "selection_offset": 8,
+          "daily_max_attempts": 12,
+          "per_run_max_attempts": 6,
+          "attempts_this_run": 0,
+          "cache_hits": 0,
+          "note": "此面板不改寫既有分數、試買或成交帳",
+          "result": "disabled_or_demo_or_historical; CPU factors only"
+        },
+        "valid_adapter_analyses": 0,
+        "adapter_changes_original_score": false
+      },
+      "news_ids": [
+        "bfac59144d048160c8a7",
+        "5f6bdb91e9d3d578ef72"
+      ],
+      "news_categories": [
+        "unclear"
+      ],
+      "news_count": 2,
+      "quote_date": "2026-11-02",
+      "etf": false,
+      "reasons": [
+        "收盤 10.75 高於季線 10.75 元（+0.02%）"
+      ],
+      "risks": [
+        "收盤 10.75 低於月線 11.39 元（-5.60%）",
+        "營運成長指標 -20.2%（Yahoo revenueGrowth；比較期間未核對，非月營收），不是淨利成長保證",
+        "價格截至 2026-11-02，相對 2026-11-04 已過期或沒有價格",
+        "缺少資料：新聞事件、法人籌碼、估值"
+      ],
+      "entry_date": "2026-11-04",
+      "source_sha256": "32a6bbee3146e0999ee2b21feb4572e93228ada808d1969332aa8b287617cba0",
+      "generated_at": "2026-11-04T04:08:24.774028+08:00",
+      "registered_at": "2026-11-04T04:08:45.589029+08:00",
+      "sample_mode": "prospective_registered",
+      "outcomes": {
+        "1": {
+          "status": "pending",
+          "needed_until": "2026-11-04"
+        },
+        "5": {
+          "status": "pending",
+          "needed_until": "2026-11-10"
+        },
+        "10": {
+          "status": "pending",
+          "needed_until": "2026-11-17"
+        },
+        "20": {
+          "status": "pending",
+          "needed_until": "2026-12-01"
+        }
+      }
+    },
+    {
+      "symbol": "2105.TW",
+      "name": "正新",
+      "original_label": "價格／趨勢資料不足",
+      "original_code": "insufficient",
+      "score": 36.6,
+      "top_pick": false,
+      "factors": [
+        {
+          "key": "news",
+          "name": "新聞事件",
+          "score": 50.0,
+          "weight": 0.3,
+          "contribution": 0.0,
+          "note": "3組相關事件時效折減後平均 +0.00，新聞因子＝50＋平均÷2；不是把每篇分數加在股票總分上"
+        },
+        {
+          "key": "technical",
+          "name": "技術面",
+          "score": 66.0,
+          "weight": 0.2,
+          "contribution": 3.2,
+          "note": "MA20 31.20、MA60 30.91、RSI 53.7；價量截至 2026-11-02"
+        },
+        {
+          "key": "fundamental",
+          "name": "基本面",
+          "score": 55.76,
+          "weight": 0.2,
+          "contribution": 1.15,
+          "note": "來源回報成長 +9.6%（Yahoo revenueGrowth；比較期間未核對，非月營收）；未完成現金流／資產負債分析"
+        },
+        {
+          "key": "flow",
+          "name": "法人籌碼",
+          "score": null,
+          "weight": 0.12,
+          "contribution": 0,
+          "note": "本次未取得帶日期的三大法人買賣超；不寫成買超支持"
+        },
+        {
+          "key": "valuation",
+          "name": "估值",
+          "score": null,
+          "weight": 0.1,
+          "contribution": 0,
+          "note": "同產業至少5個正PE樣本才計分；不把少數跨產業股票混排"
+        },
+        {
+          "key": "market",
+          "name": "大盤",
+          "score": 26.0,
+          "weight": 0.08,
+          "contribution": -1.92,
+          "note": "0050與月線／季線的相對位置；不是景氣預測"
+        }
+      ],
+      "model_at_signal": {
+        "snapshot_version": "19.3.2",
+        "base_qwen_used": 6,
+        "adapter_shadow": {
+          "enabled_requested": false,
+          "adapter_repo": "",
+          "adapter_revision": "",
+          "mode": "shadow_only",
+          "selection_offset": 8,
+          "daily_max_attempts": 12,
+          "per_run_max_attempts": 6,
+          "attempts_this_run": 0,
+          "cache_hits": 0,
+          "note": "此面板不改寫既有分數、試買或成交帳",
+          "result": "disabled_or_demo_or_historical; CPU factors only"
+        },
+        "valid_adapter_analyses": 0,
+        "adapter_changes_original_score": false
+      },
+      "news_ids": [
+        "ae59a0662eb70b462226",
+        "270f5a53fad9b90dbd09",
+        "1570ff5fea2dcb22c74b",
+        "f18650300d6dd72390a6",
+        "de51a75003aeed6b2282",
+        "9bc04a2500d2cd26a242",
+        "a833028dd1a091b59adc",
+        "3e9fe1c6b07f74d4efc3",
+        "2b9365e532f972e474e1",
+        "d592190ed2fa9e2f5bfd"
+      ],
+      "news_categories": [
+        "institutional_flow",
+        "price_commentary",
+        "profile",
+        "unclear"
+      ],
+      "news_count": 10,
+      "quote_date": "2026-11-02",
+      "etf": false,
+      "reasons": [
+        "收盤 31.40 高於月線 31.20 元（+0.65%）",
+        "收盤 31.40 高於季線 30.91 元（+1.58%）",
+        "營運成長指標 +9.6%（Yahoo revenueGrowth；比較期間未核對，非月營收），不是淨利成長保證",
+        "主要追蹤：正新：正新出現報導。不產生方向訊號"
+      ],
+      "risks": [
+        "價格截至 2026-11-02，相對 2026-11-04 已過期或沒有價格",
+        "報酬／風險 1.24 不達1.5研究假設；高新聞分也不能補掉價格風險",
+        "缺少資料：法人籌碼、估值"
+      ],
+      "entry_date": "2026-11-04",
+      "source_sha256": "32a6bbee3146e0999ee2b21feb4572e93228ada808d1969332aa8b287617cba0",
+      "generated_at": "2026-11-04T04:08:24.774028+08:00",
+      "registered_at": "2026-11-04T04:08:45.589029+08:00",
+      "sample_mode": "prospective_registered",
+      "outcomes": {
+        "1": {
+          "status": "pending",
+          "needed_until": "2026-11-04"
+        },
+        "5": {
+          "status": "pending",
+          "needed_until": "2026-11-10"
+        },
+        "10": {
+          "status": "pending",
+          "needed_until": "2026-11-17"
+        },
+        "20": {
+          "status": "pending",
+          "needed_until": "2026-12-01"
+        }
+      }
+    },
+    {
+      "symbol": "2106.TW",
+      "name": "建大",
+      "original_label": "價格／趨勢資料不足",
+      "original_code": "insufficient",
+      "score": 26.6,
+      "top_pick": false,
+      "factors": [
+        {
+          "key": "news",
+          "name": "新聞事件",
+          "score": 50.0,
+          "weight": 0.3,
+          "contribution": 0.0,
+          "note": "1組相關事件時效折減後平均 +0.00，新聞因子＝50＋平均÷2；不是把每篇分數加在股票總分上"
+        },
+        {
+          "key": "technical",
+          "name": "技術面",
+          "score": 18.0,
+          "weight": 0.2,
+          "contribution": -6.4,
+          "note": "MA20 16.83、MA60 17.10、RSI 43.9；價量截至 2026-11-02"
+        },
+        {
+          "key": "fundamental",
+          "name": "基本面",
+          "score": 53.96,
+          "weight": 0.2,
+          "contribution": 0.79,
+          "note": "來源回報成長 +6.6%（Yahoo revenueGrowth；比較期間未核對，非月營收）；未完成現金流／資產負債分析"
+        },
+        {
+          "key": "flow",
+          "name": "法人籌碼",
+          "score": null,
+          "weight": 0.12,
+          "contribution": 0,
+          "note": "本次未取得帶日期的三大法人買賣超；不寫成買超支持"
+        },
+        {
+          "key": "valuation",
+          "name": "估值",
+          "score": null,
+          "weight": 0.1,
+          "contribution": 0,
+          "note": "同產業至少5個正PE樣本才計分；不把少數跨產業股票混排"
+        },
+        {
+          "key": "market",
+          "name": "大盤",
+          "score": 26.0,
+          "weight": 0.08,
+          "contribution": -1.92,
+          "note": "0050與月線／季線的相對位置；不是景氣預測"
+        }
+      ],
+      "model_at_signal": {
+        "snapshot_version": "19.3.2",
+        "base_qwen_used": 6,
+        "adapter_shadow": {
+          "enabled_requested": false,
+          "adapter_repo": "",
+          "adapter_revision": "",
+          "mode": "shadow_only",
+          "selection_offset": 8,
+          "daily_max_attempts": 12,
+          "per_run_max_attempts": 6,
+          "attempts_this_run": 0,
+          "cache_hits": 0,
+          "note": "此面板不改寫既有分數、試買或成交帳",
+          "result": "disabled_or_demo_or_historical; CPU factors only"
+        },
+        "valid_adapter_analyses": 0,
+        "adapter_changes_original_score": false
+      },
+      "news_ids": [
+        "2735689139b724ab59a4",
+        "f2d116920010c7ff3e8f",
+        "575bda36840b7c701315",
+        "038cce6295e4d2625ab3"
+      ],
+      "news_categories": [
+        "profile",
+        "unclear"
+      ],
+      "news_count": 4,
+      "quote_date": "2026-11-02",
+      "etf": false,
+      "reasons": [
+        "營運成長指標 +6.6%（Yahoo revenueGrowth；比較期間未核對，非月營收），不是淨利成長保證",
+        "主要追蹤：建大：建大出現報導。不產生方向訊號"
+      ],
+      "risks": [
+        "收盤 16.65 低於月線 16.83 元（-1.10%）",
+        "收盤 16.65 低於季線 17.10 元（-2.66%）",
+        "價格截至 2026-11-02，相對 2026-11-04 已過期或沒有價格",
+        "缺少資料：法人籌碼、估值"
+      ],
+      "entry_date": "2026-11-04",
+      "source_sha256": "32a6bbee3146e0999ee2b21feb4572e93228ada808d1969332aa8b287617cba0",
+      "generated_at": "2026-11-04T04:08:24.774028+08:00",
+      "registered_at": "2026-11-04T04:08:45.589029+08:00",
+      "sample_mode": "prospective_registered",
+      "outcomes": {
+        "1": {
+          "status": "pending",
+          "needed_until": "2026-11-04"
+        },
+        "5": {
+          "status": "pending",
+          "needed_until": "2026-11-10"
+        },
+        "10": {
+          "status": "pending",
+          "needed_until": "2026-11-17"
+        },
+        "20": {
+          "status": "pending",
+          "needed_until": "2026-12-01"
+        }
+      }
+    },
+    {
+      "symbol": "2107.TW",
+      "name": "厚生",
+      "original_label": "價格／趨勢資料不足",
+      "original_code": "insufficient",
+      "score": 35.7,
+      "top_pick": false,
+      "factors": [
+        {
+          "key": "news",
+          "name": "新聞事件",
+          "score": 51.4,
+          "weight": 0.3,
+          "contribution": 0.42,
+          "note": "2組相關事件時效折減後平均 +2.85，新聞因子＝50＋平均÷2；不是把每篇分數加在股票總分上"
+        },
+        {
+          "key": "technical",
+          "name": "技術面",
+          "score": 42.0,
+          "weight": 0.2,
+          "contribution": -1.6,
+          "note": "MA20 28.26、MA60 27.06、RSI 53.1；價量截至 2026-11-02"
+        },
+        {
+          "key": "fundamental",
+          "name": "基本面",
+          "score": 72.97999999999999,
+          "weight": 0.2,
+          "contribution": 4.6,
+          "note": "來源回報成長 +38.3%（Yahoo revenueGrowth；比較期間未核對，非月營收）；未完成現金流／資產負債分析"
+        },
+        {
+          "key": "flow",
+          "name": "法人籌碼",
+          "score": null,
+          "weight": 0.12,
+          "contribution": 0,
+          "note": "本次未取得帶日期的三大法人買賣超；不寫成買超支持"
+        },
+        {
+          "key": "valuation",
+          "name": "估值",
+          "score": null,
+          "weight": 0.1,
+          "contribution": 0,
+          "note": "同產業至少5個正PE樣本才計分；不把少數跨產業股票混排"
+        },
+        {
+          "key": "market",
+          "name": "大盤",
+          "score": 26.0,
+          "weight": 0.08,
+          "contribution": -1.92,
+          "note": "0050與月線／季線的相對位置；不是景氣預測"
+        }
+      ],
+      "model_at_signal": {
+        "snapshot_version": "19.3.2",
+        "base_qwen_used": 6,
+        "adapter_shadow": {
+          "enabled_requested": false,
+          "adapter_repo": "",
+          "adapter_revision": "",
+          "mode": "shadow_only",
+          "selection_offset": 8,
+          "daily_max_attempts": 12,
+          "per_run_max_attempts": 6,
+          "attempts_this_run": 0,
+          "cache_hits": 0,
+          "note": "此面板不改寫既有分數、試買或成交帳",
+          "result": "disabled_or_demo_or_historical; CPU factors only"
+        },
+        "valid_adapter_analyses": 0,
+        "adapter_changes_original_score": false
+      },
+      "news_ids": [
+        "73b985d4b4ccdd7bc4de",
+        "38b4c3738c7861835f86",
+        "e729606128f861107385",
+        "7b14da3c320ab64b8aa8",
+        "55c7413cf0fc4e23cb7d"
+      ],
+      "news_categories": [
+        "partnership",
+        "unclear"
+      ],
+      "news_count": 5,
+      "quote_date": "2026-11-02",
+      "etf": false,
+      "reasons": [
+        "收盤 28.20 高於季線 27.06 元（+4.23%）",
+        "營運成長指標 +38.3%（Yahoo revenueGrowth；比較期間未核對，非月營收），不是淨利成長保證",
+        "最有影響事件：厚生：技術合作或新業務。先列追蹤，不直接上修盈餘"
+      ],
+      "risks": [
+        "收盤 28.20 低於月線 28.26 元（-0.21%）",
+        "價格截至 2026-11-02，相對 2026-11-04 已過期或沒有價格",
+        "報酬／風險 0.88 不達1.5研究假設；高新聞分也不能補掉價格風險",
+        "缺少資料：法人籌碼、估值"
+      ],
+      "entry_date": "2026-11-04",
+      "source_sha256": "32a6bbee3146e0999ee2b21feb4572e93228ada808d1969332aa8b287617cba0",
+      "generated_at": "2026-11-04T04:08:24.774028+08:00",
+      "registered_at": "2026-11-04T04:08:45.589029+08:00",
+      "sample_mode": "prospective_registered",
+      "outcomes": {
+        "1": {
+          "status": "pending",
+          "needed_until": "2026-11-04"
+        },
+        "5": {
+          "status": "pending",
+          "needed_until": "2026-11-10"
+        },
+        "10": {
+          "status": "pending",
+          "needed_until": "2026-11-17"
+        },
+        "20": {
+          "status": "pending",
+          "needed_until": "2026-12-01"
+        }
+      }
+    },
+    {
+      "symbol": "2108.TW",
+      "name": "南帝",
+      "original_label": "價格／趨勢資料不足",
+      "original_code": "insufficient",
+      "score": 26.0,
+      "top_pick": false,
+      "factors": [
+        {
+          "key": "news",
+          "name": "新聞事件",
+          "score": null,
+          "weight": 0.3,
+          "contribution": 0,
+          "note": "缺少可確認公司關聯的新聞因子，不用50冒充已分析"
+        },
+        {
+          "key": "technical",
+          "name": "技術面",
+          "score": 18.0,
+          "weight": 0.2,
+          "contribution": -6.4,
+          "note": "MA20 29.04、MA60 29.21、RSI 42.2；價量截至 2026-11-02"
+        },
+        {
+          "key": "fundamental",
+          "name": "基本面",
+          "score": 68.84,
+          "weight": 0.2,
+          "contribution": 3.77,
+          "note": "來源回報成長 +31.4%（Yahoo revenueGrowth；比較期間未核對，非月營收）；未完成現金流／資產負債分析"
+        },
+        {
+          "key": "flow",
+          "name": "法人籌碼",
+          "score": null,
+          "weight": 0.12,
+          "contribution": 0,
+          "note": "本次未取得帶日期的三大法人買賣超；不寫成買超支持"
+        },
+        {
+          "key": "valuation",
+          "name": "估值",
+          "score": null,
+          "weight": 0.1,
+          "contribution": 0,
+          "note": "同產業至少5個正PE樣本才計分；不把少數跨產業股票混排"
+        },
+        {
+          "key": "market",
+          "name": "大盤",
+          "score": 26.0,
+          "weight": 0.08,
+          "contribution": -1.92,
+          "note": "0050與月線／季線的相對位置；不是景氣預測"
+        }
+      ],
+      "model_at_signal": {
+        "snapshot_version": "19.3.2",
+        "base_qwen_used": 6,
+        "adapter_shadow": {
+          "enabled_requested": false,
+          "adapter_repo": "",
+          "adapter_revision": "",
+          "mode": "shadow_only",
+          "selection_offset": 8,
+          "daily_max_attempts": 12,
+          "per_run_max_attempts": 6,
+          "attempts_this_run": 0,
+          "cache_hits": 0,
+          "note": "此面板不改寫既有分數、試買或成交帳",
+          "result": "disabled_or_demo_or_historical; CPU factors only"
+        },
+        "valid_adapter_analyses": 0,
+        "adapter_changes_original_score": false
+      },
+      "news_ids": [
+        "3a4f192b3b6fd5ff255e",
+        "b5f18d924b3fcef9a9bf",
+        "72abfbfa0fbc04610563",
+        "f96f6022fcfee15b6257"
+      ],
+      "news_categories": [
+        "unclear"
+      ],
+      "news_count": 4,
+      "quote_date": "2026-11-02",
+      "etf": false,
+      "reasons": [
+        "營運成長指標 +31.4%（Yahoo revenueGrowth；比較期間未核對，非月營收），不是淨利成長保證"
+      ],
+      "risks": [
+        "收盤 28.30 低於月線 29.04 元（-2.55%）",
+        "收盤 28.30 低於季線 29.21 元（-3.10%）",
+        "價格截至 2026-11-02，相對 2026-11-04 已過期或沒有價格",
+        "缺少資料：新聞事件、法人籌碼、估值"
+      ],
+      "entry_date": "2026-11-04",
+      "source_sha256": "32a6bbee3146e0999ee2b21feb4572e93228ada808d1969332aa8b287617cba0",
+      "generated_at": "2026-11-04T04:08:24.774028+08:00",
+      "registered_at": "2026-11-04T04:08:45.589029+08:00",
+      "sample_mode": "prospective_registered",
+      "outcomes": {
+        "1": {
+          "status": "pending",
+          "needed_until": "2026-11-04"
+        },
+        "5": {
+          "status": "pending",
+          "needed_until": "2026-11-10"
+        },
+        "10": {
+          "status": "pending",
+          "needed_until": "2026-11-17"
+        },
+        "20": {
+          "status": "pending",
+          "needed_until": "2026-12-01"
+        }
+      }
+    },
+    {
+      "symbol": "2308.TW",
+      "name": "台達電",
+      "original_label": "價格／趨勢資料不足",
+      "original_code": "insufficient",
+      "score": 20.6,
+      "top_pick": false,
+      "factors": [
+        {
+          "key": "news",
+          "name": "新聞事件",
+          "score": 50.0,
+          "weight": 0.3,
+          "contribution": 0.0,
+          "note": "8組相關事件時效折減後平均 +0.00，新聞因子＝50＋平均÷2；不是把每篇分數加在股票總分上"
+        },
+        {
+          "key": "technical",
+          "name": "技術面",
+          "score": 13.0,
+          "weight": 0.2,
+          "contribution": -7.4,
+          "note": "MA20 1,709.25、MA60 1,753.67、RSI 27.9；價量截至 2026-11-02"
         },
         {
           "key": "fundamental",
@@ -108349,7 +109362,7 @@
           "adapter_repo": "",
           "adapter_revision": "",
           "mode": "shadow_only",
-          "selection_offset": 2,
+          "selection_offset": 8,
           "daily_max_attempts": 12,
           "per_run_max_attempts": 6,
           "attempts_this_run": 0,
@@ -108361,50 +109374,52 @@
         "adapter_changes_original_score": false
       },
       "news_ids": [
-        "d8d9906245b722a1ecfb",
-        "41e4a700420db7daf81f",
-        "e73203874ef07025107b",
         "cacaf8fb9313aff749e1",
         "f6ece879816a2bc560b2",
-        "c5bbc9c58449c021293e",
-        "ddc87ef59fa58c888808",
-        "a4ea29815ac66857f679",
-        "713b1e272f46e7a3fc45",
         "580f3edb33097fcdc722",
-        "6b7bd75d8ef1f00abf3f",
-        "af4ea6e22f65273a1e34",
-        "2afc665da8cb39304388",
-        "e0216461f775594f4e00",
         "554e067eb4182e7bde9c",
-        "b57e01d7f5e722c147c6",
-        "a9607295d8eba2b3c8ec",
-        "d5b55d5ca13ffd72f46f",
-        "379125275502f524aef0",
-        "d18708cbf0998daf7bc4"
+        "75da9a51ca32745e5f5d",
+        "5b82b457127674424654",
+        "d18708cbf0998daf7bc4",
+        "606428e73eb84c2832f9",
+        "823030a7d55daf15d961",
+        "24d69c6d3cf56d6ee81d",
+        "12f78d205d550731c568",
+        "8991f3119e2cdaec7fa5",
+        "5dc228bea393e5277e9e",
+        "15dd29e38bf405f4f74f",
+        "b210280edccb5dac84e2",
+        "6a5b042b5d9c5a240eac",
+        "78be1fdd5ad0981ebd6f",
+        "f9caff52add924d1d005",
+        "b0d63a8cce5b1b356b51",
+        "09335b207732a4050001"
       ],
       "news_categories": [
+        "institutional_flow",
         "partnership",
         "price_commentary",
         "unclear"
       ],
       "news_count": 20,
-      "quote_date": "2026-11-03",
+      "quote_date": "2026-11-02",
       "etf": false,
       "reasons": [
         "營運成長指標 +31.1%（Yahoo revenueGrowth；比較期間未核對，非月營收），不是淨利成長保證",
-        "最有影響事件：台達電：技術合作或新業務。先列追蹤，不直接上修盈餘"
+        "主要追蹤：台達電：台達電出現報導。不產生方向訊號"
       ],
       "risks": [
-        "收盤 1,270.00 低於月線 1,677.50 元（-24.29%）",
-        "收盤 1,270.00 低於季線 1,747.83 元（-27.34%）",
-        "RSI 24.9 超賣：仍需止跌，不能用超賣當反彈保證",
-        "ATR／股價＝7.1%，模擬停損可能很寬",
+        "收盤 1,355.00 低於月線 1,709.25 元（-20.73%）",
+        "收盤 1,355.00 低於季線 1,753.67 元（-22.73%）",
+        "RSI 27.9 超賣：仍需止跌，不能用超賣當反彈保證",
+        "價格截至 2026-11-02，相對 2026-11-04 已過期或沒有價格",
+        "ATR／股價＝6.7%，模擬停損可能很寬",
         "缺少資料：法人籌碼、估值"
       ],
       "entry_date": "2026-11-04",
-      "source_sha256": "ae1fab06df0bd31302275e4180eb55eda0f3a3b93b4aaa194b6c97af0fb8661e",
-      "generated_at": "2026-11-03T15:00:30.581856+08:00",
-      "registered_at": "2026-11-03T15:01:03.955560+08:00",
+      "source_sha256": "32a6bbee3146e0999ee2b21feb4572e93228ada808d1969332aa8b287617cba0",
+      "generated_at": "2026-11-04T04:08:24.774028+08:00",
+      "registered_at": "2026-11-04T04:08:45.589029+08:00",
       "sample_mode": "prospective_registered",
       "outcomes": {
         "1": {
@@ -108428,26 +109443,26 @@
     {
       "symbol": "2317.TW",
       "name": "鴻海",
-      "original_label": "偏弱：先等止跌",
-      "original_code": "avoid",
-      "score": 38.1,
+      "original_label": "價格／趨勢資料不足",
+      "original_code": "insufficient",
+      "score": 35.5,
       "top_pick": false,
       "factors": [
         {
           "key": "news",
           "name": "新聞事件",
-          "score": 50.5,
+          "score": 49.8,
           "weight": 0.3,
-          "contribution": 0.15,
-          "note": "11組相關事件時效折減後平均 +1.04，新聞因子＝50＋平均÷2；不是把每篇分數加在股票總分上"
+          "contribution": -0.06,
+          "note": "15組相關事件時效折減後平均 -0.46，新聞因子＝50＋平均÷2；不是把每篇分數加在股票總分上"
         },
         {
           "key": "technical",
           "name": "技術面",
-          "score": 34.0,
+          "score": 82.0,
           "weight": 0.2,
-          "contribution": -3.2,
-          "note": "MA20 246.90、MA60 250.79、RSI 47.7；價量截至 2026-11-03"
+          "contribution": 6.4,
+          "note": "MA20 247.32、MA60 250.87、RSI 53.3；價量截至 2026-11-02"
         },
         {
           "key": "fundamental",
@@ -108490,7 +109505,7 @@
           "adapter_repo": "",
           "adapter_revision": "",
           "mode": "shadow_only",
-          "selection_offset": 2,
+          "selection_offset": 8,
           "daily_max_attempts": 12,
           "per_run_max_attempts": 6,
           "attempts_this_run": 0,
@@ -108502,52 +109517,53 @@
         "adapter_changes_original_score": false
       },
       "news_ids": [
+        "e5c928cac177be608790",
+        "6674d77c513759b7f98a",
         "8cb2d923b719d77348fa",
-        "2362c8c886cc4e7f72a5",
-        "5c527fd56a4d873c074c",
+        "b3dc2283bdc8ba043e46",
+        "cf75ed9189e9d4fb6b99",
         "b3ba1abbb69ea361658e",
         "5ea226f03c0c45ed7418",
         "8131929870d2e3b4e657",
-        "49b871a441a8a1e9ef3f",
-        "3dfa56e5512f771e96df",
-        "45aee5024bc00d386716",
-        "fdc75af47386d79b99ec",
-        "6667f911eca9cd8d45f6",
         "99ce5664b34d719cba42",
         "8dcb407cd91f726f0700",
         "086401236cc9374cc748",
         "e9c6dd6a3fe03e94ee2e",
         "9a405f17dce65868786b",
-        "fdfe9e7dbdb87edecb9b",
-        "f451919b2862082ff441",
-        "07e40c1b15445fab1d43",
-        "91e383250995d10d76cb"
+        "cce7e67e1806479cfa5a",
+        "8146dc932b2f25d140ff",
+        "adea0119fa9d6bd4319b",
+        "20a1d90f874931f74c2a",
+        "904780e1a10335191e39",
+        "8d685bd96a81bbc5fe8d",
+        "e2b23f25698cc1b12524"
       ],
       "news_categories": [
         "disruption",
-        "earnings",
         "institutional_flow",
         "partnership",
         "price_commentary",
         "unclear"
       ],
       "news_count": 20,
-      "quote_date": "2026-11-03",
+      "quote_date": "2026-11-02",
       "etf": false,
       "reasons": [
+        "收盤 251.00 高於月線 247.32 元（+1.49%）",
+        "收盤 251.00 高於季線 250.87 元（+0.05%）",
         "營運成長指標 +40.8%（Yahoo revenueGrowth；比較期間未核對，非月營收），不是淨利成長保證",
         "主要追蹤：鴻海：營運或法遵衝擊。需確認損害範圍與恢復進度"
       ],
       "risks": [
-        "收盤 245.50 低於月線 246.90 元（-0.57%）",
-        "收盤 245.50 低於季線 250.79 元（-2.11%）",
+        "價格截至 2026-11-02，相對 2026-11-04 已過期或沒有價格",
         "負向營運中斷／法遵事件尚未釐清",
+        "報酬／風險 1.19 不達1.5研究假設；高新聞分也不能補掉價格風險",
         "缺少資料：法人籌碼、估值"
       ],
       "entry_date": "2026-11-04",
-      "source_sha256": "ae1fab06df0bd31302275e4180eb55eda0f3a3b93b4aaa194b6c97af0fb8661e",
-      "generated_at": "2026-11-03T15:00:30.581856+08:00",
-      "registered_at": "2026-11-03T15:01:03.955560+08:00",
+      "source_sha256": "32a6bbee3146e0999ee2b21feb4572e93228ada808d1969332aa8b287617cba0",
+      "generated_at": "2026-11-04T04:08:24.774028+08:00",
+      "registered_at": "2026-11-04T04:08:45.589029+08:00",
       "sample_mode": "prospective_registered",
       "outcomes": {
         "1": {
@@ -108571,9 +109587,9 @@
     {
       "symbol": "2330.TW",
       "name": "台積電",
-      "original_label": "偏弱：先等止跌",
-      "original_code": "avoid",
-      "score": 44.1,
+      "original_label": "價格／趨勢資料不足",
+      "original_code": "insufficient",
+      "score": 32.1,
       "top_pick": false,
       "factors": [
         {
@@ -108582,7 +109598,7 @@
           "score": 50.4,
           "weight": 0.3,
           "contribution": 0.12,
-          "note": "16組相關事件時效折減後平均 +0.80，新聞因子＝50＋平均÷2；不是把每篇分數加在股票總分上"
+          "note": "16組相關事件時效折減後平均 +0.78，新聞因子＝50＋平均÷2；不是把每篇分數加在股票總分上"
         },
         {
           "key": "technical",
@@ -108590,7 +109606,7 @@
           "score": 18.0,
           "weight": 0.2,
           "contribution": -6.4,
-          "note": "MA20 2,452.00、MA60 2,430.50、RSI 30.2；價量截至 2026-11-03"
+          "note": "MA20 2,462.75、MA60 2,430.92、RSI 33.5；價量截至 2026-11-02"
         },
         {
           "key": "fundamental",
@@ -108633,7 +109649,7 @@
           "adapter_repo": "",
           "adapter_revision": "",
           "mode": "shadow_only",
-          "selection_offset": 2,
+          "selection_offset": 8,
           "daily_max_attempts": 12,
           "per_run_max_attempts": 6,
           "attempts_this_run": 0,
@@ -108645,48 +109661,52 @@
         "adapter_changes_original_score": false
       },
       "news_ids": [
-        "1e78ae920e9106e2e62b",
-        "289d7116746956f6d3d2",
-        "c7378a4bfc2d221a122d",
-        "16f9ba63576e75d0773e",
-        "ba1a8ac09f981eacd771",
         "540666d0910acc4e0fcb",
-        "e3c053d2b16b16d048f4",
         "6954ecd577fc42bf5e5e",
         "ec33b7562f3d0b44a789",
-        "beeab23124e1642b04ff",
+        "68f326773ac95f3fe47d",
         "eaf6f7944ffd8343a6f5",
-        "2f2b414223a97e2d3e49",
-        "4217ff410ea737474e52",
-        "97838232c4656aa98e1e",
-        "67372984da0f2577ae84",
         "cd617a990deed4e23685",
-        "16a6d6111c4b0044251e",
-        "b192e2dec9ef142ddbb0",
-        "e96392b7fa5eb0f5582c",
-        "1252fda35d33b459d473"
+        "252dd413f5bccc1ca0e7",
+        "55f2e4d7b1b7e9c31005",
+        "946f42038e4833598f6b",
+        "7243543b577c8ed6a927",
+        "89dec4659aeadd893aad",
+        "4a7f11e504d03c17c54b",
+        "75a9763c0ae4fdcdbdcf",
+        "036900d7d1083f56e979",
+        "76f756c03acbcc60c202",
+        "8e87c27d23a55d3c16f3",
+        "06f97967fdd2bdf6ae6e",
+        "7fcc8cf1ed012caa2a1a",
+        "1196ff0008ff3df0f880",
+        "8dfd471d86fec80b72f7"
       ],
       "news_categories": [
+        "analyst_forecast",
+        "earnings",
+        "institutional_flow",
         "partnership",
         "price_commentary",
         "unclear"
       ],
       "news_count": 20,
-      "quote_date": "2026-11-03",
+      "quote_date": "2026-11-02",
       "etf": false,
       "reasons": [
         "營運成長指標 +50.9%（Yahoo revenueGrowth；比較期間未核對，非月營收），不是淨利成長保證",
         "最有影響事件：台積電：技術合作或新業務。先列追蹤，不直接上修盈餘"
       ],
       "risks": [
-        "收盤 2,295.00 低於月線 2,452.00 元（-6.40%）",
-        "收盤 2,295.00 低於季線 2,430.50 元（-5.57%）",
+        "收盤 2,330.00 低於月線 2,462.75 元（-5.39%）",
+        "收盤 2,330.00 低於季線 2,430.92 元（-4.15%）",
+        "價格截至 2026-11-02，相對 2026-11-04 已過期或沒有價格",
         "缺少資料：法人籌碼、估值"
       ],
       "entry_date": "2026-11-04",
-      "source_sha256": "ae1fab06df0bd31302275e4180eb55eda0f3a3b93b4aaa194b6c97af0fb8661e",
-      "generated_at": "2026-11-03T15:00:30.581856+08:00",
-      "registered_at": "2026-11-03T15:01:03.955560+08:00",
+      "source_sha256": "32a6bbee3146e0999ee2b21feb4572e93228ada808d1969332aa8b287617cba0",
+      "generated_at": "2026-11-04T04:08:24.774028+08:00",
+      "registered_at": "2026-11-04T04:08:45.589029+08:00",
       "sample_mode": "prospective_registered",
       "outcomes": {
         "1": {
@@ -108710,18 +109730,18 @@
     {
       "symbol": "2382.TW",
       "name": "廣達",
-      "original_label": "偏弱：先等止跌",
-      "original_code": "avoid",
-      "score": 45.4,
+      "original_label": "價格／趨勢資料不足",
+      "original_code": "insufficient",
+      "score": 33.2,
       "top_pick": false,
       "factors": [
         {
           "key": "news",
           "name": "新聞事件",
-          "score": 51.9,
+          "score": 51.3,
           "weight": 0.3,
-          "contribution": 0.57,
-          "note": "16組相關事件時效折減後平均 +3.77，新聞因子＝50＋平均÷2；不是把每篇分數加在股票總分上"
+          "contribution": 0.39,
+          "note": "18組相關事件時效折減後平均 +2.63，新聞因子＝50＋平均÷2；不是把每篇分數加在股票總分上"
         },
         {
           "key": "technical",
@@ -108729,7 +109749,7 @@
           "score": 18.0,
           "weight": 0.2,
           "contribution": -6.4,
-          "note": "MA20 323.60、MA60 328.77、RSI 38.2；價量截至 2026-11-03"
+          "note": "MA20 324.73、MA60 328.58、RSI 42.6；價量截至 2026-11-02"
         },
         {
           "key": "fundamental",
@@ -108772,7 +109792,7 @@
           "adapter_repo": "",
           "adapter_revision": "",
           "mode": "shadow_only",
-          "selection_offset": 2,
+          "selection_offset": 8,
           "daily_max_attempts": 12,
           "per_run_max_attempts": 6,
           "attempts_this_run": 0,
@@ -108784,25 +109804,25 @@
         "adapter_changes_original_score": false
       },
       "news_ids": [
-        "3f0ee4fd636fba748e1d",
-        "47be71f4b17738b09964",
-        "f5d72572abc51242fa25",
-        "14f822081e88a18ab431",
         "50bb99f49afd2475c920",
-        "c4441c56e810f21b9493",
         "0b22294702811511eaae",
         "f20631d8c0d7900c701b",
         "2a932eaa99c631481302",
         "f228e9ef0f4199b7007f",
-        "049a7e26af50e26dec57",
+        "2876d95309e26b001853",
         "92677c201f9d4ce05247",
         "8f456805fe0c025cebc7",
+        "87b7f8ed368120479ff6",
         "da3d50ad11ffae288c86",
+        "80e6f06ae27a1a898f83",
         "7c435d209d6550f74dd3",
+        "d4f14c211bc1762a0d9a",
         "722e282458f1cc0161da",
-        "9968c7ef8ff780e21b63",
         "f4f7c7c74ccd6d3fae3d",
-        "adbbed96e983fa718d91"
+        "00e604b92e86ae34211d",
+        "8ae559e01d2f09efe5c7",
+        "daf175316fac2dd54271",
+        "f24ad0e2a9ff074b95b3"
       ],
       "news_categories": [
         "dividend",
@@ -108810,26 +109830,26 @@
         "orders",
         "partnership",
         "price_commentary",
-        "profile",
         "unclear"
       ],
       "news_count": 19,
-      "quote_date": "2026-11-03",
+      "quote_date": "2026-11-02",
       "etf": false,
       "reasons": [
         "營運成長指標 +105.6%（Yahoo revenueGrowth；比較期間未核對，非月營收），不是淨利成長保證",
         "最有影響事件：廣達：合約、出貨或投資。收入認列與資本支出可能不同步"
       ],
       "risks": [
-        "收盤 311.50 低於月線 323.60 元（-3.74%）",
-        "收盤 311.50 低於季線 328.77 元（-5.25%）",
-        "報酬／風險 1.39 不達1.5研究假設；高新聞分也不能補掉價格風險",
+        "收盤 318.00 低於月線 324.73 元（-2.07%）",
+        "收盤 318.00 低於季線 328.58 元（-3.22%）",
+        "價格截至 2026-11-02，相對 2026-11-04 已過期或沒有價格",
+        "報酬／風險 1.07 不達1.5研究假設；高新聞分也不能補掉價格風險",
         "缺少資料：法人籌碼、估值"
       ],
       "entry_date": "2026-11-04",
-      "source_sha256": "ae1fab06df0bd31302275e4180eb55eda0f3a3b93b4aaa194b6c97af0fb8661e",
-      "generated_at": "2026-11-03T15:00:30.581856+08:00",
-      "registered_at": "2026-11-03T15:01:03.955560+08:00",
+      "source_sha256": "32a6bbee3146e0999ee2b21feb4572e93228ada808d1969332aa8b287617cba0",
+      "generated_at": "2026-11-04T04:08:24.774028+08:00",
+      "registered_at": "2026-11-04T04:08:45.589029+08:00",
       "sample_mode": "prospective_registered",
       "outcomes": {
         "1": {
@@ -108853,18 +109873,18 @@
     {
       "symbol": "2412.TW",
       "name": "中華電",
-      "original_label": "技術偏多，但不追價",
-      "original_code": "watch",
-      "score": 50.3,
-      "top_pick": true,
+      "original_label": "價格／趨勢資料不足",
+      "original_code": "insufficient",
+      "score": 38.3,
+      "top_pick": false,
       "factors": [
         {
           "key": "news",
           "name": "新聞事件",
-          "score": 50.9,
+          "score": 51.1,
           "weight": 0.3,
-          "contribution": 0.27,
-          "note": "6組相關事件時效折減後平均 +1.88，新聞因子＝50＋平均÷2；不是把每篇分數加在股票總分上"
+          "contribution": 0.33,
+          "note": "5組相關事件時效折減後平均 +2.16，新聞因子＝50＋平均÷2；不是把每篇分數加在股票總分上"
         },
         {
           "key": "technical",
@@ -108872,7 +109892,7 @@
           "score": 74.0,
           "weight": 0.2,
           "contribution": 4.8,
-          "note": "MA20 152.47、MA60 143.62、RSI 77.3；價量截至 2026-11-03"
+          "note": "MA20 151.80、MA60 143.24、RSI 80.1；價量截至 2026-11-02"
         },
         {
           "key": "fundamental",
@@ -108915,7 +109935,7 @@
           "adapter_repo": "",
           "adapter_revision": "",
           "mode": "shadow_only",
-          "selection_offset": 2,
+          "selection_offset": 8,
           "daily_max_attempts": 12,
           "per_run_max_attempts": 6,
           "attempts_this_run": 0,
@@ -108927,44 +109947,51 @@
         "adapter_changes_original_score": false
       },
       "news_ids": [
-        "abccf01c804e3b246477",
-        "656c87eddd478b1bf5a7",
-        "32ebc99ee4c43e21c4fc",
-        "27dee8693602ece915c9",
         "82ed078b008067770ea0",
+        "4d568a2be63d82d1cb53",
+        "0e1455aaada84e7ecd91",
         "2cbf8b650f6f9be71f08",
+        "d1ad4193b5f7192f3f80",
         "7c5c5b9a886cc92aab96",
         "83402143bc328ad7e023",
+        "2a6669ba7965022fb4ee",
+        "fb7dd43052a22b9dc7d0",
         "29aa1f78a964ac1c9300",
-        "7f22849233d01bb225a9",
+        "b670071ac497e4ca6f1d",
         "c83782c00bb89679034d",
+        "5b32b29dfb3eb43f2aa7",
         "c0e6a876e4eb0f6a0c16",
-        "2b0074b0982d0e53287c"
+        "2120184c2ac404ccdd4d",
+        "2b0074b0982d0e53287c",
+        "c0b076e792391e21d983",
+        "73e2026a16458875a71d"
       ],
       "news_categories": [
+        "dividend",
         "institutional_flow",
         "partnership",
         "price_commentary",
         "unclear"
       ],
-      "news_count": 13,
-      "quote_date": "2026-11-03",
+      "news_count": 18,
+      "quote_date": "2026-11-02",
       "etf": false,
       "reasons": [
-        "收盤 159.00 高於月線 152.47 元（+4.28%）",
-        "收盤 159.00 高於季線 143.62 元（+10.71%）",
+        "收盤 159.50 高於月線 151.80 元（+5.07%）",
+        "收盤 159.50 高於季線 143.24 元（+11.35%）",
         "營運成長指標 +8.2%（Yahoo revenueGrowth；比較期間未核對，非月營收），不是淨利成長保證",
         "最有影響事件：中華電：技術合作或新業務。先列追蹤，不直接上修盈餘"
       ],
       "risks": [
-        "RSI 77.3 偏熱：利多不等於現在適合追價",
-        "報酬／風險 0.39 不達1.5研究假設；高新聞分也不能補掉價格風險",
+        "RSI 80.1 偏熱：利多不等於現在適合追價",
+        "價格截至 2026-11-02，相對 2026-11-04 已過期或沒有價格",
+        "報酬／風險 0.33 不達1.5研究假設；高新聞分也不能補掉價格風險",
         "缺少資料：法人籌碼、估值"
       ],
       "entry_date": "2026-11-04",
-      "source_sha256": "ae1fab06df0bd31302275e4180eb55eda0f3a3b93b4aaa194b6c97af0fb8661e",
-      "generated_at": "2026-11-03T15:00:30.581856+08:00",
-      "registered_at": "2026-11-03T15:01:03.955560+08:00",
+      "source_sha256": "32a6bbee3146e0999ee2b21feb4572e93228ada808d1969332aa8b287617cba0",
+      "generated_at": "2026-11-04T04:08:24.774028+08:00",
+      "registered_at": "2026-11-04T04:08:45.589029+08:00",
       "sample_mode": "prospective_registered",
       "outcomes": {
         "1": {
@@ -108988,18 +110015,18 @@
     {
       "symbol": "2454.TW",
       "name": "聯發科",
-      "original_label": "偏弱：先等止跌",
-      "original_code": "avoid",
-      "score": 32.4,
+      "original_label": "價格／趨勢資料不足",
+      "original_code": "insufficient",
+      "score": 20.2,
       "top_pick": false,
       "factors": [
         {
           "key": "news",
           "name": "新聞事件",
-          "score": 51.2,
+          "score": 50.4,
           "weight": 0.3,
-          "contribution": 0.36,
-          "note": "17組相關事件時效折減後平均 +2.37，新聞因子＝50＋平均÷2；不是把每篇分數加在股票總分上"
+          "contribution": 0.12,
+          "note": "17組相關事件時效折減後平均 +0.74，新聞因子＝50＋平均÷2；不是把每篇分數加在股票總分上"
         },
         {
           "key": "technical",
@@ -109007,7 +110034,7 @@
           "score": 18.0,
           "weight": 0.2,
           "contribution": -6.4,
-          "note": "MA20 4,345.25、MA60 4,343.17、RSI 32.1；價量截至 2026-11-03"
+          "note": "MA20 4,410.50、MA60 4,346.33、RSI 38.2；價量截至 2026-11-02"
         },
         {
           "key": "fundamental",
@@ -109050,7 +110077,7 @@
           "adapter_repo": "",
           "adapter_revision": "",
           "mode": "shadow_only",
-          "selection_offset": 2,
+          "selection_offset": 8,
           "daily_max_attempts": 12,
           "per_run_max_attempts": 6,
           "attempts_this_run": 0,
@@ -109062,53 +110089,54 @@
         "adapter_changes_original_score": false
       },
       "news_ids": [
+        "2e0cb4852047b48b6d1e",
+        "05fdb7fa44fb2c3f06fc",
+        "bd289063e69e6654f386",
         "eba8721b66077b1bddfa",
-        "2e45ab09b7f1afec6d3f",
+        "bc348c7df4b31069d6ce",
         "93cae301b0b15280949b",
-        "dfb94d438fce67fef1d2",
         "f4e2041f5595813a3095",
-        "cf5874d8f776fe9856aa",
         "1f76bf92082df539d0a4",
-        "65c39d7cfe2953ea1bc9",
         "29bbe5550c75054b26f3",
         "f223af80de3f07700aac",
         "5ad41aa165758c37de65",
+        "3d0f03545e44e8db0cef",
+        "798e601f0b4b6803f71e",
+        "3f66f21a1886a36c106a",
+        "d6c8711856bfd3b7f60f",
         "fbb9373f707c4dc2b0d0",
-        "3b93f3efbe88fff4c129",
-        "d1bdb5a362997dfa8347",
-        "f70c308b8c237a91ec83",
-        "8d33b75d3b79580c4d07",
-        "707850203347822435f9",
-        "8ab941b0aed537d4f711",
-        "149f9e58869d54c98368",
-        "41683545cffb9e4dbc9a"
+        "863da052a546946af81e",
+        "12e7d7741afbd02459ef",
+        "0f59d2d98c263fef162c",
+        "147320b325f6b9568a96"
       ],
       "news_categories": [
         "analyst_forecast",
         "earnings",
-        "orders",
+        "institutional_flow",
         "partnership",
         "price_commentary",
         "reported_earnings",
         "unclear"
       ],
       "news_count": 20,
-      "quote_date": "2026-11-03",
+      "quote_date": "2026-11-02",
       "etf": false,
       "reasons": [
         "營運成長指標 +18.3%（Yahoo revenueGrowth；比較期間未核對，非月營收），不是淨利成長保證",
-        "最有影響事件：聯發科：合約、出貨或投資。收入認列與資本支出可能不同步"
+        "最有影響事件：聯發科：技術合作或新業務。先列追蹤，不直接上修盈餘"
       ],
       "risks": [
-        "收盤 3,675.00 低於月線 4,345.25 元（-15.42%）",
-        "收盤 3,675.00 低於季線 4,343.17 元（-15.38%）",
-        "ATR／股價＝5.9%，模擬停損可能很寬",
+        "收盤 3,970.00 低於月線 4,410.50 元（-9.99%）",
+        "收盤 3,970.00 低於季線 4,346.33 元（-8.66%）",
+        "價格截至 2026-11-02，相對 2026-11-04 已過期或沒有價格",
+        "ATR／股價＝5.2%，模擬停損可能很寬",
         "缺少資料：法人籌碼、估值"
       ],
       "entry_date": "2026-11-04",
-      "source_sha256": "ae1fab06df0bd31302275e4180eb55eda0f3a3b93b4aaa194b6c97af0fb8661e",
-      "generated_at": "2026-11-03T15:00:30.581856+08:00",
-      "registered_at": "2026-11-03T15:01:03.955560+08:00",
+      "source_sha256": "32a6bbee3146e0999ee2b21feb4572e93228ada808d1969332aa8b287617cba0",
+      "generated_at": "2026-11-04T04:08:24.774028+08:00",
+      "registered_at": "2026-11-04T04:08:45.589029+08:00",
       "sample_mode": "prospective_registered",
       "outcomes": {
         "1": {
@@ -109132,9 +110160,9 @@
     {
       "symbol": "2881.TW",
       "name": "富邦金",
-      "original_label": "震盪：等價格與事件一致",
-      "original_code": "neutral",
-      "score": 49.1,
+      "original_label": "價格／趨勢資料不足",
+      "original_code": "insufficient",
+      "score": 41.9,
       "top_pick": false,
       "factors": [
         {
@@ -109143,15 +110171,15 @@
           "score": 50.0,
           "weight": 0.3,
           "contribution": 0.0,
-          "note": "4組相關事件時效折減後平均 +0.00，新聞因子＝50＋平均÷2；不是把每篇分數加在股票總分上"
+          "note": "5組相關事件時效折減後平均 +0.00，新聞因子＝50＋平均÷2；不是把每篇分數加在股票總分上"
         },
         {
           "key": "technical",
           "name": "技術面",
-          "score": 42.0,
+          "score": 66.0,
           "weight": 0.2,
-          "contribution": -1.6,
-          "note": "MA20 157.72、MA60 146.98、RSI 46.9；價量截至 2026-11-03"
+          "contribution": 3.2,
+          "note": "MA20 157.55、MA60 146.56、RSI 56.9；價量截至 2026-11-02"
         },
         {
           "key": "fundamental",
@@ -109194,7 +110222,7 @@
           "adapter_repo": "",
           "adapter_revision": "",
           "mode": "shadow_only",
-          "selection_offset": 2,
+          "selection_offset": 8,
           "daily_max_attempts": 12,
           "per_run_max_attempts": 6,
           "attempts_this_run": 0,
@@ -109206,45 +110234,44 @@
         "adapter_changes_original_score": false
       },
       "news_ids": [
-        "d8ba866465b5e195f2a9",
-        "7f38c0d125faa0c5e909",
-        "8492f09b0c8eaa43245d",
-        "6ca379e9816dbd5a2368",
         "ff46fd7f8447a4e85923",
         "99677452ad245715c500",
         "eda8cf5e6a5808f76eb9",
         "aec20917c509e9652f94",
         "1ccad7e888a9e28d4c61",
-        "692bc89fe0c272f43726",
         "43b5f745f1d5cadee60e",
         "b0b26b68886a6405b211",
-        "fddb7afcbdf0f882a80c",
         "ce61f1eaf99c801feae2",
-        "0d936e56e93a16cf82cb"
+        "0d936e56e93a16cf82cb",
+        "68d60a1d5a1ff50794d8",
+        "53f78eb6e9e58d72f113",
+        "735ee353c25efc5c4b72",
+        "b610cac11f65a5aa6ea5",
+        "0ac87fa3a8f98b3bd51a"
       ],
       "news_categories": [
         "dividend",
         "earnings",
         "institutional_flow",
-        "partnership",
         "unclear"
       ],
-      "news_count": 15,
-      "quote_date": "2026-11-03",
+      "news_count": 14,
+      "quote_date": "2026-11-02",
       "etf": false,
       "reasons": [
-        "收盤 154.00 高於季線 146.98 元（+4.77%）",
-        "主要追蹤：富邦金：富邦金出現報導。不產生方向訊號"
+        "收盤 159.50 高於月線 157.55 元（+1.24%）",
+        "收盤 159.50 高於季線 146.56 元（+8.83%）",
+        "主要追蹤：富邦金獲利披露有新變動，但沒有完整數值。需區分本業、稅項與一次性損益。"
       ],
       "risks": [
-        "收盤 154.00 低於月線 157.72 元（-2.36%）",
-        "報酬／風險 1.11 不達1.5研究假設；高新聞分也不能補掉價格風險",
+        "價格截至 2026-11-02，相對 2026-11-04 已過期或沒有價格",
+        "報酬／風險 0.53 不達1.5研究假設；高新聞分也不能補掉價格風險",
         "缺少資料：法人籌碼、估值"
       ],
       "entry_date": "2026-11-04",
-      "source_sha256": "ae1fab06df0bd31302275e4180eb55eda0f3a3b93b4aaa194b6c97af0fb8661e",
-      "generated_at": "2026-11-03T15:00:30.581856+08:00",
-      "registered_at": "2026-11-03T15:01:03.955560+08:00",
+      "source_sha256": "32a6bbee3146e0999ee2b21feb4572e93228ada808d1969332aa8b287617cba0",
+      "generated_at": "2026-11-04T04:08:24.774028+08:00",
+      "registered_at": "2026-11-04T04:08:45.589029+08:00",
       "sample_mode": "prospective_registered",
       "outcomes": {
         "1": {
@@ -109268,26 +110295,26 @@
     {
       "symbol": "2882.TW",
       "name": "國泰金",
-      "original_label": "震盪：等價格與事件一致",
-      "original_code": "neutral",
-      "score": 40.7,
+      "original_label": "價格／趨勢資料不足",
+      "original_code": "insufficient",
+      "score": 45.0,
       "top_pick": false,
       "factors": [
         {
           "key": "news",
           "name": "新聞事件",
-          "score": 49.7,
+          "score": 50.5,
           "weight": 0.3,
-          "contribution": -0.09,
-          "note": "13組相關事件時效折減後平均 -0.65，新聞因子＝50＋平均÷2；不是把每篇分數加在股票總分上"
+          "contribution": 0.15,
+          "note": "11組相關事件時效折減後平均 +1.02，新聞因子＝50＋平均÷2；不是把每篇分數加在股票總分上"
         },
         {
           "key": "technical",
           "name": "技術面",
-          "score": 42.0,
+          "score": 82.0,
           "weight": 0.2,
-          "contribution": -1.6,
-          "note": "MA20 113.60、MA60 108.86、RSI 50.1；價量截至 2026-11-03"
+          "contribution": 6.4,
+          "note": "MA20 113.47、MA60 108.63、RSI 58.5；價量截至 2026-11-02"
         },
         {
           "key": "fundamental",
@@ -109330,7 +110357,7 @@
           "adapter_repo": "",
           "adapter_revision": "",
           "mode": "shadow_only",
-          "selection_offset": 2,
+          "selection_offset": 8,
           "daily_max_attempts": 12,
           "per_run_max_attempts": 6,
           "attempts_this_run": 0,
@@ -109342,49 +110369,46 @@
         "adapter_changes_original_score": false
       },
       "news_ids": [
-        "c4332ee0f0846f2e5d7e",
-        "0bb722da0a39896a1c4c",
         "f9c47cfa9541fa3fcc5a",
         "7f4e386b1f054a1537cf",
         "718646992f0f61319f62",
         "081c3c01852e075f554f",
         "18c3bca39a39346c4b8c",
         "6e7329cf3b3fd8c444d3",
+        "069d892a44993a040937",
         "0830fbd98dbb8c4d87ad",
         "5e6ce125a66121f05479",
         "2dcd00c64e0c1c616447",
-        "2495be2dd2878b871f6c",
         "08e197598bed9a2c606b",
-        "7ff25a19da32ac104b74",
         "056189f1adc74093d77e",
         "6e33888f4969f3fde0fe",
         "3b8eb6101b3d460dc42b",
-        "7f8076a1adc9318cfa92"
+        "7f8076a1adc9318cfa92",
+        "5cf7b8d2073f21480f83"
       ],
       "news_categories": [
-        "disruption",
         "earnings",
         "institutional_flow",
         "partnership",
         "unclear"
       ],
-      "news_count": 18,
-      "quote_date": "2026-11-03",
+      "news_count": 16,
+      "quote_date": "2026-11-02",
       "etf": false,
       "reasons": [
-        "收盤 113.00 高於季線 108.86 元（+3.80%）",
-        "主要追蹤：國泰金：營運或法遵衝擊。需確認損害範圍與恢復進度"
+        "收盤 116.00 高於月線 113.47 元（+2.23%）",
+        "收盤 116.00 高於季線 108.63 元（+6.78%）",
+        "最有影響事件：國泰金：技術合作或新業務。先列追蹤，不直接上修盈餘"
       ],
       "risks": [
-        "收盤 113.00 低於月線 113.60 元（-0.53%）",
-        "負向營運中斷／法遵事件尚未釐清",
-        "報酬／風險 0.74 不達1.5研究假設；高新聞分也不能補掉價格風險",
+        "價格截至 2026-11-02，相對 2026-11-04 已過期或沒有價格",
+        "報酬／風險 0.30 不達1.5研究假設；高新聞分也不能補掉價格風險",
         "缺少資料：法人籌碼、估值"
       ],
       "entry_date": "2026-11-04",
-      "source_sha256": "ae1fab06df0bd31302275e4180eb55eda0f3a3b93b4aaa194b6c97af0fb8661e",
-      "generated_at": "2026-11-03T15:00:30.581856+08:00",
-      "registered_at": "2026-11-03T15:01:03.955560+08:00",
+      "source_sha256": "32a6bbee3146e0999ee2b21feb4572e93228ada808d1969332aa8b287617cba0",
+      "generated_at": "2026-11-04T04:08:24.774028+08:00",
+      "registered_at": "2026-11-04T04:08:45.589029+08:00",
       "sample_mode": "prospective_registered",
       "outcomes": {
         "1": {
@@ -109408,18 +110432,18 @@
     {
       "symbol": "2891.TW",
       "name": "中信金",
-      "original_label": "技術偏多，但不追價",
-      "original_code": "watch",
-      "score": 54.4,
-      "top_pick": true,
+      "original_label": "價格／趨勢資料不足",
+      "original_code": "insufficient",
+      "score": 33.9,
+      "top_pick": false,
       "factors": [
         {
           "key": "news",
           "name": "新聞事件",
-          "score": 51.2,
+          "score": 49.6,
           "weight": 0.3,
-          "contribution": 0.36,
-          "note": "9組相關事件時效折減後平均 +2.34，新聞因子＝50＋平均÷2；不是把每篇分數加在股票總分上"
+          "contribution": -0.12,
+          "note": "11組相關事件時效折減後平均 -0.72，新聞因子＝50＋平均÷2；不是把每篇分數加在股票總分上"
         },
         {
           "key": "technical",
@@ -109427,7 +110451,7 @@
           "score": 82.0,
           "weight": 0.2,
           "contribution": 6.4,
-          "note": "MA20 72.13、MA60 68.66、RSI 59.4；價量截至 2026-11-03"
+          "note": "MA20 71.82、MA60 68.50、RSI 63.4；價量截至 2026-11-02"
         },
         {
           "key": "fundamental",
@@ -109470,7 +110494,7 @@
           "adapter_repo": "",
           "adapter_revision": "",
           "mode": "shadow_only",
-          "selection_offset": 2,
+          "selection_offset": 8,
           "daily_max_attempts": 12,
           "per_run_max_attempts": 6,
           "attempts_this_run": 0,
@@ -109482,48 +110506,51 @@
         "adapter_changes_original_score": false
       },
       "news_ids": [
-        "98a45f901be5a7cf1bd4",
-        "e0e7dddb0fc074ba391f",
         "b9c4f11f8a3fa2d35396",
         "5292bbf1fa238bda5371",
         "993180db28f721266c8c",
         "312e9bd42ed3a8d53443",
+        "871ba3c210c2da142306",
         "e571e8d7cef3136353a5",
         "9952be4a7b39db4f3bcd",
         "549ab0743dcf6ae2befd",
         "56eed7cacb6129de078e",
-        "63e95f59edfb6deaa9d3",
         "5f2fee7116f396e8dd7c",
         "83955ca9ad114af469d4",
         "c913c83f1be7cbc019dc",
         "fc46e07c4b5fc9513caf",
         "63e19046bff16259e19e",
-        "506893e0dff1822032e6"
+        "506893e0dff1822032e6",
+        "2e7481049396cd86a89e",
+        "81b96e01e45b45dddffe",
+        "610d55c3a1244c75aa40",
+        "5d91e0b2b9e8e57061ee"
       ],
       "news_categories": [
+        "disruption",
         "dividend",
         "earnings",
         "institutional_flow",
-        "partnership",
-        "profile",
         "unclear"
       ],
-      "news_count": 17,
-      "quote_date": "2026-11-03",
+      "news_count": 19,
+      "quote_date": "2026-11-02",
       "etf": false,
       "reasons": [
-        "收盤 74.20 高於月線 72.13 元（+2.87%）",
-        "收盤 74.20 高於季線 68.66 元（+8.08%）",
-        "最有影響事件：中信金：股利政策。需同時看盈餘與現金流支撐"
+        "收盤 75.00 高於月線 71.82 元（+4.44%）",
+        "收盤 75.00 高於季線 68.50 元（+9.49%）",
+        "主要追蹤：中信金：營運或法遵衝擊。需確認損害範圍與恢復進度"
       ],
       "risks": [
-        "報酬／風險 0.59 不達1.5研究假設；高新聞分也不能補掉價格風險",
+        "價格截至 2026-11-02，相對 2026-11-04 已過期或沒有價格",
+        "負向營運中斷／法遵事件尚未釐清",
+        "報酬／風險 0.41 不達1.5研究假設；高新聞分也不能補掉價格風險",
         "缺少資料：法人籌碼、估值"
       ],
       "entry_date": "2026-11-04",
-      "source_sha256": "ae1fab06df0bd31302275e4180eb55eda0f3a3b93b4aaa194b6c97af0fb8661e",
-      "generated_at": "2026-11-03T15:00:30.581856+08:00",
-      "registered_at": "2026-11-03T15:01:03.955560+08:00",
+      "source_sha256": "32a6bbee3146e0999ee2b21feb4572e93228ada808d1969332aa8b287617cba0",
+      "generated_at": "2026-11-04T04:08:24.774028+08:00",
+      "registered_at": "2026-11-04T04:08:45.589029+08:00",
       "sample_mode": "prospective_registered",
       "outcomes": {
         "1": {
@@ -109547,18 +110574,18 @@
     {
       "symbol": "3231.TW",
       "name": "緯創",
-      "original_label": "偏弱：先等止跌",
-      "original_code": "avoid",
-      "score": 45.2,
+      "original_label": "價格／趨勢資料不足",
+      "original_code": "insufficient",
+      "score": 33.3,
       "top_pick": false,
       "factors": [
         {
           "key": "news",
           "name": "新聞事件",
-          "score": 51.2,
+          "score": 51.7,
           "weight": 0.3,
-          "contribution": 0.36,
-          "note": "17組相關事件時效折減後平均 +2.43，新聞因子＝50＋平均÷2；不是把每篇分數加在股票總分上"
+          "contribution": 0.51,
+          "note": "10組相關事件時效折減後平均 +3.39，新聞因子＝50＋平均÷2；不是把每篇分數加在股票總分上"
         },
         {
           "key": "technical",
@@ -109566,7 +110593,7 @@
           "score": 18.0,
           "weight": 0.2,
           "contribution": -6.4,
-          "note": "MA20 186.50、MA60 185.82、RSI 41.2；價量截至 2026-11-03"
+          "note": "MA20 187.20、MA60 186.13、RSI 45.3；價量截至 2026-11-02"
         },
         {
           "key": "fundamental",
@@ -109609,7 +110636,7 @@
           "adapter_repo": "",
           "adapter_revision": "",
           "mode": "shadow_only",
-          "selection_offset": 2,
+          "selection_offset": 8,
           "daily_max_attempts": 12,
           "per_run_max_attempts": 6,
           "attempts_this_run": 0,
@@ -109621,47 +110648,41 @@
         "adapter_changes_original_score": false
       },
       "news_ids": [
-        "c1d086e3bfcff8014025",
-        "aead0f5f57698366a6d1",
-        "b6e2721184e0b199ba14",
-        "577f4da8892558324281",
-        "799598eca6dca4d3a3df",
         "02d3e1430381948d369f",
         "25ef5ae9ee84c9c27a43",
-        "fda849fda67d2e084680",
         "b981c38c7f025d0ad337",
         "286e3b86ec3f891119ba",
         "79d7c9e1179adb37c98c",
         "43b9cc75839c462409c3",
         "854975eadabad994112f",
+        "4d8951857b43f6d10452",
         "570ecd4954312fff49c5",
         "ab6a40919de713e3b0c9",
-        "a381a96d9e4eef543d7c",
-        "b39e3c151295f2560ab0",
-        "76a5b31623090f014858"
+        "a381a96d9e4eef543d7c"
       ],
       "news_categories": [
         "orders",
         "partnership",
         "unclear"
       ],
-      "news_count": 18,
-      "quote_date": "2026-11-03",
+      "news_count": 11,
+      "quote_date": "2026-11-02",
       "etf": false,
       "reasons": [
         "營運成長指標 +62.4%（Yahoo revenueGrowth；比較期間未核對，非月營收），不是淨利成長保證",
         "最有影響事件：緯創：合約、出貨或投資。收入認列與資本支出可能不同步"
       ],
       "risks": [
-        "收盤 176.50 低於月線 186.50 元（-5.36%）",
-        "收盤 176.50 低於季線 185.82 元（-5.02%）",
-        "報酬／風險 1.41 不達1.5研究假設；高新聞分也不能補掉價格風險",
+        "收盤 181.50 低於月線 187.20 元（-3.04%）",
+        "收盤 181.50 低於季線 186.13 元（-2.49%）",
+        "價格截至 2026-11-02，相對 2026-11-04 已過期或沒有價格",
+        "報酬／風險 1.11 不達1.5研究假設；高新聞分也不能補掉價格風險",
         "缺少資料：法人籌碼、估值"
       ],
       "entry_date": "2026-11-04",
-      "source_sha256": "ae1fab06df0bd31302275e4180eb55eda0f3a3b93b4aaa194b6c97af0fb8661e",
-      "generated_at": "2026-11-03T15:00:30.581856+08:00",
-      "registered_at": "2026-11-03T15:01:03.955560+08:00",
+      "source_sha256": "32a6bbee3146e0999ee2b21feb4572e93228ada808d1969332aa8b287617cba0",
+      "generated_at": "2026-11-04T04:08:24.774028+08:00",
+      "registered_at": "2026-11-04T04:08:45.589029+08:00",
       "sample_mode": "prospective_registered",
       "outcomes": {
         "1": {
@@ -109685,9 +110706,9 @@
     {
       "symbol": "3711.TW",
       "name": "日月光投控",
-      "original_label": "偏弱：先等止跌",
-      "original_code": "avoid",
-      "score": 35.2,
+      "original_label": "價格／趨勢資料不足",
+      "original_code": "insufficient",
+      "score": 28.0,
       "top_pick": false,
       "factors": [
         {
@@ -109696,15 +110717,15 @@
           "score": 50.0,
           "weight": 0.3,
           "contribution": 0.0,
-          "note": "6組相關事件時效折減後平均 +0.00，新聞因子＝50＋平均÷2；不是把每篇分數加在股票總分上"
+          "note": "5組相關事件時效折減後平均 +0.00，新聞因子＝50＋平均÷2；不是把每篇分數加在股票總分上"
         },
         {
           "key": "technical",
           "name": "技術面",
-          "score": 18.0,
+          "score": 42.0,
           "weight": 0.2,
-          "contribution": -6.4,
-          "note": "MA20 696.15、MA60 646.90、RSI 38.6；價量截至 2026-11-03"
+          "contribution": -1.6,
+          "note": "MA20 700.85、MA60 646.38、RSI 48.9；價量截至 2026-11-02"
         },
         {
           "key": "fundamental",
@@ -109747,7 +110768,7 @@
           "adapter_repo": "",
           "adapter_revision": "",
           "mode": "shadow_only",
-          "selection_offset": 2,
+          "selection_offset": 8,
           "daily_max_attempts": 12,
           "per_run_max_attempts": 6,
           "attempts_this_run": 0,
@@ -109759,52 +110780,54 @@
         "adapter_changes_original_score": false
       },
       "news_ids": [
-        "28ab3a218a72bf4983a8",
-        "b88f7a97d01ea2a5bf71",
-        "191efd9c359ca1c16309",
-        "bd9163c1645023610865",
+        "2d66adc6b0ad9bae5d79",
         "f12563732d080e44f9e8",
         "7af03d6ada6a3c504a77",
-        "d106de1b15c2837e1f4d",
-        "1e2cf86390b50a1a0333",
-        "4d3738e404be564c2895",
-        "9e1a81e75ecdee8a1afc",
-        "27e66d71a6f35ebe93b7",
-        "6d51436da1cf6443fbc3",
-        "86093bda664ee6806c2b",
-        "89004fbb5141f1647259",
+        "1381ad65866b5e97559a",
         "e050b4ca688cd5e423a3",
         "06122615fa28f04bf9d7",
         "e5f830c6b79e2f71f825",
-        "3ff1610fa6fe9ecf5c0f",
+        "a88ed8ed622764b1479e",
+        "a3c72d6a3d829c26dbe8",
         "ff9ceaad9dedb26ed9d6",
-        "6a10b36e800c57a91b78"
+        "6a10b36e800c57a91b78",
+        "3e3731a2433199e2c5d1",
+        "fc53c307346a5556c46d",
+        "977de2a891155118dbf0",
+        "4a2ff59a72a3fe483a5d",
+        "70eac79a964bf14128fd",
+        "2c060f4bfa7b3b1b4dbd",
+        "900ec4210e62b954612a",
+        "58083fd7b76bf59fa3b2",
+        "0ef68e7017a7218eb286"
       ],
       "news_categories": [
         "analyst_forecast",
+        "disruption",
         "institutional_flow",
         "partnership",
         "price_commentary",
-        "profile",
         "unclear"
       ],
       "news_count": 20,
-      "quote_date": "2026-11-03",
+      "quote_date": "2026-11-02",
       "etf": false,
       "reasons": [
+        "收盤 674.00 高於季線 646.38 元（+4.27%）",
         "營運成長指標 +44.8%（Yahoo revenueGrowth；比較期間未核對，非月營收），不是淨利成長保證",
         "主要追蹤：日月光投控：日月光投控出現報導。不產生方向訊號"
       ],
       "risks": [
-        "收盤 616.00 低於月線 696.15 元（-11.51%）",
-        "收盤 616.00 低於季線 646.90 元（-4.78%）",
-        "ATR／股價＝6.5%，模擬停損可能很寬",
+        "收盤 674.00 低於月線 700.85 元（-3.83%）",
+        "價格截至 2026-11-02，相對 2026-11-04 已過期或沒有價格",
+        "ATR／股價＝5.6%，模擬停損可能很寬",
+        "報酬／風險 1.20 不達1.5研究假設；高新聞分也不能補掉價格風險",
         "缺少資料：法人籌碼、估值"
       ],
       "entry_date": "2026-11-04",
-      "source_sha256": "ae1fab06df0bd31302275e4180eb55eda0f3a3b93b4aaa194b6c97af0fb8661e",
-      "generated_at": "2026-11-03T15:00:30.581856+08:00",
-      "registered_at": "2026-11-03T15:01:03.955560+08:00",
+      "source_sha256": "32a6bbee3146e0999ee2b21feb4572e93228ada808d1969332aa8b287617cba0",
+      "generated_at": "2026-11-04T04:08:24.774028+08:00",
+      "registered_at": "2026-11-04T04:08:45.589029+08:00",
       "sample_mode": "prospective_registered",
       "outcomes": {
         "1": {
@@ -109828,18 +110851,18 @@
     {
       "symbol": "6669.TW",
       "name": "緯穎",
-      "original_label": "偏弱：先等止跌",
-      "original_code": "avoid",
-      "score": 33.0,
+      "original_label": "價格／趨勢資料不足",
+      "original_code": "insufficient",
+      "score": 21.1,
       "top_pick": false,
       "factors": [
         {
           "key": "news",
           "name": "新聞事件",
-          "score": 50.0,
+          "score": 50.3,
           "weight": 0.3,
-          "contribution": 0.0,
-          "note": "7組相關事件時效折減後平均 +0.00，新聞因子＝50＋平均÷2；不是把每篇分數加在股票總分上"
+          "contribution": 0.09,
+          "note": "10組相關事件時效折減後平均 +0.54，新聞因子＝50＋平均÷2；不是把每篇分數加在股票總分上"
         },
         {
           "key": "technical",
@@ -109847,7 +110870,7 @@
           "score": 18.0,
           "weight": 0.2,
           "contribution": -6.4,
-          "note": "MA20 2,002.75、MA60 2,145.23、RSI 33.8；價量截至 2026-11-03"
+          "note": "MA20 2,019.75、MA60 2,150.40、RSI 36.1；價量截至 2026-11-02"
         },
         {
           "key": "fundamental",
@@ -109890,7 +110913,7 @@
           "adapter_repo": "",
           "adapter_revision": "",
           "mode": "shadow_only",
-          "selection_offset": 2,
+          "selection_offset": 8,
           "daily_max_attempts": 12,
           "per_run_max_attempts": 6,
           "attempts_this_run": 0,
@@ -109902,45 +110925,53 @@
         "adapter_changes_original_score": false
       },
       "news_ids": [
-        "dcc56fc057067bf5852e",
         "74ba41a5a3c078d1fb87",
         "b994f20ae27d32187887",
-        "ea00595db3257e887095",
-        "825b1326ddf4022991dc",
         "17dfe338b8d9d49b8564",
+        "e230ccaa411bf0828a46",
         "9be454ad2532f45bdccc",
         "acd0ab3fdfa66083c63d",
         "75bb861207de997e7a30",
+        "1063f06ba2ec2cc1a4ce",
         "f0dbcb3ea1bcc248552a",
+        "afedd00f67a87e9003d4",
+        "5da06faeddff2987e9d9",
         "30a042675b26bf3b93a7",
         "a4022f75fc2229ea63bf",
         "5b20b1bd9d0fd7bf269a",
-        "89ff3a5387960127a7ba"
+        "89ff3a5387960127a7ba",
+        "7a6725f6eb97cfcaf7d4",
+        "3d9a80f8cc5ce652f190",
+        "90edf0e3231963ac4a20",
+        "329ca33c7aa0b815c254",
+        "f97dcd8772d186e673e5"
       ],
       "news_categories": [
         "earnings",
         "institutional_flow",
+        "orders",
         "partnership",
         "price_commentary",
         "unclear"
       ],
-      "news_count": 14,
-      "quote_date": "2026-11-03",
+      "news_count": 20,
+      "quote_date": "2026-11-02",
       "etf": false,
       "reasons": [
         "營運成長指標 +26.0%（Yahoo revenueGrowth；比較期間未核對，非月營收），不是淨利成長保證",
-        "主要追蹤：緯穎：緯穎出現報導。不產生方向訊號"
+        "最有影響事件：緯穎：技術合作或新業務。先列追蹤，不直接上修盈餘"
       ],
       "risks": [
-        "收盤 1,770.00 低於月線 2,002.75 元（-11.62%）",
-        "收盤 1,770.00 低於季線 2,145.23 元（-17.49%）",
-        "ATR／股價＝6.5%，模擬停損可能很寬",
+        "收盤 1,820.00 低於月線 2,019.75 元（-9.89%）",
+        "收盤 1,820.00 低於季線 2,150.40 元（-15.36%）",
+        "價格截至 2026-11-02，相對 2026-11-04 已過期或沒有價格",
+        "ATR／股價＝6.4%，模擬停損可能很寬",
         "缺少資料：法人籌碼、估值"
       ],
       "entry_date": "2026-11-04",
-      "source_sha256": "ae1fab06df0bd31302275e4180eb55eda0f3a3b93b4aaa194b6c97af0fb8661e",
-      "generated_at": "2026-11-03T15:00:30.581856+08:00",
-      "registered_at": "2026-11-03T15:01:03.955560+08:00",
+      "source_sha256": "32a6bbee3146e0999ee2b21feb4572e93228ada808d1969332aa8b287617cba0",
+      "generated_at": "2026-11-04T04:08:24.774028+08:00",
+      "registered_at": "2026-11-04T04:08:45.589029+08:00",
       "sample_mode": "prospective_registered",
       "outcomes": {
         "1": {
