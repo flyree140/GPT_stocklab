@@ -96,6 +96,9 @@ jobs:
       - name: Refresh prices for previously analyzed symbols (no model calls)
         if: steps.preflight.outputs.skip != 'true'
         run: python -m stocklab1932.refresh_prices --root .
+      - name: Refresh source introductions and drawdown research (no extra Qwen)
+        if: steps.preflight.outputs.skip != 'true'
+        run: python -m stocklab194.refresh --root .
       - name: Register every signal and update developer outcomes (CPU)
         if: steps.preflight.outputs.skip != 'true'
         run: python -m stocklab1932.developer --root .
@@ -112,6 +115,7 @@ jobs:
           node tests/test_paper193.mjs
           node tests/test_developer1932.mjs
           node tests/test_devcloud1932.mjs
+          node tests/test_global194.mjs
       - name: Commit valid data
         if: steps.preflight.outputs.skip != 'true'
         run: |

@@ -1,0 +1,36 @@
+name: Update evidence and downside research (no Qwen)
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: stocklab16-data
+  cancel-in-progress: false
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      ENABLE_QWEN: '0'
+      STOCKLAB_192_ENABLED: '0'
+    steps:
+      - uses: actions/checkout@v6
+        with: {ref: main, fetch-depth: 0}
+      - uses: actions/setup-python@v6
+        with: {python-version: '3.11', cache: pip}
+      - run: pip install -r requirements.txt
+      - run: python -m stocklab194.refresh --root .
+      - run: python -m pytest -q tests/test_evidence194.py tests/test_downside194.py tests/test_global194.py
+      - run: node tests/test_global194.mjs
+      - name: Commit public research only
+        run: |
+          git config user.name stocklab-bot
+          git config user.email stocklab-bot@users.noreply.github.com
+          git add data/context194
+          if [ -d data/global194 ]; then git add data/global194; fi
+          if [ -f data/system/global194-cache.json ]; then git add data/system/global194-cache.json; fi
+          if [ -f data/system/news-evidence-cache194.json ]; then git add data/system/news-evidence-cache194.json; fi
+          if [ -f data/market/TWII_INDEX.json ]; then git add data/market/TWII_INDEX.json; fi
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "data: evidence and downside research"
+          git push origin HEAD:main
