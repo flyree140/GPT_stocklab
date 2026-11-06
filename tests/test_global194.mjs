@@ -1,0 +1,30 @@
+import assert from 'node:assert/strict';import fs from 'node:fs';
+import {riskMultiplier,constrainSizing,marketTile,eventCard,globalBridge,applyGlobalSettings} from '../assets/global194.mjs';
+import {sizeAddition} from '../assets/downside194.mjs';
+import * as D from '../assets/dev1932-engine.mjs';import * as P from '../assets/paper-engine.mjs';
+const NOW=Date.parse('2026-11-06T18:00:00+08:00');
+const g={version:'19.3.4-global.1',generated_at:'2026-11-06T17:00:00+08:00',source_snapshot_sha256:'fixture',rules_version:'v1',risk:{coverage_valid:true,new_risk_multiplier:.5,code:'cross_market_stress',coverage_regions:['US','JP','KR']},coverage:{market_total:19,market_usable:18,events:4}};
+let n=0;async function t(name,fn){await fn();n++;console.log('PASS',name)}
+await t('fresh valid global factor',()=>assert.equal(riskMultiplier(g,NOW),.5));
+await t('stale not treated safe',()=>assert.equal(riskMultiplier(g,NOW+40*3600000),null));
+await t('future not treated safe',()=>assert.equal(riskMultiplier({...g,generated_at:'2027-01-01'},NOW),null));
+await t('missing coverage null',()=>assert.equal(riskMultiplier({...g,risk:{coverage_valid:false}},NOW),null));
+await t('global scales risk down not capital up',()=>{const x={fraction:.5,cap:4000};const a=constrainSizing(x,g,NOW);assert.equal(a.input.fraction,.25);assert.equal(a.input.cap,4000);assert.equal(x.fraction,.5)});
+await t('local currency inverse display',()=>{const html=marketTile({label:'USD/TWD',kind:'fx',local_appreciation_1d_pct:-3.03,last:33,price_date:'2026-11-05',status:'recent'});assert.ok(html.includes('-3.03')&&html.includes('數字升≠本幣升'))});
+await t('event title script escaped',()=>{assert.ok(!eventCard({title:'<script>alert(1)</script>',policy_stage:'none'}).includes('<script>'))});
+await t('javascript source link refused',()=>{assert.ok(!eventCard({title:'hello',url:'javascript:alert(1)',policy_stage:'none'}).includes('href="javascript:'))});
+await t('historical never loads current global evidence',()=>assert.ok(globalBridge(g,{mode:'historical'}).includes('避免偷看未來')));
+await t('hash mismatch not silently joined',()=>assert.ok(globalBridge(g,{mode:'forward',hash:'other'}).includes('不同時點')));
+await t('negative or extreme factor clamped',()=>assert.equal(riskMultiplier({...g,risk:{coverage_valid:true,new_risk_multiplier:2}},NOW),1));
+await t('global trial refusal in history',()=>assert.throws(()=>applyGlobalSettings({maxLoss:1000},g,{mode:'historical',hash:'fixture'},NOW),/歷史/));
+await t('global trial refusal when source mismatches',()=>assert.throws(()=>applyGlobalSettings({maxLoss:1000},g,{mode:'forward',hash:'bad'},NOW),/雜湊/));
+await t('effective risk and audit receipt',()=>{const s=applyGlobalSettings({maxLoss:1000,capital:100000},g,{mode:'forward',hash:'fixture'},NOW,'globalhash');assert.equal(s.maxLoss,500);assert.equal(s.capital,100000);assert.equal(s.global194.payload_sha256,'globalhash');assert.equal(s.global194.original_maxLoss,1000)});
+await t('no wider risk after global constraint',()=>{const x={entry:100,stop:96,target:112,cash:10000,cap:10000,risk:1000,held:0,mark:100,fraction:.5};const original=sizeAddition(x);const lower=sizeAddition(constrainSizing(x,g,NOW).input);assert.ok(lower.shares<=original.shares);});
+const load=f=>JSON.parse(fs.readFileSync(new URL('../assets/'+f,import.meta.url)));
+const snap=load('paper-demo-snapshot.json'),cal=load('paper-calendar.json');
+const ctx={at:snap.generated_at,generatedAt:snap.generated_at,asOf:snap.as_of,path:'assets/paper-demo-snapshot.json',hash:'fixture',mode:'demo',cal};
+await t('old batch validates and stays untouched after new group',async()=>{const s={...D.DEFAULT,capital:4000,budget:4000,maxLoss:200,goal:150};const original=await D.confirmBatch(D.prepare(snap,ctx,s),ctx,s);const before=JSON.stringify(original);const sg={...s,maxLoss:100,global194:{generated_at:g.generated_at,multiplier:.5,source_snapshot_sha256:'fixture',original_maxLoss:200}};const updated=await D.confirmBatch(D.prepare(snap,ctx,sg),ctx,sg,[original]);assert.ok(await D.validateBatch(original));assert.ok(await D.validateBatch(updated));assert.equal(JSON.stringify(original),before);assert.notEqual(updated.identity,original.identity);assert.equal(updated.settings.global194.multiplier,.5)});
+await t('global receipt tampering fails batch integrity',async()=>{const s={...D.DEFAULT,global194:{multiplier:.5,source_snapshot_sha256:'fixture'}};const b=await D.confirmBatch(D.prepare(snap,ctx,s),ctx,s);b.settings.global194.multiplier=1;await assert.rejects(()=>D.validateBatch(b),/設定/)});
+await t('synthetic quotes are rejected for real sizing',()=>assert.equal(riskMultiplier({...g,demo:true},NOW),null));
+
+console.log(JSON.stringify({passed:n,total:n}));

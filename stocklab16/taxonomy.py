@@ -73,7 +73,8 @@ def source_status(item):
     official=any(host==d or host.endswith('.'+d) for d in ('twse.com.tw','tpex.org.tw','gov.tw'))
     return {'publisher':item.get('publisher') or item.get('source') or '來源待核對',
             'host':host,'kind':'交易所／政府' if official else '公司原始文件' if item.get('official_document') else '媒體／彙整',
-            'coverage':'文件節錄' if item.get('evidence_level')=='document' else '摘要可讀' if item.get('excerpt') else '僅標題',
+            'coverage':'文件節錄' if item.get('evidence_level')=='document' else '來源RSS前言' if item.get('evidence_level')=='rss_introduction' and item.get('excerpt') else '授權正文節錄' if item.get('content_status')=='licensed_extract' else '摘要可讀' if item.get('excerpt') else '僅標題',
+            'content_status':item.get('content_status','unrecorded'),'content_reason':item.get('content_reason'),
             'verified':bool(item.get('verified_document')), 'fetched_at':item.get('fetched_at'),
             'note':'來源屬性不等於新聞正確率；未驗證的摘要不得標成已確認'}
 
@@ -97,6 +98,10 @@ def group_items(items, meta):
             found['copies'].append({'title':title,'url':item.get('url',''),'publisher':item.get('publisher','')})
             if len(item.get('excerpt',''))>len(found.get('excerpt','')):
                 found['excerpt']=item['excerpt']
+                found['verified_document']=bool(item.get('verified_document'))
+                found['official_document']=bool(item.get('official_document'))
+                for key in ('evidence_level','excerpt_origin','content_status','content_reason','rights_scope','terms_url','fetched_at','url','source_url','publisher'):
+                    if key in item:found[key]=item[key]
                 found['available_at']=max(dt(item.get('available_at') or item['published_at']),dt(found.get('available_at') or found['published_at'])).isoformat()
         else:
             result.append({**item,'title':title,'_norm':norm,'copies':[],

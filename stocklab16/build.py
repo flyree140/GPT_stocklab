@@ -46,6 +46,9 @@ def run(as_of,force=False):
     qwen=QwenHints();qwen.enabled=qwen.enabled and not historical
     benchmark=history('0050.TW',as_of,260);mscore=market_score(benchmark)
     cutoff=as_of+'T23:59:59+08:00' if historical else now().isoformat()
+    from stocklab194.evidence import Collector
+    collector=Collector(ROOT)
+    if not historical:collector.collect()
     built=[];failures=[]
     curated=read_json(ROOT/f'data/curated/{as_of}.json',{}) or {}
     for meta in metas:
@@ -53,7 +56,10 @@ def run(as_of,force=False):
         bars=history(meta['symbol'],as_of,520)
         if not bars:failures.append(meta['symbol']);continue
         facts=current_info(meta['symbol']) if not historical else {'source':'historical current facts disabled'}
-        raw=fetch_news(meta['name'],meta['symbol'],as_of,3,max(1,min(40,int(os.getenv('NEWS_PER_STOCK','20')))))+curated.get(meta['symbol'],[])
+        raw=(fetch_news(meta['name'],meta['symbol'],as_of,3,max(1,min(40,int(os.getenv('NEWS_PER_STOCK','20'))))) if not historical else [])+curated.get(meta['symbol'],[])
+        if not historical:
+            raw=collector.enrich(raw,meta)
+            cutoff=now().isoformat()  # fetched evidence must have become available before decision
         safe=[]
         for item in raw:
             try:
@@ -61,6 +67,8 @@ def run(as_of,force=False):
             except (ValueError,KeyError):continue
         grouped=group_items(safe,meta)
         built.append({**meta,'analysis_at':cutoff,'candles':bars,'facts':facts,'news':[],'_grouped':grouped,'market_score':mscore})
+    if not historical:cutoff=now().isoformat()
+    for stock in built:stock['analysis_at']=cutoff
     # Select one eligible event per stock per round, rather than spending all budget on the first stock.
     queues=[]
     for stock in built:
@@ -82,13 +90,13 @@ def run(as_of,force=False):
         item['foreign_defense'],item['flow_facts']=attach(ROOT,item,cutoff)
     for s in built:s['decision']=decide(s,as_of)
     top=[s['symbol'] for s in sorted(built,key=lambda x:x['decision']['score'],reverse=True) if s['decision']['code'] in ('conditional_buy','watch') and s['decision']['score']>=50][:5]
-    payload={'version':'19.3.2','as_of':as_of,'generated_at':now().isoformat(),'stocks':built,'top_picks':top,
+    payload={'version':'19.3.4','as_of':as_of,'generated_at':now().isoformat(),'stocks':built,'top_picks':top,
        'mode':'historical_reconstruction' if historical else 'live','demo':False,'qwen_used':qwen.used,'qwen_cache_hits':qwen.cached,
        'news_pipeline':{'sources':[LAST_STATS.get(m['symbol'],{}) for m in metas], 'stocks_requested':len(metas), 'after_grouping':grouped_total,
           'rule_analyzed':sum(len(s['news']) for s in built),'qwen_eligible':len(selected),'selection_offset':selection_offset,'qwen_reserved_this_run':qwen.used,'qwen':qwen.stats,
-          'coverage_note':'有限股票池、Google RSS可取得標題／使用者提供節錄，不是全網新聞，也不是每則全文均由Qwen讀過。'},
+          'coverage_note':'有限股票池RSS＋來源允許的前言／文件節錄；不是全網全文；市場背景另存context194。','evidence_collection':collector.report()},
        'coverage':{'completed':len(built),'requested':len(metas),'failed':failures,'selection':coverage_selection},
-       'limitations':['歷史重建使用現存核心名單，存在存續偏誤','新聞只分析實際取得的標題／使用者節錄','法人與可比估值缺資料時保留缺值，不偽裝全市場完整健檢'],
+       'limitations':['歷史重建使用現存核心名單，存在存續偏誤','新聞只分析實際取得的標題／RSS前言／授權節錄；取得內容不等於驗證事實','法人與可比估值缺資料時保留缺值，不偽裝全市場完整健檢'],
        'note':'規則研究訊號，不是機率或交易指令。'}
     errs=validate_snapshot(payload)
     if errs:raise ValueError('; '.join(errs))

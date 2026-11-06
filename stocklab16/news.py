@@ -11,7 +11,7 @@ def fetch(company, symbol, as_of, lookback=3, limit=20):
     stats={"symbol":symbol,"requested_limit":limit,"lookback_days":lookback,"provider":"Google News RSS","returned":0,"eligible":0,"error":None,"full_text":False}
     LAST_STATS[symbol]=stats
     end=date.fromisoformat(as_of)+timedelta(days=1); start=end-timedelta(days=lookback+1)
-    q=f'"{company}" OR "{symbol.split(".")[0]}" after:{start.isoformat()} before:{end.isoformat()}'
+    q=f'"{company}" (股票 OR 營收 OR 財報 OR 訂單 OR 政策) after:{start.isoformat()} before:{end.isoformat()}'
     url='https://news.google.com/rss/search?q='+urllib.parse.quote_plus(q)+'&hl=zh-TW&gl=TW&ceid=TW:zh-Hant'
     req=urllib.request.Request(url,headers={'User-Agent':'Mozilla/5.0 StockLab16'})
     try:
@@ -28,7 +28,15 @@ def fetch(company, symbol, as_of, lookback=3, limit=20):
         if not (start<=published.astimezone(TZ).date()<=date.fromisoformat(as_of)): continue
         if published>now(): continue
         source=item.find('source'); publisher=(source.text or '').strip() if source is not None else ''
-        out.append({'title':title,'url':link,'source_url':source.attrib.get('url',link) if source is not None else link,'publisher':publisher,'published_at':published.isoformat(),'available_at':published.isoformat(),'fetched_at':now().isoformat()})
+        from stocklab194.evidence import plain,meaningful
+        desc=plain(item.findtext('description') or '')
+        observed=now().isoformat()
+        out.append({'title':title,'url':link,'source_url':source.attrib.get('url',link) if source is not None else link,'publisher':publisher,'published_at':published.isoformat(),'available_at':observed,'fetched_at':observed,
+          'excerpt':desc[:600] if meaningful(title,desc) else '',
+          'content_status':'rss_introduction' if meaningful(title,desc) else 'headline_only',
+          'content_reason':'RSS前言（非全文）' if meaningful(title,desc) else '此RSS描述重複標題或沒有可用前言',
+          'evidence_level':'rss_introduction' if meaningful(title,desc) else 'headline',
+          'excerpt_origin':'rss_description','training_allowed':False})
         if len(out)>=limit: break
     stats["eligible"]=len(out)
     return out

@@ -1,10 +1,14 @@
+import * as GLOBAL194 from './global194.mjs?v=1934g1';
+import * as DD194 from './downside194.mjs';
+import * as EVID from './evidence1933.mjs';
 import {previewPrices} from './reprice1933.mjs';
 import * as U from './updates1933.mjs';
 import * as D from './dev1932-engine.mjs';import * as P from './paper-engine.mjs';import {DeveloperCloud} from './dev1932-cloud.mjs';
 const $=s=>document.querySelector(s),E=x=>String(x??'—').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const f=(x,n=2)=>Number.isFinite(x)?x.toLocaleString('zh-TW',{maximumFractionDigits:n}):'未取得';
 const KEY='stocklab-dev1932-batches-v1';let batches=[],snap,ctx,cal,rows=[],research={},outcomes=null,manifest,cloud=null,busy=false;
-let workingSnapshot=null;
+let workingSnapshot=null;let currentDownside194=null;let currentGlobal194=null,globalHash194=null,effectiveSettings194=null;
+let researchIssue="尚未讀取對應研究附檔";
 let priceStatus=null,refreshAt=null,loadError=false,cloudConfigSource='',lastAuto=0;
 const REVEAL_KEY='dev1933-reveal-permission';let revealAllowed=new Set;try{revealAllowed=new Set(JSON.parse(localStorage.getItem(REVEAL_KEY)||'[]'))}catch{}
 try{batches=JSON.parse(localStorage.getItem(KEY)||'[]')}catch{message('本機批次格式異常；未覆蓋舊資料，請先備份')}
@@ -56,18 +60,37 @@ async function load(){
    const projected=await previewPrices(snap,ctx,prices);workingSnapshot=projected.snapshot;ctx.priceEvidence=projected.evidence;
   }
 
-  try{research=await fetchJ(demo?'data/demo/developer/research.json':'data/research192/latest.json');if(research.cutoff!==generated||(!demo&&research.source_file_sha256!==hash))research={};}catch{research={};}
+  researchIssue='';
+  try{research=await fetchJ(demo?'data/demo/developer/research.json':'data/research192/latest.json');
+   if(research.cutoff!==generated||(!demo&&research.source_file_sha256!==hash)){researchIssue='研究附檔與原快照的時間或SHA-256不一致，已隔離';research={};}}
+  catch(e){research={};researchIssue='讀取自有權重附檔失敗：'+e.message;}
+
+  currentDownside194=null;currentGlobal194=null;globalHash194=null;
+  if(mode==='forward'){
+   try{currentDownside194=await fetchJ('data/context194/latest.json')}catch{}
+   try{currentGlobal194=await fetchJ('data/global194/latest.json');globalHash194=await P.sha(currentGlobal194)}catch{}
+  }
   $('#source').textContent=(mode==='demo'?'合成練習，不是真實績效。':mode==='forward'?'向前計畫：從你目前確認時間起，不倒填今天已經過去的開盤價。':'明確選擇的歷史重播，與前瞻績效分開。')+' 來源 '+path+'；產生 '+generated+'；'+snap.stocks.length+'檔分析。';
   recalc();renderBatches();clockPanel();return true;
  }catch(e){loadError=true;message('讀取失敗：'+e.message+'。原已確認批次與本機資料保留，不是市場看空。');workingSnapshot=null;rows=[];renderRows();clockPanel();return false;}
 }
-function recalc(){try{if(!snap||!ctx)return;rows=D.prepare(workingSnapshot||snap,ctx,settings());renderRows();}catch(e){message(e.message)}}
-function renderRows(){const good=rows.filter(r=>r.eligible);$('#counts').innerHTML=metric('全部留存觀察',rows.length,'含觀望／避開／未建單')+metric('可確認試單',good.length,'每檔獨立資金，不共享')+metric('保留未建單',rows.length-good.length,'也列入固定期限研究')+metric('Qwen新呼叫','0','配置與結算只用CPU');$('#approveNote').textContent=`${good.length}筆建立試單；${rows.length-good.length}筆保留拒絕理由，不強迫買入。`;$('#approveAll').disabled=!rows.length||busy;
+function recalc(){try{
+ if(!snap||!ctx)return;effectiveSettings194=settings();let globalBlock=null;
+ if($('#globalRiskGroup194')?.checked){try{effectiveSettings194=GLOBAL194.applyGlobalSettings(settings(),currentGlobal194,ctx,Date.now(),globalHash194)}catch(e){globalBlock=e.message;}}
+ rows=D.prepare(workingSnapshot||snap,ctx,effectiveSettings194);
+ if(globalBlock){for(const row of rows){row.proposal.blocks.push('全球研究組：'+globalBlock);row.proposal.quantity=0;row.eligible=false;}effectiveSettings194={...effectiveSettings194,global194:{status:'blocked',reason:globalBlock}};}
+ $('#globalRiskGroupStatus194').textContent=globalBlock||($('#globalRiskGroup194')?.checked?`新提案風險上限：${settings().maxLoss} × ${currentGlobal194.risk.new_risk_multiplier} = ${effectiveSettings194.maxLoss}元；獨立分組保存，不改既有試單。`:'未啟用全球風險縮減，保留原規則基準；全球資訊仍可查看。');
+ renderRows();
+ }catch(e){message(e.message)}}
+function renderRows(){const good=rows.filter(r=>r.eligible);$('#counts').innerHTML=metric('全部留存觀察',rows.length,'含觀望／避開／未建單')+metric('可確認試單',good.length,'每檔獨立資金，不共享')+metric('保留未建單',rows.length-good.length,'也列入固定期限研究')+metric('原Qwen有效輸出',EVID.modelFacts(snap,research).valid??'未記錄','配置按鈕不使用模型；下方看來源診斷');$('#approveNote').textContent=`${good.length}筆建立試單；${rows.length-good.length}筆保留拒絕理由，不強迫買入。`;$('#approveAll').disabled=!rows.length||busy;
+ $('#approveAll').textContent=good.length?'看過理由，確認 '+good.length+' 筆試單':'保存觀察（0筆試單，不會買進）';
+ $('#downsidePanel194').innerHTML=DD194.bridgeHTML(currentDownside194,ctx)+GLOBAL194.globalBridge(currentGlobal194,ctx);
+ $('#evidencePanel').innerHTML=EVID.panelHTML(snap,research,rows,{issue:researchIssue,strategy:settings().strategy});
  const query=$('#search').value.trim().toLowerCase(),filter=$('#filter').value;
  $('#planRows').innerHTML=rows.filter(r=>(!query||(r.symbol+r.name+r.proposal.blocks.join(' ')).toLowerCase().includes(query))&&(filter==='all'||filter==='eligible'&&r.eligible||filter==='blocked'&&!r.eligible||filter==='foreign'&&proxy(r.symbol).status==='available')).map(r=>{const p=r.proposal,fx=proxy(r.symbol);return `<tr><td><strong>${E(r.name)}</strong><small>${E(r.symbol)}</small><small>${E(r.originalLabel)} / ${f(p.original?.score,1)}分</small></td><td><span class="badge ${r.eligible?'':'warn'}">${r.eligible?'可確認試買':'未建試單・仍觀察'}</span><small>${E(p.blocks.join('；')||p.originalReasons?.[0]||'價格與固定研究條件通過')}</small></td><td><b>${r.eligible?p.quantity:0}股</b><small>最高 ${f(p.limit)} 元</small><small>${r.eligible?'支出 '+f(p.downside?.buy):'未建單支出 0'}</small></td><td>停 ${f(p.stop)}<br>目標 ${f(p.target)}<small>損失 ${f(p.downside?.pnl)}／情境收益 ${f(p.upside?.pnl)}</small></td><td>${p.settings.hold}交易日<small>${E(p.deadline||'跨年日期待公告')}</small></td><td>${f(fx.value)}<small>${E(fx.alert)}</small><small>非外資真實成本</small></td><td><button class="secondary" data-detail="${E(r.symbol)}">六面向與依據</button></td></tr>`}).join('')||'<tr><td colspan="7">沒有符合條件的列；這不會刪除原分析。</td></tr>';
 }
 function detail(symbol){const row=rows.find(r=>r.symbol===symbol);if(!row)return;const p=row.proposal,st=snap.stocks.find(s=>s.symbol===symbol),extra=research.stocks?.find(s=>s.symbol===symbol),fx=proxy(symbol);
- $('#detailBody').innerHTML=`<div class="eyebrow">完整研究 / ${E(symbol)}</div><h1>${E(row.name)}</h1><p class="note">${E(p.blocks.join('；')||'可確認虛擬試買。來源與規則固定，並非真實投資建議。')}</p><div class="grid">${(p.factors||[]).map(v=>`<div class="factor"><strong>${E(v.name||v.key)}</strong><div class="factorbar"><i style="width:${Number.isFinite(v.score)?Math.max(0,Math.min(100,v.score)):0}%"></i></div>${f(v.score,1)}<p class="muted">${E(v.note||'原始規則分，不是上漲機率')}</p></div>`).join('')}</div><h2>支持與反對</h2><p>${E((p.originalReasons||[]).join('；')||'沒有提供')}</p><p class="muted">${E([...(p.originalRisks||[]),...(p.warnings||[])].join('；'))}</p><h2>外資流向支撐代理</h2><p>${E(fx.alert)} · ${f(fx.value)} · ${fx.matched_sessions||0}期</p><p class="muted">僅以典型價乘正淨買股數估計，並非持倉成本／保證支撐；缺值不造線。</p><h2>新聞傳導與可驗證條件</h2>${(p.events||[]).map(e=>`<div class="factor"><strong>${E(e.title)}</strong><p>${E(e.summary)}</p><p>確認：${E(e.confirmation||'缺證據')}<br>失效：${E(e.invalidation||'缺證據')}<br>KPI：${E(e.kpi||'未提供')}</p></div>`).join('')||'<p>這份原始快照沒有可用新聞；不宣稱Qwen讀過全文。</p>'}<h2>自有權重結果</h2><p>${extra?.analyses?.length?E(extra.analyses.map(a=>a.output.mechanisms?.map(m=>m.claim).join('；')).join('；')):'這份快照沒有同時點的有效adapter輸出；不把其他日期的分析拼過來。'}</p><details><summary>全部資料缺口與計畫JSON</summary><pre>${E(JSON.stringify({plan:p,six_factors:extra?.factors,foreign_defense:fx},null,2))}</pre></details>`;$('#detail').showModal();$('#detail').setAttribute('tabindex','-1');$('#detail').focus({preventScroll:true});$('#detail').scrollTop=0;}
+ $('#detailBody').innerHTML=`<div class="eyebrow">完整研究 / ${E(symbol)}</div><h1>${E(row.name)}</h1><p class="note">${E(p.blocks.join('；')||'可確認虛擬試買。來源與規則固定，並非真實投資建議。')}</p><div class="grid">${(p.factors||[]).map(v=>`<div class="factor"><strong>${E(v.name||v.key)}</strong><div class="factorbar"><i style="width:${Number.isFinite(v.score)?Math.max(0,Math.min(100,v.score)):0}%"></i></div>${f(v.score,1)}<p class="muted">${E(v.note||'原始規則分，不是上漲機率')}</p></div>`).join('')}</div><h2>支持與反對</h2><p>${E((p.originalReasons||[]).join('；')||'沒有提供')}</p><p class="muted">${E([...(p.originalRisks||[]),...(p.warnings||[])].join('；'))}</p><h2>外資流向支撐代理</h2><p>${E(fx.alert)} · ${f(fx.value)} · ${fx.matched_sessions||0}期</p><p class="muted">僅以典型價乘正淨買股數估計，並非持倉成本／保證支撐；缺值不造線。</p><h2>新聞傳導與可驗證條件</h2>${(p.events||[]).map(e=>`<div class="factor"><strong>${E(e.title)}</strong><p>${E(e.summary)}</p><p>確認：${E(e.confirmation||'缺證據')}<br>失效：${E(e.invalidation||'缺證據')}<br>KPI：${E(e.kpi||'未提供')}</p></div>`).join('')||'<p>這份原始快照沒有可用新聞；不宣稱Qwen讀過全文。</p>'}<h2>自有權重結果</h2><p>${extra?.analyses?.length?E(extra.analyses.map(a=>a.output.mechanisms?.map(m=>m.claim).join('；')).join('；')):'這份快照沒有同時點的有效adapter輸出；不把其他日期的分析拼過來。'}</p><details><summary>全部資料缺口與計畫JSON</summary><pre>${E(JSON.stringify({plan:p,six_factors:extra?.factors,foreign_defense:fx},null,2))}</pre></details>`;$('#detailBody').insertAdjacentHTML('beforeend',EVID.stockEvidenceHTML(st,extra));if(ctx?.mode==='forward'&&currentDownside194?.source_snapshot_sha256===ctx.hash){const newer=currentDownside194.stocks?.find(x=>x.symbol===symbol);if(newer){$('#detailBody').insertAdjacentHTML('afterbegin',`<section class="card"><p class="note">較新獨立研究 ${E(currentDownside194.generated_at)}；不覆寫上方原建議、不改本批次試單。</p>${DD194.downsideHTML(newer.downside,row.name)}${(newer.events||[]).slice(0,3).map(DD194.evidenceCard).join('')}<a href="market-watch.html#${encodeURIComponent(symbol)}">看最新來源前言、下跌風險與加碼情境 →</a></section>`);}}if(ctx?.mode==='forward'&&currentGlobal194?.source_snapshot_sha256===ctx.hash){$('#detailBody').insertAdjacentHTML('beforeend',`<section class="card g-embedded"><p>全球研究 ${E(currentGlobal194.generated_at)}，不改原新聞評分。</p>${GLOBAL194.stockGlobalHTML(currentGlobal194,symbol)}<a href="global-watch.html">完整全球市場與政策 →</a></section>`);}$('#detail').showModal();$('#detail').setAttribute('tabindex','-1');$('#detail').focus({preventScroll:true});$('#detail').scrollTop=0;}
 function renderBatches(){
  $('#batchList').innerHTML=batches.length?batches.slice().reverse().map(b=>{
   const x=D.batchSummary(b);return `<details class="card" ${batches.at(-1)?.id===b.id?'open':''}><summary>${E(b.context.asOf)} · ${x.observed}檔觀察 / ${x.eligible}筆試單 · ${b.deletedAt?'已回收':b.context.mode==='historical'?'歷史重播':b.context.mode==='demo'?'合成練習':'向前登記'} · 版本${b.revision}</summary>
@@ -88,12 +111,13 @@ async function guarded(fn){
  try{await fn()}catch(e){message(e.message)}finally{busy=false;$('#settle').disabled=false;$('#refreshPublished').disabled=false;renderRows();updateCloudUI()}
 }
 $('#approveAll').onclick=()=>guarded(async()=>{
- const previous=ctx?P.copy(ctx):null;$('#workStatus').textContent='先重讀最新已發布的快照、日曆與更新狀態…';
+ const previous=ctx?P.copy(ctx):null;const previousGlobal=JSON.stringify(effectiveSettings194?.global194||null);$('#workStatus').textContent='先重讀最新已發布的快照、日曆與更新狀態…';
  if(!await load())throw Error('重讀失敗，沒有新增批次；原批次保留。');
  if(previous&&U.approvalChanged(previous,ctx,cal)){message('資料、模式或有效交易日已更新，提案已重算。請重新看過價格與股數，再確認；本次沒有送出試單。');return;}
+ if(previousGlobal!==JSON.stringify(effectiveSettings194?.global194||null)){message('全球研究版本或風險額度已更新，請重看股數再確認；本次沒有建立試單。');return;}
  const n=rows.filter(r=>r.eligible).length;
  if(!confirm(n?`確認${n}筆虛擬試單？有效日由計畫決定，收盤取得完整日K才回算。未通過者只保存觀察。`:'目前0筆合格試單。是否只保存這批觀察？這不會買進，日結也不會強迫成交。'))return;
- const b=await D.confirmBatch(rows,ctx,settings(),batches);await D.validateBatch(b);batches.push(b);save();renderBatches();tab('batches');
+ const b=await D.confirmBatch(rows,ctx,effectiveSettings194||settings(),batches);await D.validateBatch(b);batches.push(b);save();renderBatches();tab('batches');
  message(n?`已確認${n}筆試單，尚未成交。請看每列有效日；下一步「更新並結算」。`:'已保存觀察批次（0筆試單）；請看未通過原因，不需要反覆日結。');
  $('#workStatus').textContent='已在本機保存；尚未同步Google時，雲端顯示「待同步」。';
 });
@@ -186,3 +210,5 @@ $('#restoreCloud').onclick=()=>guarded(async()=>{const remote=await cloud.readBa
 $('#cloudLogout').onclick=()=>{cloud.disconnect();$('#cloudStatus').textContent='已登出。資料與公開Client ID保留；沒有刪除雲端檔案。';updateCloudUI();};
 await initCloud();for(const b of batches)await D.validateBatch(b).catch(e=>message('本機備份需核對：'+e.message));await load();
 if(location.hash==='#cloud')tab('cloudPane');
+
+$('#globalRiskGroup194').onchange=recalc;
