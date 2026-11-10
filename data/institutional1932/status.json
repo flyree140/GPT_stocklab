@@ -1,17 +1,15 @@
 {
-  "requested_date": "2026-11-09",
-  "collected_at": "2026-11-10T06:59:57.001987+08:00",
+  "requested_date": "2026-11-10",
+  "collected_at": "2026-11-10T15:28:52.645026+08:00",
   "sources": {
     "TWSE": {
-      "ok": true,
-      "count": 1230,
-      "sha256": "2ec557e46e8e1b589d5e9fd32e6b507dfd0c11864d9910bef5160e9becc80743",
-      "url": "https://www.twse.com.tw/rwd/zh/fund/T86?response=json&date=20261109&selectType=ALLBUT0999"
+      "ok": false,
+      "error": "TWSE沒有可核對日報",
+      "url": "https://www.twse.com.tw/rwd/zh/fund/T86?response=json&date=20261110&selectType=ALLBUT0999"
     },
     "TPEx": {
-      "ok": true,
-      "count": 806,
-      "sha256": "114fc02d91404bb24e84556ffac38c5a759a56abb780a81f645f749fbec3d281",
+      "ok": false,
+      "error": "TPEx日期或欄位未核對；不以0填值，不套用TWSE資料",
       "url": "https://www.tpex.org.tw/openapi/v1/tpex_3insti_daily_trading"
     }
   },
