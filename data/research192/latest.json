@@ -1,17 +1,17 @@
 {
   "version": "19.3.2",
-  "as_of": "2026-11-16",
-  "cutoff": "2026-11-16T14:47:40.408719+08:00",
-  "created_at": "2026-11-16T14:47:46.354941+08:00",
-  "source_snapshot_sha256": "7016a94d512d97faf2664c130616b52f54443d8b379b4b7cf7c01d4233912241",
-  "source_file_sha256": "7154dde301826accec596d799cbcb1617cdec58662e081347ce7083ab491f6db",
+  "as_of": "2026-11-17",
+  "cutoff": "2026-11-17T06:54:48.193719+08:00",
+  "created_at": "2026-11-17T06:55:06.771813+08:00",
+  "source_snapshot_sha256": "e4012bd319d233eb0785f5cd2a6400e4414b9bbe581c7d05ba772febebb1440b",
+  "source_file_sha256": "28007fad849188ee5db275f2dddd4daa1225cfc8e5131c1dd706fb48557ca10c",
   "demo": false,
   "model_status": {
     "enabled_requested": false,
     "adapter_repo": "",
     "adapter_revision": "",
     "mode": "shadow_only",
-    "selection_offset": 18,
+    "selection_offset": 4,
     "daily_max_attempts": 12,
     "per_run_max_attempts": 6,
     "attempts_this_run": 0,
@@ -26,14 +26,14 @@
       "foreign_defense": {
         "label": "外資流向支撐代理線（非真實成本）",
         "method_version": "net-buy-typical-price-v1",
-        "cutoff": "2026-11-16T14:47:40.408719+08:00",
+        "cutoff": "2026-11-17T06:54:48.193719+08:00",
         "window_sessions": 20,
-        "matched_sessions": 11,
+        "matched_sessions": 12,
         "required_sessions": 5,
         "actual_institutional_cost": false,
         "value": null,
-        "alert": "最新交易日法人資料尚缺",
-        "status": "stale",
+        "alert": "窗口法人資料不連續，先補齊再估計",
+        "status": "partial",
         "formula": "Σ[當日典型價×max(外資淨買股數,0)] / Σmax(外資淨買股數,0)",
         "limitations": [
           "不含外資實際成交價與存量部位，不是外資真實成本或保證支撐",
@@ -46,7 +46,7 @@
           "label": "新聞與公司政策",
           "status": "partial",
           "values": {
-            "events": 21,
+            "events": 19,
             "verified_events": 0
           },
           "missing": [],
@@ -67,32 +67,32 @@
           "label": "基本・財務・估值",
           "status": "partial",
           "values": {
-            "eps_ttm": 97.47,
-            "pe": 22.724941,
+            "eps_ttm": 91.87,
+            "pe": 24.110155,
             "pb": 8.155255,
             "roe_pct": 41.854998
           },
           "provenance": {
             "eps_ttm": {
-              "available_at": "2026-11-16T14:46:47.142615+08:00",
+              "available_at": "2026-11-17T06:53:42.119929+08:00",
               "period": "provider-current-observed; not original filing period",
               "source": "Yahoo Finance（需以公司公告複核）",
               "unit": "provider-native"
             },
             "pe": {
-              "available_at": "2026-11-16T14:46:47.142615+08:00",
+              "available_at": "2026-11-17T06:53:42.119929+08:00",
               "period": "provider-current-observed; not original filing period",
               "source": "Yahoo Finance（需以公司公告複核）",
               "unit": "provider-native"
             },
             "pb": {
-              "available_at": "2026-11-16T14:46:47.142615+08:00",
+              "available_at": "2026-11-17T06:53:42.119929+08:00",
               "period": "provider-current-observed; not original filing period",
               "source": "Yahoo Finance（需以公司公告複核）",
               "unit": "provider-native"
             },
             "roe_pct": {
-              "available_at": "2026-11-16T14:46:47.142615+08:00",
+              "available_at": "2026-11-17T06:53:42.119929+08:00",
               "period": "provider-current-observed; not original filing period",
               "source": "Yahoo Finance（需以公司公告複核）",
               "unit": "percent"
@@ -121,8 +121,8 @@
             "close": 2215.0,
             "rsi14": 38.78708870863365,
             "atr14": 82.85714285714286,
-            "volume": 49826948.0,
-            "volume_ratio_previous20": 1.4583760130668777,
+            "volume": 44330597.0,
+            "volume_ratio_previous20": 1.2975043004788192,
             "macd": -43.534236361630974,
             "macd_hist": -0.8453781294631781,
             "macd_new_cross_up": false,
@@ -146,26 +146,26 @@
           "label": "法人・籌碼・流動性",
           "status": "available",
           "values": {
-            "foreign_net_shares": -2618070.0,
-            "trust_net_shares": 2946069.0,
-            "dealer_net_shares": 415614.0
+            "foreign_net_shares": -8466493.0,
+            "trust_net_shares": -2303357.0,
+            "dealer_net_shares": 3085864.0
           },
           "provenance": {
             "foreign_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
               "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
               "unit": "shares"
             },
             "trust_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
               "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
               "unit": "shares"
             },
             "dealer_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
               "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
               "unit": "shares"
             }
@@ -201,2289 +201,14 @@
       "foreign_defense": {
         "label": "外資流向支撐代理線（非真實成本）",
         "method_version": "net-buy-typical-price-v1",
-        "cutoff": "2026-11-16T14:47:40.408719+08:00",
+        "cutoff": "2026-11-17T06:54:48.193719+08:00",
         "window_sessions": 20,
-        "matched_sessions": 11,
+        "matched_sessions": 12,
         "required_sessions": 5,
         "actual_institutional_cost": false,
         "value": null,
-        "alert": "最新交易日法人資料尚缺",
-        "status": "stale",
-        "formula": "Σ[當日典型價×max(外資淨買股數,0)] / Σmax(外資淨買股數,0)",
-        "limitations": [
-          "不含外資實際成交價與存量部位，不是外資真實成本或保證支撐",
-          "只用截至分析時間已取得的法人資料；不同市場分開處理",
-          "缺交易日、不足樣本、沒有淨買時不造線；不以此單獨買進"
-        ]
-      },
-      "factors": {
-        "news": {
-          "label": "新聞與公司政策",
-          "status": "partial",
-          "values": {
-            "events": 15,
-            "verified_events": 0
-          },
-          "missing": [],
-          "notes": [
-            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
-          ]
-        },
-        "social": {
-          "label": "社群關注與情緒",
-          "status": "missing",
-          "values": {},
-          "missing": [
-            "社群來源未授權、未執行或連線失敗；不可填0熱度"
-          ],
-          "sample_scope": true
-        },
-        "fundamental": {
-          "label": "基本・財務・估值",
-          "status": "partial",
-          "values": {
-            "eps_ttm": 15.05,
-            "pe": 14.518272,
-            "pb": 1.5528613,
-            "roe_pct": 13.494
-          },
-          "provenance": {
-            "eps_ttm": {
-              "available_at": "2026-11-16T14:46:47.895867+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "pe": {
-              "available_at": "2026-11-16T14:46:47.895867+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "pb": {
-              "available_at": "2026-11-16T14:46:47.895867+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "roe_pct": {
-              "available_at": "2026-11-16T14:46:47.895867+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "percent"
-            }
-          },
-          "missing": [
-            "revenue_yoy_pct",
-            "ocf"
-          ],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        },
-        "technical": {
-          "label": "K線・技術・量價",
-          "status": "available",
-          "available_at": "2026-11-16T14:30:00+08:00",
-          "quote_date": "2026-11-16",
-          "bar_count": 518,
-          "values": {
-            "ma5": 236.6,
-            "ma20": 241.525,
-            "ma60": 246.86666666666667,
-            "close": 218.5,
-            "rsi14": 33.82537130565096,
-            "atr14": 10.785714285714286,
-            "volume": 78720758.0,
-            "volume_ratio_previous20": 1.8532232721723827,
-            "macd": -4.008754476057447,
-            "macd_hist": -1.3157121781668972,
-            "macd_new_cross_up": false,
-            "k9": 50.68253177627153,
-            "d9": 56.47841354898107,
-            "kd_new_cross_up": false,
-            "volatility20_pct": 49.86185629083835,
-            "support20": 212.5,
-            "resistance20": 253.5,
-            "return20_pct": -8.768267223382043
-          },
-          "missing": [],
-          "rejected": [],
-          "notes": [
-            "以有效OHLCV計算，不從圖像猜價格。",
-            "量比使用前20筆、不含當日的均量。",
-            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
-          ]
-        },
-        "flow": {
-          "label": "法人・籌碼・流動性",
-          "status": "available",
-          "values": {
-            "foreign_net_shares": 7463169.0,
-            "trust_net_shares": -3350947.0,
-            "dealer_net_shares": 787890.0
-          },
-          "provenance": {
-            "foreign_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            },
-            "trust_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            },
-            "dealer_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            }
-          },
-          "missing": [],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        },
-        "macro_policy": {
-          "label": "總經・產業・法規",
-          "status": "missing",
-          "values": {},
-          "provenance": {},
-          "missing": [
-            "policy_rate_pct",
-            "usd_twd"
-          ],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        }
-      },
-      "analyses": []
-    },
-    {
-      "symbol": "2454.TW",
-      "name": "聯發科",
-      "foreign_defense": {
-        "label": "外資流向支撐代理線（非真實成本）",
-        "method_version": "net-buy-typical-price-v1",
-        "cutoff": "2026-11-16T14:47:40.408719+08:00",
-        "window_sessions": 20,
-        "matched_sessions": 11,
-        "required_sessions": 5,
-        "actual_institutional_cost": false,
-        "value": null,
-        "alert": "最新交易日法人資料尚缺",
-        "status": "stale",
-        "formula": "Σ[當日典型價×max(外資淨買股數,0)] / Σmax(外資淨買股數,0)",
-        "limitations": [
-          "不含外資實際成交價與存量部位，不是外資真實成本或保證支撐",
-          "只用截至分析時間已取得的法人資料；不同市場分開處理",
-          "缺交易日、不足樣本、沒有淨買時不造線；不以此單獨買進"
-        ]
-      },
-      "factors": {
-        "news": {
-          "label": "新聞與公司政策",
-          "status": "partial",
-          "values": {
-            "events": 21,
-            "verified_events": 0
-          },
-          "missing": [],
-          "notes": [
-            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
-          ]
-        },
-        "social": {
-          "label": "社群關注與情緒",
-          "status": "missing",
-          "values": {},
-          "missing": [
-            "社群來源未授權、未執行或連線失敗；不可填0熱度"
-          ],
-          "sample_scope": true
-        },
-        "fundamental": {
-          "label": "基本・財務・估值",
-          "status": "partial",
-          "values": {
-            "eps_ttm": 60.56,
-            "pe": 62.665123,
-            "pb": 13.022934,
-            "roe_pct": 22.211
-          },
-          "provenance": {
-            "eps_ttm": {
-              "available_at": "2026-11-16T14:46:48.565464+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "pe": {
-              "available_at": "2026-11-16T14:46:48.565464+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "pb": {
-              "available_at": "2026-11-16T14:46:48.565464+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "roe_pct": {
-              "available_at": "2026-11-16T14:46:48.565464+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "percent"
-            }
-          },
-          "missing": [
-            "revenue_yoy_pct",
-            "ocf"
-          ],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        },
-        "technical": {
-          "label": "K線・技術・量價",
-          "status": "available",
-          "available_at": "2026-11-16T14:30:00+08:00",
-          "quote_date": "2026-11-16",
-          "bar_count": 519,
-          "values": {
-            "ma5": 3917.0,
-            "ma20": 3921.5,
-            "ma60": 4302.75,
-            "close": 3795.0,
-            "rsi14": 44.0857542208137,
-            "atr14": 299.2857142857143,
-            "volume": 12520434.0,
-            "volume_ratio_previous20": 1.1541517725831616,
-            "macd": -156.439433324947,
-            "macd_hist": 31.99964565953647,
-            "macd_new_cross_up": false,
-            "k9": 68.28054962462011,
-            "d9": 59.59162422726739,
-            "kd_new_cross_up": false,
-            "volatility20_pct": 75.38529571453995,
-            "support20": 3115.0,
-            "resistance20": 4360.0,
-            "return20_pct": -8.88355342136855
-          },
-          "missing": [],
-          "rejected": [],
-          "notes": [
-            "以有效OHLCV計算，不從圖像猜價格。",
-            "量比使用前20筆、不含當日的均量。",
-            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
-          ]
-        },
-        "flow": {
-          "label": "法人・籌碼・流動性",
-          "status": "available",
-          "values": {
-            "foreign_net_shares": 2169623.0,
-            "trust_net_shares": 304601.0,
-            "dealer_net_shares": 135691.0
-          },
-          "provenance": {
-            "foreign_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            },
-            "trust_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            },
-            "dealer_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            }
-          },
-          "missing": [],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        },
-        "macro_policy": {
-          "label": "總經・產業・法規",
-          "status": "missing",
-          "values": {},
-          "provenance": {},
-          "missing": [
-            "policy_rate_pct",
-            "usd_twd"
-          ],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        }
-      },
-      "analyses": []
-    },
-    {
-      "symbol": "2382.TW",
-      "name": "廣達",
-      "foreign_defense": {
-        "label": "外資流向支撐代理線（非真實成本）",
-        "method_version": "net-buy-typical-price-v1",
-        "cutoff": "2026-11-16T14:47:40.408719+08:00",
-        "window_sessions": 20,
-        "matched_sessions": 11,
-        "required_sessions": 5,
-        "actual_institutional_cost": false,
-        "value": null,
-        "alert": "最新交易日法人資料尚缺",
-        "status": "stale",
-        "formula": "Σ[當日典型價×max(外資淨買股數,0)] / Σmax(外資淨買股數,0)",
-        "limitations": [
-          "不含外資實際成交價與存量部位，不是外資真實成本或保證支撐",
-          "只用截至分析時間已取得的法人資料；不同市場分開處理",
-          "缺交易日、不足樣本、沒有淨買時不造線；不以此單獨買進"
-        ]
-      },
-      "factors": {
-        "news": {
-          "label": "新聞與公司政策",
-          "status": "partial",
-          "values": {
-            "events": 13,
-            "verified_events": 0
-          },
-          "missing": [],
-          "notes": [
-            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
-          ]
-        },
-        "social": {
-          "label": "社群關注與情緒",
-          "status": "missing",
-          "values": {},
-          "missing": [
-            "社群來源未授權、未執行或連線失敗；不可填0熱度"
-          ],
-          "sample_scope": true
-        },
-        "fundamental": {
-          "label": "基本・財務・估值",
-          "status": "partial",
-          "values": {
-            "eps_ttm": 22.06,
-            "pe": 11.990027,
-            "pb": 3.1506097,
-            "roe_pct": 34.754002
-          },
-          "provenance": {
-            "eps_ttm": {
-              "available_at": "2026-11-16T14:46:49.242032+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "pe": {
-              "available_at": "2026-11-16T14:46:49.242032+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "pb": {
-              "available_at": "2026-11-16T14:46:49.242032+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "roe_pct": {
-              "available_at": "2026-11-16T14:46:49.242032+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "percent"
-            }
-          },
-          "missing": [
-            "revenue_yoy_pct",
-            "ocf"
-          ],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        },
-        "technical": {
-          "label": "K線・技術・量價",
-          "status": "available",
-          "available_at": "2026-11-16T14:30:00+08:00",
-          "quote_date": "2026-11-16",
-          "bar_count": 519,
-          "values": {
-            "ma5": 283.2,
-            "ma20": 306.8,
-            "ma60": 324.78333333333336,
-            "close": 264.5,
-            "rsi14": 21.968010546043587,
-            "atr14": 12.321428571428571,
-            "volume": 21434552.0,
-            "volume_ratio_previous20": 1.4869402176110866,
-            "macd": -13.391042961492133,
-            "macd_hist": -4.082119670056025,
-            "macd_new_cross_up": false,
-            "k9": 17.038380395611547,
-            "d9": 25.12568660645976,
-            "kd_new_cross_up": false,
-            "volatility20_pct": 37.92770344272951,
-            "support20": 262.5,
-            "resistance20": 338.0,
-            "return20_pct": -16.429699842022117
-          },
-          "missing": [],
-          "rejected": [],
-          "notes": [
-            "以有效OHLCV計算，不從圖像猜價格。",
-            "量比使用前20筆、不含當日的均量。",
-            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
-          ]
-        },
-        "flow": {
-          "label": "法人・籌碼・流動性",
-          "status": "available",
-          "values": {
-            "foreign_net_shares": -221010.0,
-            "trust_net_shares": -89319.0,
-            "dealer_net_shares": 295584.0
-          },
-          "provenance": {
-            "foreign_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            },
-            "trust_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            },
-            "dealer_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            }
-          },
-          "missing": [],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        },
-        "macro_policy": {
-          "label": "總經・產業・法規",
-          "status": "missing",
-          "values": {},
-          "provenance": {},
-          "missing": [
-            "policy_rate_pct",
-            "usd_twd"
-          ],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        }
-      },
-      "analyses": []
-    },
-    {
-      "symbol": "2308.TW",
-      "name": "台達電",
-      "foreign_defense": {
-        "label": "外資流向支撐代理線（非真實成本）",
-        "method_version": "net-buy-typical-price-v1",
-        "cutoff": "2026-11-16T14:47:40.408719+08:00",
-        "window_sessions": 20,
-        "matched_sessions": 11,
-        "required_sessions": 5,
-        "actual_institutional_cost": false,
-        "value": null,
-        "alert": "最新交易日法人資料尚缺",
-        "status": "stale",
-        "formula": "Σ[當日典型價×max(外資淨買股數,0)] / Σmax(外資淨買股數,0)",
-        "limitations": [
-          "不含外資實際成交價與存量部位，不是外資真實成本或保證支撐",
-          "只用截至分析時間已取得的法人資料；不同市場分開處理",
-          "缺交易日、不足樣本、沒有淨買時不造線；不以此單獨買進"
-        ]
-      },
-      "factors": {
-        "news": {
-          "label": "新聞與公司政策",
-          "status": "partial",
-          "values": {
-            "events": 19,
-            "verified_events": 0
-          },
-          "missing": [],
-          "notes": [
-            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
-          ]
-        },
-        "social": {
-          "label": "社群關注與情緒",
-          "status": "missing",
-          "values": {},
-          "missing": [
-            "社群來源未授權、未執行或連線失敗；不可填0熱度"
-          ],
-          "sample_scope": true
-        },
-        "fundamental": {
-          "label": "基本・財務・估值",
-          "status": "partial",
-          "values": {
-            "eps_ttm": 33.24,
-            "pe": 33.694344,
-            "pb": 9.142932,
-            "roe_pct": 28.527
-          },
-          "provenance": {
-            "eps_ttm": {
-              "available_at": "2026-11-16T14:46:49.913671+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "pe": {
-              "available_at": "2026-11-16T14:46:49.913671+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "pb": {
-              "available_at": "2026-11-16T14:46:49.913671+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "roe_pct": {
-              "available_at": "2026-11-16T14:46:49.913671+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "percent"
-            }
-          },
-          "missing": [
-            "revenue_yoy_pct",
-            "ocf"
-          ],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        },
-        "technical": {
-          "label": "K線・技術・量價",
-          "status": "available",
-          "available_at": "2026-11-16T14:30:00+08:00",
-          "quote_date": "2026-11-16",
-          "bar_count": 519,
-          "values": {
-            "ma5": 1234.0,
-            "ma20": 1365.0,
-            "ma60": 1659.3333333333333,
-            "close": 1120.0,
-            "rsi14": 31.41008560746306,
-            "atr14": 105.71428571428571,
-            "volume": 21253889.0,
-            "volume_ratio_previous20": 1.382909638335814,
-            "macd": -146.60512661271719,
-            "macd_hist": -3.882490353792548,
-            "macd_new_cross_up": false,
-            "k9": 46.94892903181536,
-            "d9": 42.22511990222995,
-            "kd_new_cross_up": false,
-            "volatility20_pct": 84.29885843166987,
-            "support20": 1020.0,
-            "resistance20": 1665.0,
-            "return20_pct": -31.288343558282207
-          },
-          "missing": [],
-          "rejected": [],
-          "notes": [
-            "以有效OHLCV計算，不從圖像猜價格。",
-            "量比使用前20筆、不含當日的均量。",
-            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
-          ]
-        },
-        "flow": {
-          "label": "法人・籌碼・流動性",
-          "status": "available",
-          "values": {
-            "foreign_net_shares": -1411386.0,
-            "trust_net_shares": 185372.0,
-            "dealer_net_shares": 174005.0
-          },
-          "provenance": {
-            "foreign_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            },
-            "trust_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            },
-            "dealer_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            }
-          },
-          "missing": [],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        },
-        "macro_policy": {
-          "label": "總經・產業・法規",
-          "status": "missing",
-          "values": {},
-          "provenance": {},
-          "missing": [
-            "policy_rate_pct",
-            "usd_twd"
-          ],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        }
-      },
-      "analyses": []
-    },
-    {
-      "symbol": "2412.TW",
-      "name": "中華電",
-      "foreign_defense": {
-        "label": "外資流向支撐代理線（非真實成本）",
-        "method_version": "net-buy-typical-price-v1",
-        "cutoff": "2026-11-16T14:47:40.408719+08:00",
-        "window_sessions": 20,
-        "matched_sessions": 11,
-        "required_sessions": 5,
-        "actual_institutional_cost": false,
-        "value": null,
-        "alert": "最新交易日法人資料尚缺",
-        "status": "stale",
-        "formula": "Σ[當日典型價×max(外資淨買股數,0)] / Σmax(外資淨買股數,0)",
-        "limitations": [
-          "不含外資實際成交價與存量部位，不是外資真實成本或保證支撐",
-          "只用截至分析時間已取得的法人資料；不同市場分開處理",
-          "缺交易日、不足樣本、沒有淨買時不造線；不以此單獨買進"
-        ]
-      },
-      "factors": {
-        "news": {
-          "label": "新聞與公司政策",
-          "status": "partial",
-          "values": {
-            "events": 15,
-            "verified_events": 0
-          },
-          "missing": [],
-          "notes": [
-            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
-          ]
-        },
-        "social": {
-          "label": "社群關注與情緒",
-          "status": "missing",
-          "values": {},
-          "missing": [
-            "社群來源未授權、未執行或連線失敗；不可填0熱度"
-          ],
-          "sample_scope": true
-        },
-        "fundamental": {
-          "label": "基本・財務・估值",
-          "status": "partial",
-          "values": {
-            "eps_ttm": 5.44,
-            "pe": 30.055147,
-            "pb": 3.3537774,
-            "roe_pct": 11.372
-          },
-          "provenance": {
-            "eps_ttm": {
-              "available_at": "2026-11-16T14:46:50.559307+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "pe": {
-              "available_at": "2026-11-16T14:46:50.559307+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "pb": {
-              "available_at": "2026-11-16T14:46:50.559307+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "roe_pct": {
-              "available_at": "2026-11-16T14:46:50.559307+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "percent"
-            }
-          },
-          "missing": [
-            "revenue_yoy_pct",
-            "ocf"
-          ],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        },
-        "technical": {
-          "label": "K線・技術・量價",
-          "status": "available",
-          "available_at": "2026-11-16T14:30:00+08:00",
-          "quote_date": "2026-11-16",
-          "bar_count": 519,
-          "values": {
-            "ma5": 162.2,
-            "ma20": 159.075,
-            "ma60": 147.44166666666666,
-            "close": 163.5,
-            "rsi14": 68.4121023008064,
-            "atr14": 4.035714285714286,
-            "volume": 15167031.0,
-            "volume_ratio_previous20": 1.049817224405355,
-            "macd": 3.917735586428421,
-            "macd_hist": -0.06102321751482975,
-            "macd_new_cross_up": false,
-            "k9": 62.3868547721698,
-            "d9": 61.087651149994095,
-            "kd_new_cross_up": false,
-            "volatility20_pct": 18.17531218104882,
-            "support20": 151.0,
-            "resistance20": 168.0,
-            "return20_pct": 7.21311475409836
-          },
-          "missing": [],
-          "rejected": [],
-          "notes": [
-            "以有效OHLCV計算，不從圖像猜價格。",
-            "量比使用前20筆、不含當日的均量。",
-            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
-          ]
-        },
-        "flow": {
-          "label": "法人・籌碼・流動性",
-          "status": "available",
-          "values": {
-            "foreign_net_shares": 3624299.0,
-            "trust_net_shares": -540531.0,
-            "dealer_net_shares": 273973.0
-          },
-          "provenance": {
-            "foreign_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            },
-            "trust_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            },
-            "dealer_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            }
-          },
-          "missing": [],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        },
-        "macro_policy": {
-          "label": "總經・產業・法規",
-          "status": "missing",
-          "values": {},
-          "provenance": {},
-          "missing": [
-            "policy_rate_pct",
-            "usd_twd"
-          ],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        }
-      },
-      "analyses": []
-    },
-    {
-      "symbol": "2881.TW",
-      "name": "富邦金",
-      "foreign_defense": {
-        "label": "外資流向支撐代理線（非真實成本）",
-        "method_version": "net-buy-typical-price-v1",
-        "cutoff": "2026-11-16T14:47:40.408719+08:00",
-        "window_sessions": 20,
-        "matched_sessions": 11,
-        "required_sessions": 5,
-        "actual_institutional_cost": false,
-        "value": null,
-        "alert": "最新交易日法人資料尚缺",
-        "status": "stale",
-        "formula": "Σ[當日典型價×max(外資淨買股數,0)] / Σmax(外資淨買股數,0)",
-        "limitations": [
-          "不含外資實際成交價與存量部位，不是外資真實成本或保證支撐",
-          "只用截至分析時間已取得的法人資料；不同市場分開處理",
-          "缺交易日、不足樣本、沒有淨買時不造線；不以此單獨買進"
-        ]
-      },
-      "factors": {
-        "news": {
-          "label": "新聞與公司政策",
-          "status": "partial",
-          "values": {
-            "events": 15,
-            "verified_events": 0
-          },
-          "missing": [],
-          "notes": [
-            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
-          ]
-        },
-        "social": {
-          "label": "社群關注與情緒",
-          "status": "missing",
-          "values": {},
-          "missing": [
-            "社群來源未授權、未執行或連線失敗；不可填0熱度"
-          ],
-          "sample_scope": true
-        },
-        "fundamental": {
-          "label": "基本・財務・估值",
-          "status": "partial",
-          "values": {
-            "eps_ttm": 8.01,
-            "pe": 18.976278,
-            "pb": 1.7010418,
-            "roe_pct": 26.063
-          },
-          "provenance": {
-            "eps_ttm": {
-              "available_at": "2026-11-16T14:46:51.273771+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "pe": {
-              "available_at": "2026-11-16T14:46:51.273771+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "pb": {
-              "available_at": "2026-11-16T14:46:51.273771+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "roe_pct": {
-              "available_at": "2026-11-16T14:46:51.273771+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "percent"
-            }
-          },
-          "missing": [
-            "revenue_yoy_pct",
-            "ocf"
-          ],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        },
-        "technical": {
-          "label": "K線・技術・量價",
-          "status": "available",
-          "available_at": "2026-11-16T14:30:00+08:00",
-          "quote_date": "2026-11-16",
-          "bar_count": 519,
-          "values": {
-            "ma5": 157.0,
-            "ma20": 157.35,
-            "ma60": 151.1,
-            "close": 152.0,
-            "rsi14": 45.48957685796646,
-            "atr14": 6.535714285714286,
-            "volume": 27808801.0,
-            "volume_ratio_previous20": 1.387196583244869,
-            "macd": 0.6237586269882911,
-            "macd_hist": -0.4889602018663721,
-            "macd_new_cross_up": false,
-            "k9": 67.06199961757986,
-            "d9": 63.2735063290868,
-            "kd_new_cross_up": false,
-            "volatility20_pct": 41.52069175689453,
-            "support20": 140.0,
-            "resistance20": 164.5,
-            "return20_pct": -4.702194357366773
-          },
-          "missing": [],
-          "rejected": [],
-          "notes": [
-            "以有效OHLCV計算，不從圖像猜價格。",
-            "量比使用前20筆、不含當日的均量。",
-            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
-          ]
-        },
-        "flow": {
-          "label": "法人・籌碼・流動性",
-          "status": "available",
-          "values": {
-            "foreign_net_shares": 2842270.0,
-            "trust_net_shares": 5397842.0,
-            "dealer_net_shares": 73278.0
-          },
-          "provenance": {
-            "foreign_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            },
-            "trust_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            },
-            "dealer_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            }
-          },
-          "missing": [],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        },
-        "macro_policy": {
-          "label": "總經・產業・法規",
-          "status": "missing",
-          "values": {},
-          "provenance": {},
-          "missing": [
-            "policy_rate_pct",
-            "usd_twd"
-          ],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        }
-      },
-      "analyses": []
-    },
-    {
-      "symbol": "2882.TW",
-      "name": "國泰金",
-      "foreign_defense": {
-        "label": "外資流向支撐代理線（非真實成本）",
-        "method_version": "net-buy-typical-price-v1",
-        "cutoff": "2026-11-16T14:47:40.408719+08:00",
-        "window_sessions": 20,
-        "matched_sessions": 11,
-        "required_sessions": 5,
-        "actual_institutional_cost": false,
-        "value": null,
-        "alert": "最新交易日法人資料尚缺",
-        "status": "stale",
-        "formula": "Σ[當日典型價×max(外資淨買股數,0)] / Σmax(外資淨買股數,0)",
-        "limitations": [
-          "不含外資實際成交價與存量部位，不是外資真實成本或保證支撐",
-          "只用截至分析時間已取得的法人資料；不同市場分開處理",
-          "缺交易日、不足樣本、沒有淨買時不造線；不以此單獨買進"
-        ]
-      },
-      "factors": {
-        "news": {
-          "label": "新聞與公司政策",
-          "status": "partial",
-          "values": {
-            "events": 12,
-            "verified_events": 0
-          },
-          "missing": [],
-          "notes": [
-            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
-          ]
-        },
-        "social": {
-          "label": "社群關注與情緒",
-          "status": "missing",
-          "values": {},
-          "missing": [
-            "社群來源未授權、未執行或連線失敗；不可填0熱度"
-          ],
-          "sample_scope": true
-        },
-        "fundamental": {
-          "label": "基本・財務・估值",
-          "status": "partial",
-          "values": {
-            "eps_ttm": 6.73,
-            "pe": 16.344725,
-            "pb": 1.4555656,
-            "roe_pct": 25.454
-          },
-          "provenance": {
-            "eps_ttm": {
-              "available_at": "2026-11-16T14:46:51.921837+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "pe": {
-              "available_at": "2026-11-16T14:46:51.921837+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "pb": {
-              "available_at": "2026-11-16T14:46:51.921837+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "roe_pct": {
-              "available_at": "2026-11-16T14:46:51.921837+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "percent"
-            }
-          },
-          "missing": [
-            "revenue_yoy_pct",
-            "ocf"
-          ],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        },
-        "technical": {
-          "label": "K線・技術・量價",
-          "status": "available",
-          "available_at": "2026-11-16T14:30:00+08:00",
-          "quote_date": "2026-11-16",
-          "bar_count": 519,
-          "values": {
-            "ma5": 111.9,
-            "ma20": 112.925,
-            "ma60": 110.57666664123535,
-            "close": 110.0,
-            "rsi14": 46.30960059501085,
-            "atr14": 4.607142857142857,
-            "volume": 31241427.0,
-            "volume_ratio_previous20": 1.2076359243572492,
-            "macd": -0.1047336092939446,
-            "macd_hist": -0.2973557136072936,
-            "macd_new_cross_up": false,
-            "k9": 66.52248397861736,
-            "d9": 60.92554818943306,
-            "kd_new_cross_up": false,
-            "volatility20_pct": 40.31298918981426,
-            "support20": 101.0,
-            "resistance20": 118.0,
-            "return20_pct": -3.083700440528636
-          },
-          "missing": [],
-          "rejected": [],
-          "notes": [
-            "以有效OHLCV計算，不從圖像猜價格。",
-            "量比使用前20筆、不含當日的均量。",
-            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
-          ]
-        },
-        "flow": {
-          "label": "法人・籌碼・流動性",
-          "status": "available",
-          "values": {
-            "foreign_net_shares": 875075.0,
-            "trust_net_shares": 5050000.0,
-            "dealer_net_shares": 473183.0
-          },
-          "provenance": {
-            "foreign_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            },
-            "trust_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            },
-            "dealer_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            }
-          },
-          "missing": [],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        },
-        "macro_policy": {
-          "label": "總經・產業・法規",
-          "status": "missing",
-          "values": {},
-          "provenance": {},
-          "missing": [
-            "policy_rate_pct",
-            "usd_twd"
-          ],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        }
-      },
-      "analyses": []
-    },
-    {
-      "symbol": "2891.TW",
-      "name": "中信金",
-      "foreign_defense": {
-        "label": "外資流向支撐代理線（非真實成本）",
-        "method_version": "net-buy-typical-price-v1",
-        "cutoff": "2026-11-16T14:47:40.408719+08:00",
-        "window_sessions": 20,
-        "matched_sessions": 11,
-        "required_sessions": 5,
-        "actual_institutional_cost": false,
-        "value": null,
-        "alert": "最新交易日法人資料尚缺",
-        "status": "stale",
-        "formula": "Σ[當日典型價×max(外資淨買股數,0)] / Σmax(外資淨買股數,0)",
-        "limitations": [
-          "不含外資實際成交價與存量部位，不是外資真實成本或保證支撐",
-          "只用截至分析時間已取得的法人資料；不同市場分開處理",
-          "缺交易日、不足樣本、沒有淨買時不造線；不以此單獨買進"
-        ]
-      },
-      "factors": {
-        "news": {
-          "label": "新聞與公司政策",
-          "status": "partial",
-          "values": {
-            "events": 13,
-            "verified_events": 0
-          },
-          "missing": [],
-          "notes": [
-            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
-          ]
-        },
-        "social": {
-          "label": "社群關注與情緒",
-          "status": "missing",
-          "values": {},
-          "missing": [
-            "社群來源未授權、未執行或連線失敗；不可填0熱度"
-          ],
-          "sample_scope": true
-        },
-        "fundamental": {
-          "label": "基本・財務・估值",
-          "status": "partial",
-          "values": {
-            "eps_ttm": 4.06,
-            "pe": 18.916258,
-            "pb": 2.2355475,
-            "roe_pct": 18.576
-          },
-          "provenance": {
-            "eps_ttm": {
-              "available_at": "2026-11-16T14:46:52.556851+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "pe": {
-              "available_at": "2026-11-16T14:46:52.556851+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "pb": {
-              "available_at": "2026-11-16T14:46:52.556851+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "roe_pct": {
-              "available_at": "2026-11-16T14:46:52.556851+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "percent"
-            }
-          },
-          "missing": [
-            "revenue_yoy_pct",
-            "ocf"
-          ],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        },
-        "technical": {
-          "label": "K線・技術・量價",
-          "status": "available",
-          "available_at": "2026-11-16T14:30:00+08:00",
-          "quote_date": "2026-11-16",
-          "bar_count": 519,
-          "values": {
-            "ma5": 75.85999908447266,
-            "ma20": 74.725,
-            "ma60": 70.03333339691162,
-            "close": 76.80000305175781,
-            "rsi14": 59.021966777773464,
-            "atr14": 2.9142853873116628,
-            "volume": 46677593.0,
-            "volume_ratio_previous20": 1.024419986202186,
-            "macd": 1.5549035970920215,
-            "macd_hist": 0.08156755263675652,
-            "macd_new_cross_up": false,
-            "k9": 78.76340710965317,
-            "d9": 76.34045932933662,
-            "kd_new_cross_up": false,
-            "volatility20_pct": 33.74378681497508,
-            "support20": 67.5,
-            "resistance20": 80.5999984741211,
-            "return20_pct": 5.349796219818237
-          },
-          "missing": [],
-          "rejected": [],
-          "notes": [
-            "以有效OHLCV計算，不從圖像猜價格。",
-            "量比使用前20筆、不含當日的均量。",
-            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
-          ]
-        },
-        "flow": {
-          "label": "法人・籌碼・流動性",
-          "status": "available",
-          "values": {
-            "foreign_net_shares": 6713438.0,
-            "trust_net_shares": 15568000.0,
-            "dealer_net_shares": 643806.0
-          },
-          "provenance": {
-            "foreign_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            },
-            "trust_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            },
-            "dealer_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            }
-          },
-          "missing": [],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        },
-        "macro_policy": {
-          "label": "總經・產業・法規",
-          "status": "missing",
-          "values": {},
-          "provenance": {},
-          "missing": [
-            "policy_rate_pct",
-            "usd_twd"
-          ],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        }
-      },
-      "analyses": []
-    },
-    {
-      "symbol": "3231.TW",
-      "name": "緯創",
-      "foreign_defense": {
-        "label": "外資流向支撐代理線（非真實成本）",
-        "method_version": "net-buy-typical-price-v1",
-        "cutoff": "2026-11-16T14:47:40.408719+08:00",
-        "window_sessions": 20,
-        "matched_sessions": 11,
-        "required_sessions": 5,
-        "actual_institutional_cost": false,
-        "value": null,
-        "alert": "最新交易日法人資料尚缺",
-        "status": "stale",
-        "formula": "Σ[當日典型價×max(外資淨買股數,0)] / Σmax(外資淨買股數,0)",
-        "limitations": [
-          "不含外資實際成交價與存量部位，不是外資真實成本或保證支撐",
-          "只用截至分析時間已取得的法人資料；不同市場分開處理",
-          "缺交易日、不足樣本、沒有淨買時不造線；不以此單獨買進"
-        ]
-      },
-      "factors": {
-        "news": {
-          "label": "新聞與公司政策",
-          "status": "partial",
-          "values": {
-            "events": 18,
-            "verified_events": 0
-          },
-          "missing": [],
-          "notes": [
-            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
-          ]
-        },
-        "social": {
-          "label": "社群關注與情緒",
-          "status": "missing",
-          "values": {},
-          "missing": [
-            "社群來源未授權、未執行或連線失敗；不可填0熱度"
-          ],
-          "sample_scope": true
-        },
-        "fundamental": {
-          "label": "基本・財務・估值",
-          "status": "partial",
-          "values": {
-            "eps_ttm": 11.63,
-            "pe": 13.671539,
-            "pb": 2.0451212,
-            "roe_pct": 29.693002
-          },
-          "provenance": {
-            "eps_ttm": {
-              "available_at": "2026-11-16T14:46:53.242032+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "pe": {
-              "available_at": "2026-11-16T14:46:53.242032+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "pb": {
-              "available_at": "2026-11-16T14:46:53.242032+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "roe_pct": {
-              "available_at": "2026-11-16T14:46:53.242032+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "percent"
-            }
-          },
-          "missing": [
-            "revenue_yoy_pct",
-            "ocf"
-          ],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        },
-        "technical": {
-          "label": "K線・技術・量價",
-          "status": "available",
-          "available_at": "2026-11-16T14:30:00+08:00",
-          "quote_date": "2026-11-16",
-          "bar_count": 519,
-          "values": {
-            "ma5": 169.1,
-            "ma20": 178.5,
-            "ma60": 182.45,
-            "close": 159.0,
-            "rsi14": 35.15077304366052,
-            "atr14": 9.107142857142858,
-            "volume": 34957691.0,
-            "volume_ratio_previous20": 0.9401062375156081,
-            "macd": -5.193499010943725,
-            "macd_hist": -1.6084319182581734,
-            "macd_new_cross_up": false,
-            "k9": 43.18051257046608,
-            "d9": 43.08707428525408,
-            "kd_new_cross_up": false,
-            "volatility20_pct": 52.341624448241184,
-            "support20": 152.0,
-            "resistance20": 199.5,
-            "return20_pct": -9.659090909090907
-          },
-          "missing": [],
-          "rejected": [],
-          "notes": [
-            "以有效OHLCV計算，不從圖像猜價格。",
-            "量比使用前20筆、不含當日的均量。",
-            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
-          ]
-        },
-        "flow": {
-          "label": "法人・籌碼・流動性",
-          "status": "available",
-          "values": {
-            "foreign_net_shares": -2075085.0,
-            "trust_net_shares": -636282.0,
-            "dealer_net_shares": 209712.0
-          },
-          "provenance": {
-            "foreign_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            },
-            "trust_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            },
-            "dealer_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            }
-          },
-          "missing": [],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        },
-        "macro_policy": {
-          "label": "總經・產業・法規",
-          "status": "missing",
-          "values": {},
-          "provenance": {},
-          "missing": [
-            "policy_rate_pct",
-            "usd_twd"
-          ],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        }
-      },
-      "analyses": []
-    },
-    {
-      "symbol": "6669.TW",
-      "name": "緯穎",
-      "foreign_defense": {
-        "label": "外資流向支撐代理線（非真實成本）",
-        "method_version": "net-buy-typical-price-v1",
-        "cutoff": "2026-11-16T14:47:40.408719+08:00",
-        "window_sessions": 20,
-        "matched_sessions": 11,
-        "required_sessions": 5,
-        "actual_institutional_cost": false,
-        "value": null,
-        "alert": "最新交易日法人資料尚缺",
-        "status": "stale",
-        "formula": "Σ[當日典型價×max(外資淨買股數,0)] / Σmax(外資淨買股數,0)",
-        "limitations": [
-          "不含外資實際成交價與存量部位，不是外資真實成本或保證支撐",
-          "只用截至分析時間已取得的法人資料；不同市場分開處理",
-          "缺交易日、不足樣本、沒有淨買時不造線；不以此單獨買進"
-        ]
-      },
-      "factors": {
-        "news": {
-          "label": "新聞與公司政策",
-          "status": "partial",
-          "values": {
-            "events": 11,
-            "verified_events": 0
-          },
-          "missing": [],
-          "notes": [
-            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
-          ]
-        },
-        "social": {
-          "label": "社群關注與情緒",
-          "status": "missing",
-          "values": {},
-          "missing": [
-            "社群來源未授權、未執行或連線失敗；不可填0熱度"
-          ],
-          "sample_scope": true
-        },
-        "fundamental": {
-          "label": "基本・財務・估值",
-          "status": "partial",
-          "values": {
-            "eps_ttm": 98.08,
-            "pe": 15.446574,
-            "pb": 4.7082443,
-            "roe_pct": 44.749
-          },
-          "provenance": {
-            "eps_ttm": {
-              "available_at": "2026-11-16T14:46:53.886258+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "pe": {
-              "available_at": "2026-11-16T14:46:53.886258+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "pb": {
-              "available_at": "2026-11-16T14:46:53.886258+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "roe_pct": {
-              "available_at": "2026-11-16T14:46:53.886258+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "percent"
-            }
-          },
-          "missing": [
-            "revenue_yoy_pct",
-            "ocf"
-          ],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        },
-        "technical": {
-          "label": "K線・技術・量價",
-          "status": "available",
-          "available_at": "2026-11-16T14:30:00+08:00",
-          "quote_date": "2026-11-16",
-          "bar_count": 519,
-          "values": {
-            "ma5": 1616.0,
-            "ma20": 1763.75,
-            "ma60": 2079.6424235026043,
-            "close": 1515.0,
-            "rsi14": 31.95418232888801,
-            "atr14": 112.14285714285714,
-            "volume": 4030160.0,
-            "volume_ratio_previous20": 0.8178874420500032,
-            "macd": -131.70704593345135,
-            "macd_hist": -12.776528895682475,
-            "macd_new_cross_up": false,
-            "k9": 26.74471907939784,
-            "d9": 29.310793107345418,
-            "kd_new_cross_up": false,
-            "volatility20_pct": 63.52160179512286,
-            "support20": 1485.0,
-            "resistance20": 2020.0,
-            "return20_pct": -20.472440944881885
-          },
-          "missing": [],
-          "rejected": [],
-          "notes": [
-            "以有效OHLCV計算，不從圖像猜價格。",
-            "量比使用前20筆、不含當日的均量。",
-            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
-          ]
-        },
-        "flow": {
-          "label": "法人・籌碼・流動性",
-          "status": "available",
-          "values": {
-            "foreign_net_shares": 443795.0,
-            "trust_net_shares": -80746.0,
-            "dealer_net_shares": 89133.0
-          },
-          "provenance": {
-            "foreign_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            },
-            "trust_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            },
-            "dealer_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            }
-          },
-          "missing": [],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        },
-        "macro_policy": {
-          "label": "總經・產業・法規",
-          "status": "missing",
-          "values": {},
-          "provenance": {},
-          "missing": [
-            "policy_rate_pct",
-            "usd_twd"
-          ],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        }
-      },
-      "analyses": []
-    },
-    {
-      "symbol": "3711.TW",
-      "name": "日月光投控",
-      "foreign_defense": {
-        "label": "外資流向支撐代理線（非真實成本）",
-        "method_version": "net-buy-typical-price-v1",
-        "cutoff": "2026-11-16T14:47:40.408719+08:00",
-        "window_sessions": 20,
-        "matched_sessions": 11,
-        "required_sessions": 5,
-        "actual_institutional_cost": false,
-        "value": null,
-        "alert": "最新交易日法人資料尚缺",
-        "status": "stale",
-        "formula": "Σ[當日典型價×max(外資淨買股數,0)] / Σmax(外資淨買股數,0)",
-        "limitations": [
-          "不含外資實際成交價與存量部位，不是外資真實成本或保證支撐",
-          "只用截至分析時間已取得的法人資料；不同市場分開處理",
-          "缺交易日、不足樣本、沒有淨買時不造線；不以此單獨買進"
-        ]
-      },
-      "factors": {
-        "news": {
-          "label": "新聞與公司政策",
-          "status": "partial",
-          "values": {
-            "events": 15,
-            "verified_events": 0
-          },
-          "missing": [],
-          "notes": [
-            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
-          ]
-        },
-        "social": {
-          "label": "社群關注與情緒",
-          "status": "missing",
-          "values": {},
-          "missing": [
-            "社群來源未授權、未執行或連線失敗；不可填0熱度"
-          ],
-          "sample_scope": true
-        },
-        "fundamental": {
-          "label": "基本・財務・估值",
-          "status": "partial",
-          "values": {
-            "eps_ttm": 16.42,
-            "pe": 33.495735,
-            "pb": 5.7432857,
-            "roe_pct": 19.899
-          },
-          "provenance": {
-            "eps_ttm": {
-              "available_at": "2026-11-16T14:46:54.539136+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "pe": {
-              "available_at": "2026-11-16T14:46:54.539136+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "pb": {
-              "available_at": "2026-11-16T14:46:54.539136+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "roe_pct": {
-              "available_at": "2026-11-16T14:46:54.539136+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "percent"
-            }
-          },
-          "missing": [
-            "revenue_yoy_pct",
-            "ocf"
-          ],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        },
-        "technical": {
-          "label": "K線・技術・量價",
-          "status": "available",
-          "available_at": "2026-11-16T14:30:00+08:00",
-          "quote_date": "2026-11-16",
-          "bar_count": 519,
-          "values": {
-            "ma5": 591.2,
-            "ma20": 628.45,
-            "ma60": 642.45,
-            "close": 550.0,
-            "rsi14": 38.12971719999647,
-            "atr14": 48.5,
-            "volume": 21426111.0,
-            "volume_ratio_previous20": 0.911817059141071,
-            "macd": -27.207013258902066,
-            "macd_hist": -7.0551638773273275,
-            "macd_new_cross_up": false,
-            "k9": 39.93506155823592,
-            "d9": 38.072691330764556,
-            "kd_new_cross_up": false,
-            "volatility20_pct": 78.64187767479513,
-            "support20": 515.0,
-            "resistance20": 709.0,
-            "return20_pct": -18.276374442793465
-          },
-          "missing": [],
-          "rejected": [],
-          "notes": [
-            "以有效OHLCV計算，不從圖像猜價格。",
-            "量比使用前20筆、不含當日的均量。",
-            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
-          ]
-        },
-        "flow": {
-          "label": "法人・籌碼・流動性",
-          "status": "available",
-          "values": {
-            "foreign_net_shares": -1628445.0,
-            "trust_net_shares": 735659.0,
-            "dealer_net_shares": 330461.0
-          },
-          "provenance": {
-            "foreign_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            },
-            "trust_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            },
-            "dealer_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            }
-          },
-          "missing": [],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        },
-        "macro_policy": {
-          "label": "總經・產業・法規",
-          "status": "missing",
-          "values": {},
-          "provenance": {},
-          "missing": [
-            "policy_rate_pct",
-            "usd_twd"
-          ],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        }
-      },
-      "analyses": []
-    },
-    {
-      "symbol": "2609.TW",
-      "name": "陽明",
-      "foreign_defense": {
-        "label": "外資流向支撐代理線（非真實成本）",
-        "method_version": "net-buy-typical-price-v1",
-        "cutoff": "2026-11-16T14:47:40.408719+08:00",
-        "window_sessions": 20,
-        "matched_sessions": 11,
-        "required_sessions": 5,
-        "actual_institutional_cost": false,
-        "value": null,
-        "alert": "最新交易日法人資料尚缺",
-        "status": "stale",
-        "formula": "Σ[當日典型價×max(外資淨買股數,0)] / Σmax(外資淨買股數,0)",
-        "limitations": [
-          "不含外資實際成交價與存量部位，不是外資真實成本或保證支撐",
-          "只用截至分析時間已取得的法人資料；不同市場分開處理",
-          "缺交易日、不足樣本、沒有淨買時不造線；不以此單獨買進"
-        ]
-      },
-      "factors": {
-        "news": {
-          "label": "新聞與公司政策",
-          "status": "partial",
-          "values": {
-            "events": 14,
-            "verified_events": 0
-          },
-          "missing": [],
-          "notes": [
-            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
-          ]
-        },
-        "social": {
-          "label": "社群關注與情緒",
-          "status": "missing",
-          "values": {},
-          "missing": [
-            "社群來源未授權、未執行或連線失敗；不可填0熱度"
-          ],
-          "sample_scope": true
-        },
-        "fundamental": {
-          "label": "基本・財務・估值",
-          "status": "partial",
-          "values": {
-            "eps_ttm": 4.44,
-            "pe": 13.513514,
-            "pb": 0.60538185,
-            "roe_pct": 8.488999999999999
-          },
-          "provenance": {
-            "eps_ttm": {
-              "available_at": "2026-11-16T14:46:55.246613+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "pe": {
-              "available_at": "2026-11-16T14:46:55.246613+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "pb": {
-              "available_at": "2026-11-16T14:46:55.246613+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "roe_pct": {
-              "available_at": "2026-11-16T14:46:55.246613+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "percent"
-            }
-          },
-          "missing": [
-            "revenue_yoy_pct",
-            "ocf"
-          ],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        },
-        "technical": {
-          "label": "K線・技術・量價",
-          "status": "available",
-          "available_at": "2026-11-16T14:30:00+08:00",
-          "quote_date": "2026-11-16",
-          "bar_count": 519,
-          "values": {
-            "ma5": 59.15999984741211,
-            "ma20": 61.229999732971194,
-            "ma60": 60.298333168029785,
-            "close": 60.0,
-            "rsi14": 48.35556696125601,
-            "atr14": 2.528570992606027,
-            "volume": 17587326.0,
-            "volume_ratio_previous20": 0.9558396100755377,
-            "macd": -0.49301508750934175,
-            "macd_hist": -0.33014010156835816,
-            "macd_new_cross_up": false,
-            "k9": 47.52212881408053,
-            "d9": 39.60573888908751,
-            "kd_new_cross_up": false,
-            "volatility20_pct": 33.48997425949746,
-            "support20": 54.900001525878906,
-            "resistance20": 65.80000305175781,
-            "return20_pct": -5.213268999738752
-          },
-          "missing": [],
-          "rejected": [],
-          "notes": [
-            "以有效OHLCV計算，不從圖像猜價格。",
-            "量比使用前20筆、不含當日的均量。",
-            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
-          ]
-        },
-        "flow": {
-          "label": "法人・籌碼・流動性",
-          "status": "available",
-          "values": {
-            "foreign_net_shares": 5789591.0,
-            "trust_net_shares": 269000.0,
-            "dealer_net_shares": 292160.0
-          },
-          "provenance": {
-            "foreign_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            },
-            "trust_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            },
-            "dealer_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            }
-          },
-          "missing": [],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        },
-        "macro_policy": {
-          "label": "總經・產業・法規",
-          "status": "missing",
-          "values": {},
-          "provenance": {},
-          "missing": [
-            "policy_rate_pct",
-            "usd_twd"
-          ],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        }
-      },
-      "analyses": []
-    },
-    {
-      "symbol": "2610.TW",
-      "name": "華航",
-      "foreign_defense": {
-        "label": "外資流向支撐代理線（非真實成本）",
-        "method_version": "net-buy-typical-price-v1",
-        "cutoff": "2026-11-16T14:47:40.408719+08:00",
-        "window_sessions": 20,
-        "matched_sessions": 11,
-        "required_sessions": 5,
-        "actual_institutional_cost": false,
-        "value": null,
-        "alert": "最新交易日法人資料尚缺",
-        "status": "stale",
-        "formula": "Σ[當日典型價×max(外資淨買股數,0)] / Σmax(外資淨買股數,0)",
-        "limitations": [
-          "不含外資實際成交價與存量部位，不是外資真實成本或保證支撐",
-          "只用截至分析時間已取得的法人資料；不同市場分開處理",
-          "缺交易日、不足樣本、沒有淨買時不造線；不以此單獨買進"
-        ]
-      },
-      "factors": {
-        "news": {
-          "label": "新聞與公司政策",
-          "status": "partial",
-          "values": {
-            "events": 11,
-            "verified_events": 0
-          },
-          "missing": [],
-          "notes": [
-            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
-          ]
-        },
-        "social": {
-          "label": "社群關注與情緒",
-          "status": "missing",
-          "values": {},
-          "missing": [
-            "社群來源未授權、未執行或連線失敗；不可填0熱度"
-          ],
-          "sample_scope": true
-        },
-        "fundamental": {
-          "label": "基本・財務・估值",
-          "status": "partial",
-          "values": {
-            "eps_ttm": 2.38,
-            "pe": 9.537815,
-            "pb": 1.3333334,
-            "roe_pct": 15.810001000000002
-          },
-          "provenance": {
-            "eps_ttm": {
-              "available_at": "2026-11-16T14:46:55.957290+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "pe": {
-              "available_at": "2026-11-16T14:46:55.957290+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "pb": {
-              "available_at": "2026-11-16T14:46:55.957290+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "roe_pct": {
-              "available_at": "2026-11-16T14:46:55.957290+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "percent"
-            }
-          },
-          "missing": [
-            "revenue_yoy_pct",
-            "ocf"
-          ],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        },
-        "technical": {
-          "label": "K線・技術・量價",
-          "status": "available",
-          "available_at": "2026-11-16T14:30:00+08:00",
-          "quote_date": "2026-11-16",
-          "bar_count": 519,
-          "values": {
-            "ma5": 23.0,
-            "ma20": 21.269999980926514,
-            "ma60": 20.647500038146973,
-            "close": 22.700000762939453,
-            "rsi14": 62.66702268159301,
-            "atr14": 0.7999999182564872,
-            "volume": 42924483.0,
-            "volume_ratio_previous20": 1.1407573912401958,
-            "macd": 0.6640884222346237,
-            "macd_hist": 0.2416272165665706,
-            "macd_new_cross_up": false,
-            "k9": 79.03777389838788,
-            "d9": 76.72528498647512,
-            "kd_new_cross_up": false,
-            "volatility20_pct": 36.792663947995756,
-            "support20": 20.049999237060547,
-            "resistance20": 23.700000762939453,
-            "return20_pct": 10.462294918247594
-          },
-          "missing": [],
-          "rejected": [],
-          "notes": [
-            "以有效OHLCV計算，不從圖像猜價格。",
-            "量比使用前20筆、不含當日的均量。",
-            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
-          ]
-        },
-        "flow": {
-          "label": "法人・籌碼・流動性",
-          "status": "available",
-          "values": {
-            "foreign_net_shares": 11579096.0,
-            "trust_net_shares": 896000.0,
-            "dealer_net_shares": 881094.0
-          },
-          "provenance": {
-            "foreign_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            },
-            "trust_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            },
-            "dealer_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
-              "unit": "shares"
-            }
-          },
-          "missing": [],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        },
-        "macro_policy": {
-          "label": "總經・產業・法規",
-          "status": "missing",
-          "values": {},
-          "provenance": {},
-          "missing": [
-            "policy_rate_pct",
-            "usd_twd"
-          ],
-          "rejected": [],
-          "notes": [
-            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
-            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
-          ]
-        }
-      },
-      "analyses": []
-    },
-    {
-      "symbol": "2611.TW",
-      "name": "志信",
-      "foreign_defense": {
-        "label": "外資流向支撐代理線（非真實成本）",
-        "method_version": "net-buy-typical-price-v1",
-        "cutoff": "2026-11-16T14:47:40.408719+08:00",
-        "window_sessions": 20,
-        "matched_sessions": 11,
-        "required_sessions": 5,
-        "actual_institutional_cost": false,
-        "value": null,
-        "alert": "最新交易日法人資料尚缺",
-        "status": "stale",
+        "alert": "窗口法人資料不連續，先補齊再估計",
+        "status": "partial",
         "formula": "Σ[當日典型價×max(外資淨買股數,0)] / Σmax(外資淨買股數,0)",
         "limitations": [
           "不含外資實際成交價與存量部位，不是外資真實成本或保證支撐",
@@ -2519,32 +244,32 @@
           "label": "基本・財務・估值",
           "status": "partial",
           "values": {
-            "eps_ttm": 1.76,
-            "pe": 8.863637,
-            "pb": 1.0860485,
-            "roe_pct": 12.376001
+            "eps_ttm": 13.64,
+            "pe": 16.019062,
+            "pb": 1.5528613,
+            "roe_pct": 13.494
           },
           "provenance": {
             "eps_ttm": {
-              "available_at": "2026-11-16T14:46:56.619911+08:00",
+              "available_at": "2026-11-17T06:53:43.155240+08:00",
               "period": "provider-current-observed; not original filing period",
               "source": "Yahoo Finance（需以公司公告複核）",
               "unit": "provider-native"
             },
             "pe": {
-              "available_at": "2026-11-16T14:46:56.619911+08:00",
+              "available_at": "2026-11-17T06:53:43.155240+08:00",
               "period": "provider-current-observed; not original filing period",
               "source": "Yahoo Finance（需以公司公告複核）",
               "unit": "provider-native"
             },
             "pb": {
-              "available_at": "2026-11-16T14:46:56.619911+08:00",
+              "available_at": "2026-11-17T06:53:43.155240+08:00",
               "period": "provider-current-observed; not original filing period",
               "source": "Yahoo Finance（需以公司公告複核）",
               "unit": "provider-native"
             },
             "roe_pct": {
-              "available_at": "2026-11-16T14:46:56.619911+08:00",
+              "available_at": "2026-11-17T06:53:43.155240+08:00",
               "period": "provider-current-observed; not original filing period",
               "source": "Yahoo Finance（需以公司公告複核）",
               "unit": "percent"
@@ -2565,26 +290,26 @@
           "status": "available",
           "available_at": "2026-11-16T14:30:00+08:00",
           "quote_date": "2026-11-16",
-          "bar_count": 519,
+          "bar_count": 518,
           "values": {
-            "ma5": 15.610000038146973,
-            "ma20": 15.894999790191651,
-            "ma60": 15.245833237965902,
-            "close": 15.600000381469727,
-            "rsi14": 49.93556453470565,
-            "atr14": 0.625000136239188,
-            "volume": 2871402.0,
-            "volume_ratio_previous20": 4.1127898235378915,
-            "macd": 0.06176452508146113,
-            "macd_hist": -0.04947087757488931,
+            "ma5": 236.6,
+            "ma20": 241.525,
+            "ma60": 246.86666666666667,
+            "close": 218.5,
+            "rsi14": 33.82537130565096,
+            "atr14": 10.785714285714286,
+            "volume": 75859436.0,
+            "volume_ratio_previous20": 1.7858627861417626,
+            "macd": -4.008754476057447,
+            "macd_hist": -1.3157121781668972,
             "macd_new_cross_up": false,
-            "k9": 61.44811246823498,
-            "d9": 51.113000841307525,
+            "k9": 50.68253177627153,
+            "d9": 56.47841354898107,
             "kd_new_cross_up": false,
-            "volatility20_pct": 40.413953710237834,
-            "support20": 14.199999809265137,
-            "resistance20": 16.700000762939453,
-            "return20_pct": -4.878044241882984
+            "volatility20_pct": 49.86185629083835,
+            "support20": 212.5,
+            "resistance20": 253.5,
+            "return20_pct": -8.768267223382043
           },
           "missing": [],
           "rejected": [],
@@ -2598,26 +323,26 @@
           "label": "法人・籌碼・流動性",
           "status": "available",
           "values": {
-            "foreign_net_shares": 364824.0,
-            "trust_net_shares": 0.0,
-            "dealer_net_shares": 5000.0
+            "foreign_net_shares": -28939289.0,
+            "trust_net_shares": -660753.0,
+            "dealer_net_shares": 1467681.0
           },
           "provenance": {
             "foreign_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
               "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
               "unit": "shares"
             },
             "trust_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
               "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
               "unit": "shares"
             },
             "dealer_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
               "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
               "unit": "shares"
             }
@@ -2648,19 +373,19 @@
       "analyses": []
     },
     {
-      "symbol": "2612.TW",
-      "name": "中航",
+      "symbol": "2454.TW",
+      "name": "聯發科",
       "foreign_defense": {
         "label": "外資流向支撐代理線（非真實成本）",
         "method_version": "net-buy-typical-price-v1",
-        "cutoff": "2026-11-16T14:47:40.408719+08:00",
+        "cutoff": "2026-11-17T06:54:48.193719+08:00",
         "window_sessions": 20,
-        "matched_sessions": 11,
+        "matched_sessions": 12,
         "required_sessions": 5,
         "actual_institutional_cost": false,
         "value": null,
-        "alert": "最新交易日法人資料尚缺",
-        "status": "stale",
+        "alert": "窗口法人資料不連續，先補齊再估計",
+        "status": "partial",
         "formula": "Σ[當日典型價×max(外資淨買股數,0)] / Σmax(外資淨買股數,0)",
         "limitations": [
           "不含外資實際成交價與存量部位，不是外資真實成本或保證支撐",
@@ -2673,7 +398,7 @@
           "label": "新聞與公司政策",
           "status": "partial",
           "values": {
-            "events": 7,
+            "events": 17,
             "verified_events": 0
           },
           "missing": [],
@@ -2694,32 +419,32 @@
           "label": "基本・財務・估值",
           "status": "partial",
           "values": {
-            "eps_ttm": 5.14,
-            "pe": 10.972763,
-            "pb": 0.8245614,
-            "roe_pct": 7.8
+            "eps_ttm": 60.56,
+            "pe": 62.665123,
+            "pb": 13.022934,
+            "roe_pct": 22.211
           },
           "provenance": {
             "eps_ttm": {
-              "available_at": "2026-11-16T14:46:57.212947+08:00",
+              "available_at": "2026-11-17T06:53:44.298335+08:00",
               "period": "provider-current-observed; not original filing period",
               "source": "Yahoo Finance（需以公司公告複核）",
               "unit": "provider-native"
             },
             "pe": {
-              "available_at": "2026-11-16T14:46:57.212947+08:00",
+              "available_at": "2026-11-17T06:53:44.298335+08:00",
               "period": "provider-current-observed; not original filing period",
               "source": "Yahoo Finance（需以公司公告複核）",
               "unit": "provider-native"
             },
             "pb": {
-              "available_at": "2026-11-16T14:46:57.212947+08:00",
+              "available_at": "2026-11-17T06:53:44.298335+08:00",
               "period": "provider-current-observed; not original filing period",
               "source": "Yahoo Finance（需以公司公告複核）",
               "unit": "provider-native"
             },
             "roe_pct": {
-              "available_at": "2026-11-16T14:46:57.212947+08:00",
+              "available_at": "2026-11-17T06:53:44.298335+08:00",
               "period": "provider-current-observed; not original filing period",
               "source": "Yahoo Finance（需以公司公告複核）",
               "unit": "percent"
@@ -2742,24 +467,24 @@
           "quote_date": "2026-11-16",
           "bar_count": 519,
           "values": {
-            "ma5": 56.64000015258789,
-            "ma20": 59.025,
-            "ma60": 61.055000114440915,
-            "close": 56.400001525878906,
-            "rsi14": 36.490559983213714,
-            "atr14": 1.9785712105887276,
-            "volume": 368494.0,
-            "volume_ratio_previous20": 1.1690410059309573,
-            "macd": -1.3721877257748432,
-            "macd_hist": -0.2891540889336319,
+            "ma5": 3917.0,
+            "ma20": 3921.5,
+            "ma60": 4302.75,
+            "close": 3795.0,
+            "rsi14": 44.0857542208137,
+            "atr14": 299.2857142857143,
+            "volume": 11247579.0,
+            "volume_ratio_previous20": 1.036818151840355,
+            "macd": -156.439433324947,
+            "macd_hist": 31.99964565953647,
             "macd_new_cross_up": false,
-            "k9": 40.86513902602054,
-            "d9": 35.981392808303035,
+            "k9": 68.28054962462011,
+            "d9": 59.59162422726739,
             "kd_new_cross_up": false,
-            "volatility20_pct": 28.03875045505138,
-            "support20": 53.20000076293945,
-            "resistance20": 63.20000076293945,
-            "return20_pct": -7.236838431569637
+            "volatility20_pct": 75.38529571453995,
+            "support20": 3115.0,
+            "resistance20": 4360.0,
+            "return20_pct": -8.88355342136855
           },
           "missing": [],
           "rejected": [],
@@ -2773,26 +498,26 @@
           "label": "法人・籌碼・流動性",
           "status": "available",
           "values": {
-            "foreign_net_shares": 85611.0,
-            "trust_net_shares": 0.0,
-            "dealer_net_shares": 5882.0
+            "foreign_net_shares": -935868.0,
+            "trust_net_shares": 2820.0,
+            "dealer_net_shares": 56529.0
           },
           "provenance": {
             "foreign_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
               "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
               "unit": "shares"
             },
             "trust_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
               "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
               "unit": "shares"
             },
             "dealer_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
               "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
               "unit": "shares"
             }
@@ -2823,14 +548,1766 @@
       "analyses": []
     },
     {
-      "symbol": "2613.TW",
-      "name": "中櫃",
+      "symbol": "2382.TW",
+      "name": "廣達",
       "foreign_defense": {
         "label": "外資流向支撐代理線（非真實成本）",
         "method_version": "net-buy-typical-price-v1",
-        "cutoff": "2026-11-16T14:47:40.408719+08:00",
+        "cutoff": "2026-11-17T06:54:48.193719+08:00",
         "window_sessions": 20,
-        "matched_sessions": 11,
+        "matched_sessions": 12,
+        "required_sessions": 5,
+        "actual_institutional_cost": false,
+        "value": null,
+        "alert": "窗口法人資料不連續，先補齊再估計",
+        "status": "partial",
+        "formula": "Σ[當日典型價×max(外資淨買股數,0)] / Σmax(外資淨買股數,0)",
+        "limitations": [
+          "不含外資實際成交價與存量部位，不是外資真實成本或保證支撐",
+          "只用截至分析時間已取得的法人資料；不同市場分開處理",
+          "缺交易日、不足樣本、沒有淨買時不造線；不以此單獨買進"
+        ]
+      },
+      "factors": {
+        "news": {
+          "label": "新聞與公司政策",
+          "status": "partial",
+          "values": {
+            "events": 15,
+            "verified_events": 0
+          },
+          "missing": [],
+          "notes": [
+            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
+          ]
+        },
+        "social": {
+          "label": "社群關注與情緒",
+          "status": "missing",
+          "values": {},
+          "missing": [
+            "社群來源未授權、未執行或連線失敗；不可填0熱度"
+          ],
+          "sample_scope": true
+        },
+        "fundamental": {
+          "label": "基本・財務・估值",
+          "status": "partial",
+          "values": {
+            "eps_ttm": 21.1,
+            "pe": 12.535544,
+            "pb": 3.1506097,
+            "roe_pct": 34.754002
+          },
+          "provenance": {
+            "eps_ttm": {
+              "available_at": "2026-11-17T06:53:45.318396+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "provider-native"
+            },
+            "pe": {
+              "available_at": "2026-11-17T06:53:45.318396+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "provider-native"
+            },
+            "pb": {
+              "available_at": "2026-11-17T06:53:45.318396+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "provider-native"
+            },
+            "roe_pct": {
+              "available_at": "2026-11-17T06:53:45.318396+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "percent"
+            }
+          },
+          "missing": [
+            "revenue_yoy_pct",
+            "ocf"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "technical": {
+          "label": "K線・技術・量價",
+          "status": "available",
+          "available_at": "2026-11-16T14:30:00+08:00",
+          "quote_date": "2026-11-16",
+          "bar_count": 519,
+          "values": {
+            "ma5": 283.2,
+            "ma20": 306.8,
+            "ma60": 324.78333333333336,
+            "close": 264.5,
+            "rsi14": 21.968010546043587,
+            "atr14": 12.321428571428571,
+            "volume": 20884701.0,
+            "volume_ratio_previous20": 1.4487964035675893,
+            "macd": -13.391042961492133,
+            "macd_hist": -4.082119670056025,
+            "macd_new_cross_up": false,
+            "k9": 17.038380395611547,
+            "d9": 25.12568660645976,
+            "kd_new_cross_up": false,
+            "volatility20_pct": 37.92770344272951,
+            "support20": 262.5,
+            "resistance20": 338.0,
+            "return20_pct": -16.429699842022117
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "以有效OHLCV計算，不從圖像猜價格。",
+            "量比使用前20筆、不含當日的均量。",
+            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
+          ]
+        },
+        "flow": {
+          "label": "法人・籌碼・流動性",
+          "status": "available",
+          "values": {
+            "foreign_net_shares": 4222472.0,
+            "trust_net_shares": -4300980.0,
+            "dealer_net_shares": 935770.0
+          },
+          "provenance": {
+            "foreign_net_shares": {
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
+              "unit": "shares"
+            },
+            "trust_net_shares": {
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
+              "unit": "shares"
+            },
+            "dealer_net_shares": {
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
+              "unit": "shares"
+            }
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "macro_policy": {
+          "label": "總經・產業・法規",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "policy_rate_pct",
+            "usd_twd"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        }
+      },
+      "analyses": []
+    },
+    {
+      "symbol": "2308.TW",
+      "name": "台達電",
+      "foreign_defense": {
+        "label": "外資流向支撐代理線（非真實成本）",
+        "method_version": "net-buy-typical-price-v1",
+        "cutoff": "2026-11-17T06:54:48.193719+08:00",
+        "window_sessions": 20,
+        "matched_sessions": 12,
+        "required_sessions": 5,
+        "actual_institutional_cost": false,
+        "value": null,
+        "alert": "窗口內沒有正淨買，不能估計代理線",
+        "status": "no_positive_net_buy",
+        "formula": "Σ[當日典型價×max(外資淨買股數,0)] / Σmax(外資淨買股數,0)",
+        "limitations": [
+          "不含外資實際成交價與存量部位，不是外資真實成本或保證支撐",
+          "只用截至分析時間已取得的法人資料；不同市場分開處理",
+          "缺交易日、不足樣本、沒有淨買時不造線；不以此單獨買進"
+        ]
+      },
+      "factors": {
+        "news": {
+          "label": "新聞與公司政策",
+          "status": "partial",
+          "values": {
+            "events": 18,
+            "verified_events": 0
+          },
+          "missing": [],
+          "notes": [
+            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
+          ]
+        },
+        "social": {
+          "label": "社群關注與情緒",
+          "status": "missing",
+          "values": {},
+          "missing": [
+            "社群來源未授權、未執行或連線失敗；不可填0熱度"
+          ],
+          "sample_scope": true
+        },
+        "fundamental": {
+          "label": "基本・財務・估值",
+          "status": "partial",
+          "values": {
+            "eps_ttm": 33.24,
+            "pe": 33.694344,
+            "pb": 9.142932,
+            "roe_pct": 28.527
+          },
+          "provenance": {
+            "eps_ttm": {
+              "available_at": "2026-11-17T06:53:46.232104+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "provider-native"
+            },
+            "pe": {
+              "available_at": "2026-11-17T06:53:46.232104+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "provider-native"
+            },
+            "pb": {
+              "available_at": "2026-11-17T06:53:46.232104+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "provider-native"
+            },
+            "roe_pct": {
+              "available_at": "2026-11-17T06:53:46.232104+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "percent"
+            }
+          },
+          "missing": [
+            "revenue_yoy_pct",
+            "ocf"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "technical": {
+          "label": "K線・技術・量價",
+          "status": "available",
+          "available_at": "2026-11-16T14:30:00+08:00",
+          "quote_date": "2026-11-16",
+          "bar_count": 519,
+          "values": {
+            "ma5": 1234.0,
+            "ma20": 1365.0,
+            "ma60": 1659.3333333333333,
+            "close": 1120.0,
+            "rsi14": 31.41008560746306,
+            "atr14": 105.71428571428571,
+            "volume": 19602150.0,
+            "volume_ratio_previous20": 1.2754372701910872,
+            "macd": -146.60512661271719,
+            "macd_hist": -3.882490353792548,
+            "macd_new_cross_up": false,
+            "k9": 46.94892903181536,
+            "d9": 42.22511990222995,
+            "kd_new_cross_up": false,
+            "volatility20_pct": 84.29885843166987,
+            "support20": 1020.0,
+            "resistance20": 1665.0,
+            "return20_pct": -31.288343558282207
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "以有效OHLCV計算，不從圖像猜價格。",
+            "量比使用前20筆、不含當日的均量。",
+            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
+          ]
+        },
+        "flow": {
+          "label": "法人・籌碼・流動性",
+          "status": "available",
+          "values": {
+            "foreign_net_shares": -3244334.0,
+            "trust_net_shares": -838467.0,
+            "dealer_net_shares": 605338.0
+          },
+          "provenance": {
+            "foreign_net_shares": {
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
+              "unit": "shares"
+            },
+            "trust_net_shares": {
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
+              "unit": "shares"
+            },
+            "dealer_net_shares": {
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
+              "unit": "shares"
+            }
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "macro_policy": {
+          "label": "總經・產業・法規",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "policy_rate_pct",
+            "usd_twd"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        }
+      },
+      "analyses": []
+    },
+    {
+      "symbol": "2412.TW",
+      "name": "中華電",
+      "foreign_defense": {
+        "label": "外資流向支撐代理線（非真實成本）",
+        "method_version": "net-buy-typical-price-v1",
+        "cutoff": "2026-11-17T06:54:48.193719+08:00",
+        "window_sessions": 20,
+        "matched_sessions": 12,
+        "required_sessions": 5,
+        "actual_institutional_cost": false,
+        "value": null,
+        "alert": "窗口法人資料不連續，先補齊再估計",
+        "status": "partial",
+        "formula": "Σ[當日典型價×max(外資淨買股數,0)] / Σmax(外資淨買股數,0)",
+        "limitations": [
+          "不含外資實際成交價與存量部位，不是外資真實成本或保證支撐",
+          "只用截至分析時間已取得的法人資料；不同市場分開處理",
+          "缺交易日、不足樣本、沒有淨買時不造線；不以此單獨買進"
+        ]
+      },
+      "factors": {
+        "news": {
+          "label": "新聞與公司政策",
+          "status": "missing",
+          "values": {
+            "events": 0,
+            "verified_events": 0
+          },
+          "missing": [
+            "沒有時間可核對的新聞"
+          ],
+          "notes": [
+            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
+          ]
+        },
+        "social": {
+          "label": "社群關注與情緒",
+          "status": "missing",
+          "values": {},
+          "missing": [
+            "社群來源未授權、未執行或連線失敗；不可填0熱度"
+          ],
+          "sample_scope": true
+        },
+        "fundamental": {
+          "label": "基本・財務・估值",
+          "status": "partial",
+          "values": {
+            "eps_ttm": 5.44,
+            "pe": 30.055147,
+            "pb": 3.3537774,
+            "roe_pct": 11.372
+          },
+          "provenance": {
+            "eps_ttm": {
+              "available_at": "2026-11-17T06:53:47.654336+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "provider-native"
+            },
+            "pe": {
+              "available_at": "2026-11-17T06:53:47.654336+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "provider-native"
+            },
+            "pb": {
+              "available_at": "2026-11-17T06:53:47.654336+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "provider-native"
+            },
+            "roe_pct": {
+              "available_at": "2026-11-17T06:53:47.654336+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "percent"
+            }
+          },
+          "missing": [
+            "revenue_yoy_pct",
+            "ocf"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "technical": {
+          "label": "K線・技術・量價",
+          "status": "available",
+          "available_at": "2026-11-16T14:30:00+08:00",
+          "quote_date": "2026-11-16",
+          "bar_count": 519,
+          "values": {
+            "ma5": 162.2,
+            "ma20": 159.075,
+            "ma60": 147.44166666666666,
+            "close": 163.5,
+            "rsi14": 68.4121023008064,
+            "atr14": 4.035714285714286,
+            "volume": 15047248.0,
+            "volume_ratio_previous20": 1.0415261978629191,
+            "macd": 3.917735586428421,
+            "macd_hist": -0.06102321751482975,
+            "macd_new_cross_up": false,
+            "k9": 62.3868547721698,
+            "d9": 61.087651149994095,
+            "kd_new_cross_up": false,
+            "volatility20_pct": 18.17531218104882,
+            "support20": 151.0,
+            "resistance20": 168.0,
+            "return20_pct": 7.21311475409836
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "以有效OHLCV計算，不從圖像猜價格。",
+            "量比使用前20筆、不含當日的均量。",
+            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
+          ]
+        },
+        "flow": {
+          "label": "法人・籌碼・流動性",
+          "status": "available",
+          "values": {
+            "foreign_net_shares": 1585071.0,
+            "trust_net_shares": -765759.0,
+            "dealer_net_shares": 676575.0
+          },
+          "provenance": {
+            "foreign_net_shares": {
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
+              "unit": "shares"
+            },
+            "trust_net_shares": {
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
+              "unit": "shares"
+            },
+            "dealer_net_shares": {
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
+              "unit": "shares"
+            }
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "macro_policy": {
+          "label": "總經・產業・法規",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "policy_rate_pct",
+            "usd_twd"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        }
+      },
+      "analyses": []
+    },
+    {
+      "symbol": "2881.TW",
+      "name": "富邦金",
+      "foreign_defense": {
+        "label": "外資流向支撐代理線（非真實成本）",
+        "method_version": "net-buy-typical-price-v1",
+        "cutoff": "2026-11-17T06:54:48.193719+08:00",
+        "window_sessions": 20,
+        "matched_sessions": 12,
+        "required_sessions": 5,
+        "actual_institutional_cost": false,
+        "value": null,
+        "alert": "窗口法人資料不連續，先補齊再估計",
+        "status": "partial",
+        "formula": "Σ[當日典型價×max(外資淨買股數,0)] / Σmax(外資淨買股數,0)",
+        "limitations": [
+          "不含外資實際成交價與存量部位，不是外資真實成本或保證支撐",
+          "只用截至分析時間已取得的法人資料；不同市場分開處理",
+          "缺交易日、不足樣本、沒有淨買時不造線；不以此單獨買進"
+        ]
+      },
+      "factors": {
+        "news": {
+          "label": "新聞與公司政策",
+          "status": "partial",
+          "values": {
+            "events": 1,
+            "verified_events": 0
+          },
+          "missing": [],
+          "notes": [
+            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
+          ]
+        },
+        "social": {
+          "label": "社群關注與情緒",
+          "status": "missing",
+          "values": {},
+          "missing": [
+            "社群來源未授權、未執行或連線失敗；不可填0熱度"
+          ],
+          "sample_scope": true
+        },
+        "fundamental": {
+          "label": "基本・財務・估值",
+          "status": "partial",
+          "values": {
+            "eps_ttm": 8.01,
+            "pe": 18.976278,
+            "pb": 1.7010418,
+            "roe_pct": 26.063
+          },
+          "provenance": {
+            "eps_ttm": {
+              "available_at": "2026-11-17T06:53:48.836740+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "provider-native"
+            },
+            "pe": {
+              "available_at": "2026-11-17T06:53:48.836740+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "provider-native"
+            },
+            "pb": {
+              "available_at": "2026-11-17T06:53:48.836740+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "provider-native"
+            },
+            "roe_pct": {
+              "available_at": "2026-11-17T06:53:48.836740+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "percent"
+            }
+          },
+          "missing": [
+            "revenue_yoy_pct",
+            "ocf"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "technical": {
+          "label": "K線・技術・量價",
+          "status": "available",
+          "available_at": "2026-11-16T14:30:00+08:00",
+          "quote_date": "2026-11-16",
+          "bar_count": 519,
+          "values": {
+            "ma5": 157.0,
+            "ma20": 157.35,
+            "ma60": 151.1,
+            "close": 152.0,
+            "rsi14": 45.48957685796646,
+            "atr14": 6.535714285714286,
+            "volume": 27509124.0,
+            "volume_ratio_previous20": 1.372247685934371,
+            "macd": 0.6237586269882911,
+            "macd_hist": -0.4889602018663721,
+            "macd_new_cross_up": false,
+            "k9": 67.06199961757986,
+            "d9": 63.2735063290868,
+            "kd_new_cross_up": false,
+            "volatility20_pct": 41.52069175689453,
+            "support20": 140.0,
+            "resistance20": 164.5,
+            "return20_pct": -4.702194357366773
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "以有效OHLCV計算，不從圖像猜價格。",
+            "量比使用前20筆、不含當日的均量。",
+            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
+          ]
+        },
+        "flow": {
+          "label": "法人・籌碼・流動性",
+          "status": "available",
+          "values": {
+            "foreign_net_shares": -7968267.0,
+            "trust_net_shares": 3544000.0,
+            "dealer_net_shares": 718985.0
+          },
+          "provenance": {
+            "foreign_net_shares": {
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
+              "unit": "shares"
+            },
+            "trust_net_shares": {
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
+              "unit": "shares"
+            },
+            "dealer_net_shares": {
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
+              "unit": "shares"
+            }
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "macro_policy": {
+          "label": "總經・產業・法規",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "policy_rate_pct",
+            "usd_twd"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        }
+      },
+      "analyses": []
+    },
+    {
+      "symbol": "2882.TW",
+      "name": "國泰金",
+      "foreign_defense": {
+        "label": "外資流向支撐代理線（非真實成本）",
+        "method_version": "net-buy-typical-price-v1",
+        "cutoff": "2026-11-17T06:54:48.193719+08:00",
+        "window_sessions": 20,
+        "matched_sessions": 12,
+        "required_sessions": 5,
+        "actual_institutional_cost": false,
+        "value": null,
+        "alert": "窗口法人資料不連續，先補齊再估計",
+        "status": "partial",
+        "formula": "Σ[當日典型價×max(外資淨買股數,0)] / Σmax(外資淨買股數,0)",
+        "limitations": [
+          "不含外資實際成交價與存量部位，不是外資真實成本或保證支撐",
+          "只用截至分析時間已取得的法人資料；不同市場分開處理",
+          "缺交易日、不足樣本、沒有淨買時不造線；不以此單獨買進"
+        ]
+      },
+      "factors": {
+        "news": {
+          "label": "新聞與公司政策",
+          "status": "partial",
+          "values": {
+            "events": 19,
+            "verified_events": 0
+          },
+          "missing": [],
+          "notes": [
+            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
+          ]
+        },
+        "social": {
+          "label": "社群關注與情緒",
+          "status": "missing",
+          "values": {},
+          "missing": [
+            "社群來源未授權、未執行或連線失敗；不可填0熱度"
+          ],
+          "sample_scope": true
+        },
+        "fundamental": {
+          "label": "基本・財務・估值",
+          "status": "partial",
+          "values": {
+            "eps_ttm": 6.47,
+            "pe": 17.001547,
+            "pb": 1.4555656,
+            "roe_pct": 25.454
+          },
+          "provenance": {
+            "eps_ttm": {
+              "available_at": "2026-11-17T06:53:50.067354+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "provider-native"
+            },
+            "pe": {
+              "available_at": "2026-11-17T06:53:50.067354+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "provider-native"
+            },
+            "pb": {
+              "available_at": "2026-11-17T06:53:50.067354+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "provider-native"
+            },
+            "roe_pct": {
+              "available_at": "2026-11-17T06:53:50.067354+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "percent"
+            }
+          },
+          "missing": [
+            "revenue_yoy_pct",
+            "ocf"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "technical": {
+          "label": "K線・技術・量價",
+          "status": "available",
+          "available_at": "2026-11-16T14:30:00+08:00",
+          "quote_date": "2026-11-16",
+          "bar_count": 519,
+          "values": {
+            "ma5": 111.9,
+            "ma20": 112.925,
+            "ma60": 110.57666664123535,
+            "close": 110.0,
+            "rsi14": 46.30960059501085,
+            "atr14": 4.607142857142857,
+            "volume": 31144727.0,
+            "volume_ratio_previous20": 1.2038979903030413,
+            "macd": -0.1047336092939446,
+            "macd_hist": -0.2973557136072936,
+            "macd_new_cross_up": false,
+            "k9": 66.52248397861736,
+            "d9": 60.92554818943306,
+            "kd_new_cross_up": false,
+            "volatility20_pct": 40.31298918981426,
+            "support20": 101.0,
+            "resistance20": 118.0,
+            "return20_pct": -3.083700440528636
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "以有效OHLCV計算，不從圖像猜價格。",
+            "量比使用前20筆、不含當日的均量。",
+            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
+          ]
+        },
+        "flow": {
+          "label": "法人・籌碼・流動性",
+          "status": "available",
+          "values": {
+            "foreign_net_shares": -2615039.0,
+            "trust_net_shares": 1440000.0,
+            "dealer_net_shares": 700104.0
+          },
+          "provenance": {
+            "foreign_net_shares": {
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
+              "unit": "shares"
+            },
+            "trust_net_shares": {
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
+              "unit": "shares"
+            },
+            "dealer_net_shares": {
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
+              "unit": "shares"
+            }
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "macro_policy": {
+          "label": "總經・產業・法規",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "policy_rate_pct",
+            "usd_twd"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        }
+      },
+      "analyses": []
+    },
+    {
+      "symbol": "2891.TW",
+      "name": "中信金",
+      "foreign_defense": {
+        "label": "外資流向支撐代理線（非真實成本）",
+        "method_version": "net-buy-typical-price-v1",
+        "cutoff": "2026-11-17T06:54:48.193719+08:00",
+        "window_sessions": 20,
+        "matched_sessions": 12,
+        "required_sessions": 5,
+        "actual_institutional_cost": false,
+        "value": null,
+        "alert": "窗口法人資料不連續，先補齊再估計",
+        "status": "partial",
+        "formula": "Σ[當日典型價×max(外資淨買股數,0)] / Σmax(外資淨買股數,0)",
+        "limitations": [
+          "不含外資實際成交價與存量部位，不是外資真實成本或保證支撐",
+          "只用截至分析時間已取得的法人資料；不同市場分開處理",
+          "缺交易日、不足樣本、沒有淨買時不造線；不以此單獨買進"
+        ]
+      },
+      "factors": {
+        "news": {
+          "label": "新聞與公司政策",
+          "status": "partial",
+          "values": {
+            "events": 18,
+            "verified_events": 0
+          },
+          "missing": [],
+          "notes": [
+            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
+          ]
+        },
+        "social": {
+          "label": "社群關注與情緒",
+          "status": "missing",
+          "values": {},
+          "missing": [
+            "社群來源未授權、未執行或連線失敗；不可填0熱度"
+          ],
+          "sample_scope": true
+        },
+        "fundamental": {
+          "label": "基本・財務・估值",
+          "status": "partial",
+          "values": {
+            "eps_ttm": 4.06,
+            "pe": 18.916258,
+            "pb": 2.2355475,
+            "roe_pct": 18.576
+          },
+          "provenance": {
+            "eps_ttm": {
+              "available_at": "2026-11-17T06:53:51.005103+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "provider-native"
+            },
+            "pe": {
+              "available_at": "2026-11-17T06:53:51.005103+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "provider-native"
+            },
+            "pb": {
+              "available_at": "2026-11-17T06:53:51.005103+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "provider-native"
+            },
+            "roe_pct": {
+              "available_at": "2026-11-17T06:53:51.005103+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "percent"
+            }
+          },
+          "missing": [
+            "revenue_yoy_pct",
+            "ocf"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "technical": {
+          "label": "K線・技術・量價",
+          "status": "available",
+          "available_at": "2026-11-16T14:30:00+08:00",
+          "quote_date": "2026-11-16",
+          "bar_count": 519,
+          "values": {
+            "ma5": 75.85999908447266,
+            "ma20": 74.725,
+            "ma60": 70.03333339691162,
+            "close": 76.80000305175781,
+            "rsi14": 59.021966777773464,
+            "atr14": 2.9142853873116628,
+            "volume": 46421850.0,
+            "volume_ratio_previous20": 1.0188072666146248,
+            "macd": 1.5549035970920215,
+            "macd_hist": 0.08156755263675652,
+            "macd_new_cross_up": false,
+            "k9": 78.76340710965317,
+            "d9": 76.34045932933662,
+            "kd_new_cross_up": false,
+            "volatility20_pct": 33.74378681497508,
+            "support20": 67.5,
+            "resistance20": 80.5999984741211,
+            "return20_pct": 5.349796219818237
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "以有效OHLCV計算，不從圖像猜價格。",
+            "量比使用前20筆、不含當日的均量。",
+            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
+          ]
+        },
+        "flow": {
+          "label": "法人・籌碼・流動性",
+          "status": "available",
+          "values": {
+            "foreign_net_shares": 6100235.0,
+            "trust_net_shares": -4075000.0,
+            "dealer_net_shares": 3755956.0
+          },
+          "provenance": {
+            "foreign_net_shares": {
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
+              "unit": "shares"
+            },
+            "trust_net_shares": {
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
+              "unit": "shares"
+            },
+            "dealer_net_shares": {
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
+              "unit": "shares"
+            }
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "macro_policy": {
+          "label": "總經・產業・法規",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "policy_rate_pct",
+            "usd_twd"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        }
+      },
+      "analyses": []
+    },
+    {
+      "symbol": "3231.TW",
+      "name": "緯創",
+      "foreign_defense": {
+        "label": "外資流向支撐代理線（非真實成本）",
+        "method_version": "net-buy-typical-price-v1",
+        "cutoff": "2026-11-17T06:54:48.193719+08:00",
+        "window_sessions": 20,
+        "matched_sessions": 12,
+        "required_sessions": 5,
+        "actual_institutional_cost": false,
+        "value": null,
+        "alert": "窗口法人資料不連續，先補齊再估計",
+        "status": "partial",
+        "formula": "Σ[當日典型價×max(外資淨買股數,0)] / Σmax(外資淨買股數,0)",
+        "limitations": [
+          "不含外資實際成交價與存量部位，不是外資真實成本或保證支撐",
+          "只用截至分析時間已取得的法人資料；不同市場分開處理",
+          "缺交易日、不足樣本、沒有淨買時不造線；不以此單獨買進"
+        ]
+      },
+      "factors": {
+        "news": {
+          "label": "新聞與公司政策",
+          "status": "partial",
+          "values": {
+            "events": 14,
+            "verified_events": 0
+          },
+          "missing": [],
+          "notes": [
+            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
+          ]
+        },
+        "social": {
+          "label": "社群關注與情緒",
+          "status": "missing",
+          "values": {},
+          "missing": [
+            "社群來源未授權、未執行或連線失敗；不可填0熱度"
+          ],
+          "sample_scope": true
+        },
+        "fundamental": {
+          "label": "基本・財務・估值",
+          "status": "partial",
+          "values": {
+            "eps_ttm": 10.81,
+            "pe": 14.708603,
+            "pb": 2.0451212,
+            "roe_pct": 29.693002
+          },
+          "provenance": {
+            "eps_ttm": {
+              "available_at": "2026-11-17T06:53:51.971090+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "provider-native"
+            },
+            "pe": {
+              "available_at": "2026-11-17T06:53:51.971090+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "provider-native"
+            },
+            "pb": {
+              "available_at": "2026-11-17T06:53:51.971090+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "provider-native"
+            },
+            "roe_pct": {
+              "available_at": "2026-11-17T06:53:51.971090+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "percent"
+            }
+          },
+          "missing": [
+            "revenue_yoy_pct",
+            "ocf"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "technical": {
+          "label": "K線・技術・量價",
+          "status": "available",
+          "available_at": "2026-11-16T14:30:00+08:00",
+          "quote_date": "2026-11-16",
+          "bar_count": 519,
+          "values": {
+            "ma5": 169.1,
+            "ma20": 178.5,
+            "ma60": 182.45,
+            "close": 159.0,
+            "rsi14": 35.15077304366052,
+            "atr14": 9.107142857142858,
+            "volume": 34297532.0,
+            "volume_ratio_previous20": 0.9223527882488339,
+            "macd": -5.193499010943725,
+            "macd_hist": -1.6084319182581734,
+            "macd_new_cross_up": false,
+            "k9": 43.18051257046608,
+            "d9": 43.08707428525408,
+            "kd_new_cross_up": false,
+            "volatility20_pct": 52.341624448241184,
+            "support20": 152.0,
+            "resistance20": 199.5,
+            "return20_pct": -9.659090909090907
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "以有效OHLCV計算，不從圖像猜價格。",
+            "量比使用前20筆、不含當日的均量。",
+            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
+          ]
+        },
+        "flow": {
+          "label": "法人・籌碼・流動性",
+          "status": "available",
+          "values": {
+            "foreign_net_shares": 7466525.0,
+            "trust_net_shares": -3270043.0,
+            "dealer_net_shares": 332022.0
+          },
+          "provenance": {
+            "foreign_net_shares": {
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
+              "unit": "shares"
+            },
+            "trust_net_shares": {
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
+              "unit": "shares"
+            },
+            "dealer_net_shares": {
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
+              "unit": "shares"
+            }
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "macro_policy": {
+          "label": "總經・產業・法規",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "policy_rate_pct",
+            "usd_twd"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        }
+      },
+      "analyses": []
+    },
+    {
+      "symbol": "6669.TW",
+      "name": "緯穎",
+      "foreign_defense": {
+        "label": "外資流向支撐代理線（非真實成本）",
+        "method_version": "net-buy-typical-price-v1",
+        "cutoff": "2026-11-17T06:54:48.193719+08:00",
+        "window_sessions": 20,
+        "matched_sessions": 12,
+        "required_sessions": 5,
+        "actual_institutional_cost": false,
+        "value": null,
+        "alert": "窗口法人資料不連續，先補齊再估計",
+        "status": "partial",
+        "formula": "Σ[當日典型價×max(外資淨買股數,0)] / Σmax(外資淨買股數,0)",
+        "limitations": [
+          "不含外資實際成交價與存量部位，不是外資真實成本或保證支撐",
+          "只用截至分析時間已取得的法人資料；不同市場分開處理",
+          "缺交易日、不足樣本、沒有淨買時不造線；不以此單獨買進"
+        ]
+      },
+      "factors": {
+        "news": {
+          "label": "新聞與公司政策",
+          "status": "missing",
+          "values": {
+            "events": 0,
+            "verified_events": 0
+          },
+          "missing": [
+            "沒有時間可核對的新聞"
+          ],
+          "notes": [
+            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
+          ]
+        },
+        "social": {
+          "label": "社群關注與情緒",
+          "status": "missing",
+          "values": {},
+          "missing": [
+            "社群來源未授權、未執行或連線失敗；不可填0熱度"
+          ],
+          "sample_scope": true
+        },
+        "fundamental": {
+          "label": "基本・財務・估值",
+          "status": "partial",
+          "values": {
+            "eps_ttm": 90.88,
+            "pe": 16.670336,
+            "pb": 4.7082443,
+            "roe_pct": 44.749
+          },
+          "provenance": {
+            "eps_ttm": {
+              "available_at": "2026-11-17T06:53:52.943564+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "provider-native"
+            },
+            "pe": {
+              "available_at": "2026-11-17T06:53:52.943564+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "provider-native"
+            },
+            "pb": {
+              "available_at": "2026-11-17T06:53:52.943564+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "provider-native"
+            },
+            "roe_pct": {
+              "available_at": "2026-11-17T06:53:52.943564+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "percent"
+            }
+          },
+          "missing": [
+            "revenue_yoy_pct",
+            "ocf"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "technical": {
+          "label": "K線・技術・量價",
+          "status": "available",
+          "available_at": "2026-11-16T14:30:00+08:00",
+          "quote_date": "2026-11-16",
+          "bar_count": 519,
+          "values": {
+            "ma5": 1616.0,
+            "ma20": 1763.75,
+            "ma60": 2079.6424235026043,
+            "close": 1515.0,
+            "rsi14": 31.95418232888801,
+            "atr14": 112.14285714285714,
+            "volume": 3753737.0,
+            "volume_ratio_previous20": 0.7617896939720639,
+            "macd": -131.70704593345135,
+            "macd_hist": -12.776528895682475,
+            "macd_new_cross_up": false,
+            "k9": 26.74471907939784,
+            "d9": 29.310793107345418,
+            "kd_new_cross_up": false,
+            "volatility20_pct": 63.52160179512286,
+            "support20": 1485.0,
+            "resistance20": 2020.0,
+            "return20_pct": -20.472440944881885
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "以有效OHLCV計算，不從圖像猜價格。",
+            "量比使用前20筆、不含當日的均量。",
+            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
+          ]
+        },
+        "flow": {
+          "label": "法人・籌碼・流動性",
+          "status": "available",
+          "values": {
+            "foreign_net_shares": 910774.0,
+            "trust_net_shares": -233698.0,
+            "dealer_net_shares": -30082.0
+          },
+          "provenance": {
+            "foreign_net_shares": {
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
+              "unit": "shares"
+            },
+            "trust_net_shares": {
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
+              "unit": "shares"
+            },
+            "dealer_net_shares": {
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
+              "unit": "shares"
+            }
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "macro_policy": {
+          "label": "總經・產業・法規",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "policy_rate_pct",
+            "usd_twd"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        }
+      },
+      "analyses": []
+    },
+    {
+      "symbol": "3711.TW",
+      "name": "日月光投控",
+      "foreign_defense": {
+        "label": "外資流向支撐代理線（非真實成本）",
+        "method_version": "net-buy-typical-price-v1",
+        "cutoff": "2026-11-17T06:54:48.193719+08:00",
+        "window_sessions": 20,
+        "matched_sessions": 12,
+        "required_sessions": 5,
+        "actual_institutional_cost": false,
+        "value": null,
+        "alert": "窗口內沒有正淨買，不能估計代理線",
+        "status": "no_positive_net_buy",
+        "formula": "Σ[當日典型價×max(外資淨買股數,0)] / Σmax(外資淨買股數,0)",
+        "limitations": [
+          "不含外資實際成交價與存量部位，不是外資真實成本或保證支撐",
+          "只用截至分析時間已取得的法人資料；不同市場分開處理",
+          "缺交易日、不足樣本、沒有淨買時不造線；不以此單獨買進"
+        ]
+      },
+      "factors": {
+        "news": {
+          "label": "新聞與公司政策",
+          "status": "missing",
+          "values": {
+            "events": 0,
+            "verified_events": 0
+          },
+          "missing": [
+            "沒有時間可核對的新聞"
+          ],
+          "notes": [
+            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
+          ]
+        },
+        "social": {
+          "label": "社群關注與情緒",
+          "status": "missing",
+          "values": {},
+          "missing": [
+            "社群來源未授權、未執行或連線失敗；不可填0熱度"
+          ],
+          "sample_scope": true
+        },
+        "fundamental": {
+          "label": "基本・財務・估值",
+          "status": "partial",
+          "values": {
+            "eps_ttm": 16.42,
+            "pe": 33.495735,
+            "pb": 5.7432857,
+            "roe_pct": 19.899
+          },
+          "provenance": {
+            "eps_ttm": {
+              "available_at": "2026-11-17T06:53:53.987513+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "provider-native"
+            },
+            "pe": {
+              "available_at": "2026-11-17T06:53:53.987513+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "provider-native"
+            },
+            "pb": {
+              "available_at": "2026-11-17T06:53:53.987513+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "provider-native"
+            },
+            "roe_pct": {
+              "available_at": "2026-11-17T06:53:53.987513+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "percent"
+            }
+          },
+          "missing": [
+            "revenue_yoy_pct",
+            "ocf"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "technical": {
+          "label": "K線・技術・量價",
+          "status": "available",
+          "available_at": "2026-11-16T14:30:00+08:00",
+          "quote_date": "2026-11-16",
+          "bar_count": 519,
+          "values": {
+            "ma5": 591.2,
+            "ma20": 628.45,
+            "ma60": 642.45,
+            "close": 550.0,
+            "rsi14": 38.12971719999647,
+            "atr14": 48.5,
+            "volume": 20529504.0,
+            "volume_ratio_previous20": 0.873660738661573,
+            "macd": -27.207013258902066,
+            "macd_hist": -7.0551638773273275,
+            "macd_new_cross_up": false,
+            "k9": 39.93506155823592,
+            "d9": 38.072691330764556,
+            "kd_new_cross_up": false,
+            "volatility20_pct": 78.64187767479513,
+            "support20": 515.0,
+            "resistance20": 709.0,
+            "return20_pct": -18.276374442793465
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "以有效OHLCV計算，不從圖像猜價格。",
+            "量比使用前20筆、不含當日的均量。",
+            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
+          ]
+        },
+        "flow": {
+          "label": "法人・籌碼・流動性",
+          "status": "available",
+          "values": {
+            "foreign_net_shares": -4371971.0,
+            "trust_net_shares": -1081068.0,
+            "dealer_net_shares": 307596.0
+          },
+          "provenance": {
+            "foreign_net_shares": {
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
+              "unit": "shares"
+            },
+            "trust_net_shares": {
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
+              "unit": "shares"
+            },
+            "dealer_net_shares": {
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
+              "unit": "shares"
+            }
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "macro_policy": {
+          "label": "總經・產業・法規",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "policy_rate_pct",
+            "usd_twd"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        }
+      },
+      "analyses": []
+    },
+    {
+      "symbol": "2724.TWO",
+      "name": "藝舍-KY",
+      "foreign_defense": {
+        "label": "外資流向支撐代理線（非真實成本）",
+        "method_version": "net-buy-typical-price-v1",
+        "cutoff": "2026-11-17T06:54:48.193719+08:00",
+        "window_sessions": 20,
+        "matched_sessions": 2,
+        "required_sessions": 5,
+        "actual_institutional_cost": false,
+        "value": null,
+        "alert": "資料不足",
+        "status": "missing",
+        "formula": "Σ[當日典型價×max(外資淨買股數,0)] / Σmax(外資淨買股數,0)",
+        "limitations": [
+          "不含外資實際成交價與存量部位，不是外資真實成本或保證支撐",
+          "只用截至分析時間已取得的法人資料；不同市場分開處理",
+          "缺交易日、不足樣本、沒有淨買時不造線；不以此單獨買進"
+        ]
+      },
+      "factors": {
+        "news": {
+          "label": "新聞與公司政策",
+          "status": "missing",
+          "values": {
+            "events": 0,
+            "verified_events": 0
+          },
+          "missing": [
+            "沒有時間可核對的新聞"
+          ],
+          "notes": [
+            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
+          ]
+        },
+        "social": {
+          "label": "社群關注與情緒",
+          "status": "missing",
+          "values": {},
+          "missing": [
+            "社群來源未授權、未執行或連線失敗；不可填0熱度"
+          ],
+          "sample_scope": true
+        },
+        "fundamental": {
+          "label": "基本・財務・估值",
+          "status": "partial",
+          "values": {
+            "eps_ttm": -0.21,
+            "pb": 1.5051296,
+            "roe_pct": -2.8210001
+          },
+          "provenance": {
+            "eps_ttm": {
+              "available_at": "2026-11-17T06:53:54.914913+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "provider-native"
+            },
+            "pb": {
+              "available_at": "2026-11-17T06:53:54.914913+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "provider-native"
+            },
+            "roe_pct": {
+              "available_at": "2026-11-17T06:53:54.914913+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "percent"
+            }
+          },
+          "missing": [
+            "revenue_yoy_pct",
+            "ocf",
+            "pe"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "technical": {
+          "label": "K線・技術・量價",
+          "status": "available",
+          "available_at": "2026-11-16T14:30:00+08:00",
+          "quote_date": "2026-11-16",
+          "bar_count": 433,
+          "values": {
+            "ma5": 11.749999618530273,
+            "ma20": 12.197499895095826,
+            "ma60": 11.316666555404662,
+            "close": 11.149999618530273,
+            "rsi14": 44.288004799956724,
+            "atr14": 0.7821427753993443,
+            "volume": 1000.0,
+            "volume_ratio_previous20": 0.16046470578796196,
+            "macd": 0.05426140903781729,
+            "macd_hist": -0.14282189218160637,
+            "macd_new_cross_up": false,
+            "k9": 43.87844509683618,
+            "d9": 40.9336792975936,
+            "kd_new_cross_up": false,
+            "volatility20_pct": 85.11875891136127,
+            "support20": 10.699999809265137,
+            "resistance20": 13.649999618530273,
+            "return20_pct": -4.291845634095203
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "以有效OHLCV計算，不從圖像猜價格。",
+            "量比使用前20筆、不含當日的均量。",
+            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
+          ]
+        },
+        "flow": {
+          "label": "法人・籌碼・流動性",
+          "status": "available",
+          "values": {
+            "foreign_net_shares": -10000.0,
+            "trust_net_shares": 0.0,
+            "dealer_net_shares": 0.0
+          },
+          "provenance": {
+            "foreign_net_shares": {
+              "available_at": "2026-11-11T04:29:11.597679+08:00",
+              "period": "2026-11-10",
+              "source": "https://www.tpex.org.tw/openapi/v1/tpex_3insti_daily_trading",
+              "unit": "shares"
+            },
+            "trust_net_shares": {
+              "available_at": "2026-11-11T04:29:11.597679+08:00",
+              "period": "2026-11-10",
+              "source": "https://www.tpex.org.tw/openapi/v1/tpex_3insti_daily_trading",
+              "unit": "shares"
+            },
+            "dealer_net_shares": {
+              "available_at": "2026-11-11T04:29:11.597679+08:00",
+              "period": "2026-11-10",
+              "source": "https://www.tpex.org.tw/openapi/v1/tpex_3insti_daily_trading",
+              "unit": "shares"
+            }
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "macro_policy": {
+          "label": "總經・產業・法規",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "policy_rate_pct",
+            "usd_twd"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        }
+      },
+      "analyses": []
+    },
+    {
+      "symbol": "2726.TWO",
+      "name": "雅茗-KY",
+      "foreign_defense": {
+        "label": "外資流向支撐代理線（非真實成本）",
+        "method_version": "net-buy-typical-price-v1",
+        "cutoff": "2026-11-17T06:54:48.193719+08:00",
+        "window_sessions": 20,
+        "matched_sessions": 5,
         "required_sessions": 5,
         "actual_institutional_cost": false,
         "value": null,
@@ -2869,32 +2346,25 @@
           "label": "基本・財務・估值",
           "status": "partial",
           "values": {
-            "eps_ttm": 1.32,
-            "pe": 15.113636,
-            "pb": 0.8299705,
-            "roe_pct": 5.805
+            "eps_ttm": -2.73,
+            "pb": 0.62683755,
+            "roe_pct": -35.454
           },
           "provenance": {
             "eps_ttm": {
-              "available_at": "2026-11-16T14:46:57.816507+08:00",
-              "period": "provider-current-observed; not original filing period",
-              "source": "Yahoo Finance（需以公司公告複核）",
-              "unit": "provider-native"
-            },
-            "pe": {
-              "available_at": "2026-11-16T14:46:57.816507+08:00",
+              "available_at": "2026-11-17T06:53:55.893155+08:00",
               "period": "provider-current-observed; not original filing period",
               "source": "Yahoo Finance（需以公司公告複核）",
               "unit": "provider-native"
             },
             "pb": {
-              "available_at": "2026-11-16T14:46:57.816507+08:00",
+              "available_at": "2026-11-17T06:53:55.893155+08:00",
               "period": "provider-current-observed; not original filing period",
               "source": "Yahoo Finance（需以公司公告複核）",
               "unit": "provider-native"
             },
             "roe_pct": {
-              "available_at": "2026-11-16T14:46:57.816507+08:00",
+              "available_at": "2026-11-17T06:53:55.893155+08:00",
               "period": "provider-current-observed; not original filing period",
               "source": "Yahoo Finance（需以公司公告複核）",
               "unit": "percent"
@@ -2902,7 +2372,8 @@
           },
           "missing": [
             "revenue_yoy_pct",
-            "ocf"
+            "ocf",
+            "pe"
           ],
           "rejected": [],
           "notes": [
@@ -2915,26 +2386,26 @@
           "status": "available",
           "available_at": "2026-11-16T14:30:00+08:00",
           "quote_date": "2026-11-16",
-          "bar_count": 519,
+          "bar_count": 514,
           "values": {
-            "ma5": 20.360000228881837,
-            "ma20": 21.30250015258789,
-            "ma60": 22.137500063578287,
-            "close": 19.950000762939453,
-            "rsi14": 29.117503835793485,
-            "atr14": 0.6035712105887276,
-            "volume": 172783.0,
-            "volume_ratio_previous20": 0.7672479022941548,
-            "macd": -0.5242489110515542,
-            "macd_hist": -0.12183926108990195,
+            "ma5": 6.022000026702881,
+            "ma20": 7.1375,
+            "ma60": 7.803000028928121,
+            "close": 5.329999923706055,
+            "rsi14": 5.721816910302067,
+            "atr14": 0.3657142434801374,
+            "volume": 16200.0,
+            "volume_ratio_previous20": 0.2734061853930214,
+            "macd": -0.5615939343284495,
+            "macd_hist": -0.18206285721035248,
             "macd_new_cross_up": false,
-            "k9": 41.03726858913693,
-            "d9": 39.16777491057704,
+            "k9": 7.661595651070434,
+            "d9": 11.479548659093421,
             "kd_new_cross_up": false,
-            "volatility20_pct": 20.332098481059287,
-            "support20": 19.149999618530273,
-            "resistance20": 22.850000381469727,
-            "return20_pct": -10.738253143476905
+            "volatility20_pct": 41.42108692179037,
+            "support20": 5.329999923706055,
+            "resistance20": 7.989999771118164,
+            "return20_pct": -32.70202181361399
           },
           "missing": [],
           "rejected": [],
@@ -2948,27 +2419,27 @@
           "label": "法人・籌碼・流動性",
           "status": "available",
           "values": {
-            "foreign_net_shares": 62816.0,
+            "foreign_net_shares": 1000.0,
             "trust_net_shares": 0.0,
             "dealer_net_shares": 0.0
           },
           "provenance": {
             "foreign_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
+              "available_at": "2026-11-14T04:29:43.186291+08:00",
               "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
+              "source": "https://www.tpex.org.tw/openapi/v1/tpex_3insti_daily_trading",
               "unit": "shares"
             },
             "trust_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
+              "available_at": "2026-11-14T04:29:43.186291+08:00",
               "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
+              "source": "https://www.tpex.org.tw/openapi/v1/tpex_3insti_daily_trading",
               "unit": "shares"
             },
             "dealer_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
+              "available_at": "2026-11-14T04:29:43.186291+08:00",
               "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
+              "source": "https://www.tpex.org.tw/openapi/v1/tpex_3insti_daily_trading",
               "unit": "shares"
             }
           },
@@ -2998,19 +2469,19 @@
       "analyses": []
     },
     {
-      "symbol": "2614.TW",
-      "name": "東森",
+      "symbol": "2727.TW",
+      "name": "王品",
       "foreign_defense": {
         "label": "外資流向支撐代理線（非真實成本）",
         "method_version": "net-buy-typical-price-v1",
-        "cutoff": "2026-11-16T14:47:40.408719+08:00",
+        "cutoff": "2026-11-17T06:54:48.193719+08:00",
         "window_sessions": 20,
-        "matched_sessions": 11,
+        "matched_sessions": 12,
         "required_sessions": 5,
         "actual_institutional_cost": false,
         "value": null,
-        "alert": "最新交易日法人資料尚缺",
-        "status": "stale",
+        "alert": "窗口法人資料不連續，先補齊再估計",
+        "status": "partial",
         "formula": "Σ[當日典型價×max(外資淨買股數,0)] / Σmax(外資淨買股數,0)",
         "limitations": [
           "不含外資實際成交價與存量部位，不是外資真實成本或保證支撐",
@@ -3023,7 +2494,7 @@
           "label": "新聞與公司政策",
           "status": "partial",
           "values": {
-            "events": 12,
+            "events": 11,
             "verified_events": 0
           },
           "missing": [],
@@ -3044,32 +2515,32 @@
           "label": "基本・財務・估值",
           "status": "partial",
           "values": {
-            "eps_ttm": 1.89,
-            "pe": 6.798942,
-            "pb": 1.0195177,
-            "roe_pct": 10.431
+            "eps_ttm": 17.48,
+            "pe": 13.0720825,
+            "pb": 4.0223207,
+            "roe_pct": 34.172000000000004
           },
           "provenance": {
             "eps_ttm": {
-              "available_at": "2026-11-16T14:46:58.487302+08:00",
+              "available_at": "2026-11-17T06:53:56.849639+08:00",
               "period": "provider-current-observed; not original filing period",
               "source": "Yahoo Finance（需以公司公告複核）",
               "unit": "provider-native"
             },
             "pe": {
-              "available_at": "2026-11-16T14:46:58.487302+08:00",
+              "available_at": "2026-11-17T06:53:56.849639+08:00",
               "period": "provider-current-observed; not original filing period",
               "source": "Yahoo Finance（需以公司公告複核）",
               "unit": "provider-native"
             },
             "pb": {
-              "available_at": "2026-11-16T14:46:58.487302+08:00",
+              "available_at": "2026-11-17T06:53:56.849639+08:00",
               "period": "provider-current-observed; not original filing period",
               "source": "Yahoo Finance（需以公司公告複核）",
               "unit": "provider-native"
             },
             "roe_pct": {
-              "available_at": "2026-11-16T14:46:58.487302+08:00",
+              "available_at": "2026-11-17T06:53:56.849639+08:00",
               "period": "provider-current-observed; not original filing period",
               "source": "Yahoo Finance（需以公司公告複核）",
               "unit": "percent"
@@ -3092,24 +2563,24 @@
           "quote_date": "2026-11-16",
           "bar_count": 519,
           "values": {
-            "ma5": 13.000000190734863,
-            "ma20": 13.815000057220459,
-            "ma60": 15.733672507603963,
-            "close": 12.850000381469727,
-            "rsi14": 21.124150556343125,
-            "atr14": 0.4392856870378767,
-            "volume": 1947904.0,
-            "volume_ratio_previous20": 1.185689423357364,
-            "macd": -0.7679325297663873,
-            "macd_hist": -0.002124506869418452,
+            "ma5": 227.0,
+            "ma20": 238.575,
+            "ma60": 235.05833333333334,
+            "close": 228.5,
+            "rsi14": 39.71460388774155,
+            "atr14": 6.214285714285714,
+            "volume": 306300.0,
+            "volume_ratio_previous20": 0.7908192673316382,
+            "macd": -2.937253880224091,
+            "macd_hist": -1.7775687299912724,
             "macd_new_cross_up": false,
-            "k9": 28.802230423389048,
-            "d9": 28.536217577318137,
+            "k9": 29.956752350114627,
+            "d9": 28.944420401502498,
             "kd_new_cross_up": false,
-            "volatility20_pct": 21.010436795984088,
-            "support20": 12.5,
-            "resistance20": 15.300000190734863,
-            "return20_pct": -14.617938746735092
+            "volatility20_pct": 29.471996453141042,
+            "support20": 220.0,
+            "resistance20": 249.0,
+            "return20_pct": -7.113821138211385
           },
           "missing": [],
           "rejected": [],
@@ -3123,26 +2594,26 @@
           "label": "法人・籌碼・流動性",
           "status": "available",
           "values": {
-            "foreign_net_shares": 15000.0,
+            "foreign_net_shares": 110906.0,
             "trust_net_shares": 0.0,
-            "dealer_net_shares": 6000.0
+            "dealer_net_shares": 11114.0
           },
           "provenance": {
             "foreign_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
               "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
               "unit": "shares"
             },
             "trust_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
               "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
               "unit": "shares"
             },
             "dealer_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
               "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
               "unit": "shares"
             }
@@ -3173,19 +2644,19 @@
       "analyses": []
     },
     {
-      "symbol": "2615.TW",
-      "name": "萬海",
+      "symbol": "2729.TWO",
+      "name": "瓦城",
       "foreign_defense": {
         "label": "外資流向支撐代理線（非真實成本）",
         "method_version": "net-buy-typical-price-v1",
-        "cutoff": "2026-11-16T14:47:40.408719+08:00",
+        "cutoff": "2026-11-17T06:54:48.193719+08:00",
         "window_sessions": 20,
-        "matched_sessions": 11,
+        "matched_sessions": 12,
         "required_sessions": 5,
         "actual_institutional_cost": false,
         "value": null,
-        "alert": "最新交易日法人資料尚缺",
-        "status": "stale",
+        "alert": "窗口法人資料不連續，先補齊再估計",
+        "status": "partial",
         "formula": "Σ[當日典型價×max(外資淨買股數,0)] / Σmax(外資淨買股數,0)",
         "limitations": [
           "不含外資實際成交價與存量部位，不是外資真實成本或保證支撐",
@@ -3198,7 +2669,7 @@
           "label": "新聞與公司政策",
           "status": "partial",
           "values": {
-            "events": 12,
+            "events": 7,
             "verified_events": 0
           },
           "missing": [],
@@ -3219,32 +2690,207 @@
           "label": "基本・財務・估值",
           "status": "partial",
           "values": {
-            "eps_ttm": 14.55,
-            "pe": 7.525773,
-            "pb": 0.9920365,
-            "roe_pct": 17.959
+            "eps_ttm": 6.15,
+            "pe": 23.252031,
+            "pb": 2.6882226,
+            "roe_pct": 11.3000005
           },
           "provenance": {
             "eps_ttm": {
-              "available_at": "2026-11-16T14:46:59.165285+08:00",
+              "available_at": "2026-11-17T06:53:57.806616+08:00",
               "period": "provider-current-observed; not original filing period",
               "source": "Yahoo Finance（需以公司公告複核）",
               "unit": "provider-native"
             },
             "pe": {
-              "available_at": "2026-11-16T14:46:59.165285+08:00",
+              "available_at": "2026-11-17T06:53:57.806616+08:00",
               "period": "provider-current-observed; not original filing period",
               "source": "Yahoo Finance（需以公司公告複核）",
               "unit": "provider-native"
             },
             "pb": {
-              "available_at": "2026-11-16T14:46:59.165285+08:00",
+              "available_at": "2026-11-17T06:53:57.806616+08:00",
               "period": "provider-current-observed; not original filing period",
               "source": "Yahoo Finance（需以公司公告複核）",
               "unit": "provider-native"
             },
             "roe_pct": {
-              "available_at": "2026-11-16T14:46:59.165285+08:00",
+              "available_at": "2026-11-17T06:53:57.806616+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "percent"
+            }
+          },
+          "missing": [
+            "revenue_yoy_pct",
+            "ocf"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "technical": {
+          "label": "K線・技術・量價",
+          "status": "available",
+          "available_at": "2026-11-16T14:30:00+08:00",
+          "quote_date": "2026-11-16",
+          "bar_count": 518,
+          "values": {
+            "ma5": 150.1,
+            "ma20": 151.575,
+            "ma60": 154.53333333333333,
+            "close": 143.0,
+            "rsi14": 39.60724144149417,
+            "atr14": 5.857142857142857,
+            "volume": 42293.0,
+            "volume_ratio_previous20": 0.6753680606622418,
+            "macd": -1.6793118552675708,
+            "macd_hist": -0.3438539230940414,
+            "macd_new_cross_up": false,
+            "k9": 48.945262961157596,
+            "d9": 54.71194173141747,
+            "kd_new_cross_up": false,
+            "volatility20_pct": 44.68384352226418,
+            "support20": 141.0,
+            "resistance20": 156.5,
+            "return20_pct": -7.14285714285714
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "以有效OHLCV計算，不從圖像猜價格。",
+            "量比使用前20筆、不含當日的均量。",
+            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
+          ]
+        },
+        "flow": {
+          "label": "法人・籌碼・流動性",
+          "status": "available",
+          "values": {
+            "foreign_net_shares": -8000.0,
+            "trust_net_shares": 0.0,
+            "dealer_net_shares": 596.0
+          },
+          "provenance": {
+            "foreign_net_shares": {
+              "available_at": "2026-11-17T06:53:38.832137+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.tpex.org.tw/openapi/v1/tpex_3insti_daily_trading",
+              "unit": "shares"
+            },
+            "trust_net_shares": {
+              "available_at": "2026-11-17T06:53:38.832137+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.tpex.org.tw/openapi/v1/tpex_3insti_daily_trading",
+              "unit": "shares"
+            },
+            "dealer_net_shares": {
+              "available_at": "2026-11-17T06:53:38.832137+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.tpex.org.tw/openapi/v1/tpex_3insti_daily_trading",
+              "unit": "shares"
+            }
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "macro_policy": {
+          "label": "總經・產業・法規",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "policy_rate_pct",
+            "usd_twd"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        }
+      },
+      "analyses": []
+    },
+    {
+      "symbol": "2731.TW",
+      "name": "雄獅",
+      "foreign_defense": {
+        "label": "外資流向支撐代理線（非真實成本）",
+        "method_version": "net-buy-typical-price-v1",
+        "cutoff": "2026-11-17T06:54:48.193719+08:00",
+        "window_sessions": 20,
+        "matched_sessions": 12,
+        "required_sessions": 5,
+        "actual_institutional_cost": false,
+        "value": null,
+        "alert": "窗口法人資料不連續，先補齊再估計",
+        "status": "partial",
+        "formula": "Σ[當日典型價×max(外資淨買股數,0)] / Σmax(外資淨買股數,0)",
+        "limitations": [
+          "不含外資實際成交價與存量部位，不是外資真實成本或保證支撐",
+          "只用截至分析時間已取得的法人資料；不同市場分開處理",
+          "缺交易日、不足樣本、沒有淨買時不造線；不以此單獨買進"
+        ]
+      },
+      "factors": {
+        "news": {
+          "label": "新聞與公司政策",
+          "status": "partial",
+          "values": {
+            "events": 14,
+            "verified_events": 0
+          },
+          "missing": [],
+          "notes": [
+            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
+          ]
+        },
+        "social": {
+          "label": "社群關注與情緒",
+          "status": "missing",
+          "values": {},
+          "missing": [
+            "社群來源未授權、未執行或連線失敗；不可填0熱度"
+          ],
+          "sample_scope": true
+        },
+        "fundamental": {
+          "label": "基本・財務・估值",
+          "status": "partial",
+          "values": {
+            "eps_ttm": 15.79,
+            "pe": 8.613047,
+            "pb": 2.842631,
+            "roe_pct": 33.735
+          },
+          "provenance": {
+            "eps_ttm": {
+              "available_at": "2026-11-17T06:53:58.637466+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "provider-native"
+            },
+            "pe": {
+              "available_at": "2026-11-17T06:53:58.637466+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "provider-native"
+            },
+            "pb": {
+              "available_at": "2026-11-17T06:53:58.637466+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "provider-native"
+            },
+            "roe_pct": {
+              "available_at": "2026-11-17T06:53:58.637466+08:00",
               "period": "provider-current-observed; not original filing period",
               "source": "Yahoo Finance（需以公司公告複核）",
               "unit": "percent"
@@ -3267,24 +2913,24 @@
           "quote_date": "2026-11-16",
           "bar_count": 519,
           "values": {
-            "ma5": 109.3,
-            "ma20": 114.425,
-            "ma60": 114.84166666666667,
-            "close": 109.5,
-            "rsi14": 44.510107040004264,
-            "atr14": 5.607142857142857,
-            "volume": 12213226.0,
-            "volume_ratio_previous20": 0.9528309505159722,
-            "macd": -1.8342261591968736,
-            "macd_hist": -0.9965033274250196,
+            "ma5": 137.2,
+            "ma20": 140.225,
+            "ma60": 142.45833333333334,
+            "close": 136.0,
+            "rsi14": 37.87721952352115,
+            "atr14": 3.1785714285714284,
+            "volume": 284000.0,
+            "volume_ratio_previous20": 0.9978470746654885,
+            "macd": -1.7991173235297993,
+            "macd_hist": -0.2785948624179464,
             "macd_new_cross_up": false,
-            "k9": 37.1884211159326,
-            "d9": 35.52311637596481,
-            "kd_new_cross_up": true,
-            "volatility20_pct": 41.42987578477917,
-            "support20": 102.0,
-            "resistance20": 127.0,
-            "return20_pct": -7.98319327731093
+            "k9": 50.89172054861462,
+            "d9": 42.32894227544809,
+            "kd_new_cross_up": false,
+            "volatility20_pct": 17.221639149409476,
+            "support20": 130.5,
+            "resistance20": 145.5,
+            "return20_pct": -5.226480836236935
           },
           "missing": [],
           "rejected": [],
@@ -3298,26 +2944,26 @@
           "label": "法人・籌碼・流動性",
           "status": "available",
           "values": {
-            "foreign_net_shares": -930297.0,
+            "foreign_net_shares": 84190.0,
             "trust_net_shares": 0.0,
-            "dealer_net_shares": 184294.0
+            "dealer_net_shares": 14000.0
           },
           "provenance": {
             "foreign_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
               "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
               "unit": "shares"
             },
             "trust_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
               "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
               "unit": "shares"
             },
             "dealer_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
+              "available_at": "2026-11-17T06:53:34.837028+08:00",
+              "period": "2026-11-16",
               "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
               "unit": "shares"
             }
@@ -3348,19 +2994,19 @@
       "analyses": []
     },
     {
-      "symbol": "2616.TW",
-      "name": "山隆",
+      "symbol": "2732.TWO",
+      "name": "六角",
       "foreign_defense": {
         "label": "外資流向支撐代理線（非真實成本）",
         "method_version": "net-buy-typical-price-v1",
-        "cutoff": "2026-11-16T14:47:40.408719+08:00",
+        "cutoff": "2026-11-17T06:54:48.193719+08:00",
         "window_sessions": 20,
-        "matched_sessions": 11,
+        "matched_sessions": 10,
         "required_sessions": 5,
         "actual_institutional_cost": false,
         "value": null,
-        "alert": "最新交易日法人資料尚缺",
-        "status": "stale",
+        "alert": "窗口法人資料不連續，先補齊再估計",
+        "status": "partial",
         "formula": "Σ[當日典型價×max(外資淨買股數,0)] / Σmax(外資淨買股數,0)",
         "limitations": [
           "不含外資實際成交價與存量部位，不是外資真實成本或保證支撐",
@@ -3373,7 +3019,7 @@
           "label": "新聞與公司政策",
           "status": "partial",
           "values": {
-            "events": 4,
+            "events": 2,
             "verified_events": 0
           },
           "missing": [],
@@ -3394,25 +3040,202 @@
           "label": "基本・財務・估值",
           "status": "partial",
           "values": {
-            "eps_ttm": -5.94,
-            "pb": 0.67307687,
-            "roe_pct": -27.351999999999997
+            "eps_ttm": 3.3,
+            "pe": 17.39394,
+            "pb": 1.439679,
+            "roe_pct": 8.886
           },
           "provenance": {
             "eps_ttm": {
-              "available_at": "2026-11-16T14:46:59.850873+08:00",
+              "available_at": "2026-11-17T06:53:59.573830+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "provider-native"
+            },
+            "pe": {
+              "available_at": "2026-11-17T06:53:59.573830+08:00",
               "period": "provider-current-observed; not original filing period",
               "source": "Yahoo Finance（需以公司公告複核）",
               "unit": "provider-native"
             },
             "pb": {
-              "available_at": "2026-11-16T14:46:59.850873+08:00",
+              "available_at": "2026-11-17T06:53:59.573830+08:00",
               "period": "provider-current-observed; not original filing period",
               "source": "Yahoo Finance（需以公司公告複核）",
               "unit": "provider-native"
             },
             "roe_pct": {
-              "available_at": "2026-11-16T14:46:59.850873+08:00",
+              "available_at": "2026-11-17T06:53:59.573830+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "percent"
+            }
+          },
+          "missing": [
+            "revenue_yoy_pct",
+            "ocf"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "technical": {
+          "label": "K線・技術・量價",
+          "status": "available",
+          "available_at": "2026-11-16T14:30:00+08:00",
+          "quote_date": "2026-11-16",
+          "bar_count": 519,
+          "values": {
+            "ma5": 58.66000061035156,
+            "ma20": 60.40500030517578,
+            "ma60": 62.451666895548506,
+            "close": 57.400001525878906,
+            "rsi14": 19.010980208363776,
+            "atr14": 1.4285719735281808,
+            "volume": 31115.0,
+            "volume_ratio_previous20": 1.2693005894711078,
+            "macd": -1.1538230710735249,
+            "macd_hist": -0.27398583939937027,
+            "macd_new_cross_up": false,
+            "k9": 37.61453489510981,
+            "d9": 43.42202562095982,
+            "kd_new_cross_up": false,
+            "volatility20_pct": 10.901425815526142,
+            "support20": 55.900001525878906,
+            "resistance20": 62.79999923706055,
+            "return20_pct": -7.419352377614663
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "以有效OHLCV計算，不從圖像猜價格。",
+            "量比使用前20筆、不含當日的均量。",
+            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
+          ]
+        },
+        "flow": {
+          "label": "法人・籌碼・流動性",
+          "status": "available",
+          "values": {
+            "foreign_net_shares": 1000.0,
+            "trust_net_shares": 0.0,
+            "dealer_net_shares": 1942.0
+          },
+          "provenance": {
+            "foreign_net_shares": {
+              "available_at": "2026-11-17T06:53:38.832137+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.tpex.org.tw/openapi/v1/tpex_3insti_daily_trading",
+              "unit": "shares"
+            },
+            "trust_net_shares": {
+              "available_at": "2026-11-17T06:53:38.832137+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.tpex.org.tw/openapi/v1/tpex_3insti_daily_trading",
+              "unit": "shares"
+            },
+            "dealer_net_shares": {
+              "available_at": "2026-11-17T06:53:38.832137+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.tpex.org.tw/openapi/v1/tpex_3insti_daily_trading",
+              "unit": "shares"
+            }
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "macro_policy": {
+          "label": "總經・產業・法規",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "policy_rate_pct",
+            "usd_twd"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        }
+      },
+      "analyses": []
+    },
+    {
+      "symbol": "2734.TWO",
+      "name": "易飛網",
+      "foreign_defense": {
+        "label": "外資流向支撐代理線（非真實成本）",
+        "method_version": "net-buy-typical-price-v1",
+        "cutoff": "2026-11-17T06:54:48.193719+08:00",
+        "window_sessions": 20,
+        "matched_sessions": 12,
+        "required_sessions": 5,
+        "actual_institutional_cost": false,
+        "value": null,
+        "alert": "窗口法人資料不連續，先補齊再估計",
+        "status": "partial",
+        "formula": "Σ[當日典型價×max(外資淨買股數,0)] / Σmax(外資淨買股數,0)",
+        "limitations": [
+          "不含外資實際成交價與存量部位，不是外資真實成本或保證支撐",
+          "只用截至分析時間已取得的法人資料；不同市場分開處理",
+          "缺交易日、不足樣本、沒有淨買時不造線；不以此單獨買進"
+        ]
+      },
+      "factors": {
+        "news": {
+          "label": "新聞與公司政策",
+          "status": "missing",
+          "values": {
+            "events": 0,
+            "verified_events": 0
+          },
+          "missing": [
+            "沒有時間可核對的新聞"
+          ],
+          "notes": [
+            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
+          ]
+        },
+        "social": {
+          "label": "社群關注與情緒",
+          "status": "missing",
+          "values": {},
+          "missing": [
+            "社群來源未授權、未執行或連線失敗；不可填0熱度"
+          ],
+          "sample_scope": true
+        },
+        "fundamental": {
+          "label": "基本・財務・估值",
+          "status": "partial",
+          "values": {
+            "eps_ttm": -0.77,
+            "pb": 1.245177,
+            "roe_pct": -6.662999999999999
+          },
+          "provenance": {
+            "eps_ttm": {
+              "available_at": "2026-11-17T06:54:00.421975+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "provider-native"
+            },
+            "pb": {
+              "available_at": "2026-11-17T06:54:00.421975+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "provider-native"
+            },
+            "roe_pct": {
+              "available_at": "2026-11-17T06:54:00.421975+08:00",
               "period": "provider-current-observed; not original filing period",
               "source": "Yahoo Finance（需以公司公告複核）",
               "unit": "percent"
@@ -3436,24 +3259,24 @@
           "quote_date": "2026-11-16",
           "bar_count": 519,
           "values": {
-            "ma5": 12.429999923706054,
-            "ma20": 12.812499952316283,
-            "ma60": 13.147499958674112,
-            "close": 12.25,
-            "rsi14": 9.803230239875504,
-            "atr14": 0.2571430206298828,
-            "volume": 61979.0,
-            "volume_ratio_previous20": 0.6337136392242148,
-            "macd": -0.21197251796712102,
-            "macd_hist": -0.05095657105337337,
+            "ma5": 13.95999984741211,
+            "ma20": 13.997499990463258,
+            "ma60": 14.457499996821086,
+            "close": 14.199999809265137,
+            "rsi14": 54.233710827410555,
+            "atr14": 0.374999931880406,
+            "volume": 31001.0,
+            "volume_ratio_previous20": 0.5476816588212328,
+            "macd": -0.1398129552228511,
+            "macd_hist": 0.06481311988047925,
             "macd_new_cross_up": false,
-            "k9": 23.943520149614137,
-            "d9": 26.968407948829825,
+            "k9": 88.09525557510577,
+            "d9": 71.21110982681665,
             "kd_new_cross_up": false,
-            "volatility20_pct": 7.618845390669132,
-            "support20": 12.0,
-            "resistance20": 13.600000381469727,
-            "return20_pct": -6.84410376150918
+            "volatility20_pct": 18.21426326085412,
+            "support20": 12.5,
+            "resistance20": 14.699999809265137,
+            "return20_pct": -3.0716711329872526
           },
           "missing": [],
           "rejected": [],
@@ -3467,27 +3290,196 @@
           "label": "法人・籌碼・流動性",
           "status": "available",
           "values": {
-            "foreign_net_shares": -2000.0,
+            "foreign_net_shares": -3000.0,
             "trust_net_shares": 0.0,
-            "dealer_net_shares": 1000.0
+            "dealer_net_shares": 0.0
           },
           "provenance": {
             "foreign_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
+              "available_at": "2026-11-17T06:53:38.832137+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.tpex.org.tw/openapi/v1/tpex_3insti_daily_trading",
               "unit": "shares"
             },
             "trust_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
+              "available_at": "2026-11-17T06:53:38.832137+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.tpex.org.tw/openapi/v1/tpex_3insti_daily_trading",
               "unit": "shares"
             },
             "dealer_net_shares": {
-              "available_at": "2026-11-14T04:29:37.358322+08:00",
-              "period": "2026-11-13",
-              "source": "https://www.twse.com.tw/rwd/zh/fund/T86",
+              "available_at": "2026-11-17T06:53:38.832137+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.tpex.org.tw/openapi/v1/tpex_3insti_daily_trading",
+              "unit": "shares"
+            }
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "macro_policy": {
+          "label": "總經・產業・法規",
+          "status": "missing",
+          "values": {},
+          "provenance": {},
+          "missing": [
+            "policy_rate_pct",
+            "usd_twd"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        }
+      },
+      "analyses": []
+    },
+    {
+      "symbol": "2736.TWO",
+      "name": "富野",
+      "foreign_defense": {
+        "label": "外資流向支撐代理線（非真實成本）",
+        "method_version": "net-buy-typical-price-v1",
+        "cutoff": "2026-11-17T06:54:48.193719+08:00",
+        "window_sessions": 20,
+        "matched_sessions": 11,
+        "required_sessions": 5,
+        "actual_institutional_cost": false,
+        "value": null,
+        "alert": "窗口法人資料不連續，先補齊再估計",
+        "status": "partial",
+        "formula": "Σ[當日典型價×max(外資淨買股數,0)] / Σmax(外資淨買股數,0)",
+        "limitations": [
+          "不含外資實際成交價與存量部位，不是外資真實成本或保證支撐",
+          "只用截至分析時間已取得的法人資料；不同市場分開處理",
+          "缺交易日、不足樣本、沒有淨買時不造線；不以此單獨買進"
+        ]
+      },
+      "factors": {
+        "news": {
+          "label": "新聞與公司政策",
+          "status": "partial",
+          "values": {
+            "events": 1,
+            "verified_events": 0
+          },
+          "missing": [],
+          "notes": [
+            "標題、公司公告與社群傳聞分層；公司政策記錄承諾、時程、資本支出及里程碑。"
+          ]
+        },
+        "social": {
+          "label": "社群關注與情緒",
+          "status": "missing",
+          "values": {},
+          "missing": [
+            "社群來源未授權、未執行或連線失敗；不可填0熱度"
+          ],
+          "sample_scope": true
+        },
+        "fundamental": {
+          "label": "基本・財務・估值",
+          "status": "partial",
+          "values": {
+            "eps_ttm": -1.51,
+            "pb": 0.54908395,
+            "roe_pct": -9.589
+          },
+          "provenance": {
+            "eps_ttm": {
+              "available_at": "2026-11-17T06:54:01.178677+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "provider-native"
+            },
+            "pb": {
+              "available_at": "2026-11-17T06:54:01.178677+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "provider-native"
+            },
+            "roe_pct": {
+              "available_at": "2026-11-17T06:54:01.178677+08:00",
+              "period": "provider-current-observed; not original filing period",
+              "source": "Yahoo Finance（需以公司公告複核）",
+              "unit": "percent"
+            }
+          },
+          "missing": [
+            "revenue_yoy_pct",
+            "ocf",
+            "pe"
+          ],
+          "rejected": [],
+          "notes": [
+            "必須以首次可用／公布日期入列，不以財報季度末冒充公開日。",
+            "資料缺值不填成中性分；金融業不硬套製造業毛利率。"
+          ]
+        },
+        "technical": {
+          "label": "K線・技術・量價",
+          "status": "available",
+          "available_at": "2026-11-16T14:30:00+08:00",
+          "quote_date": "2026-11-16",
+          "bar_count": 519,
+          "values": {
+            "ma5": 9.829999923706055,
+            "ma20": 10.178499937057495,
+            "ma60": 11.02949997584025,
+            "close": 9.710000038146973,
+            "rsi14": 25.069021695449507,
+            "atr14": 0.23214292526245117,
+            "volume": 25000.0,
+            "volume_ratio_previous20": 0.6407151406113447,
+            "macd": -0.32210778039297594,
+            "macd_hist": -0.007491595731180911,
+            "macd_new_cross_up": false,
+            "k9": 32.15217823128606,
+            "d9": 28.789697053654393,
+            "kd_new_cross_up": false,
+            "volatility20_pct": 19.36984913687586,
+            "support20": 9.529999732971191,
+            "resistance20": 10.649999618530273,
+            "return20_pct": -7.962086610439956
+          },
+          "missing": [],
+          "rejected": [],
+          "notes": [
+            "以有效OHLCV計算，不從圖像猜價格。",
+            "量比使用前20筆、不含當日的均量。",
+            "週末與價量結構檢查不等於已取得完整交易日曆認證。"
+          ]
+        },
+        "flow": {
+          "label": "法人・籌碼・流動性",
+          "status": "available",
+          "values": {
+            "foreign_net_shares": 1000.0,
+            "trust_net_shares": 0.0,
+            "dealer_net_shares": 993.0
+          },
+          "provenance": {
+            "foreign_net_shares": {
+              "available_at": "2026-11-17T06:53:38.832137+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.tpex.org.tw/openapi/v1/tpex_3insti_daily_trading",
+              "unit": "shares"
+            },
+            "trust_net_shares": {
+              "available_at": "2026-11-17T06:53:38.832137+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.tpex.org.tw/openapi/v1/tpex_3insti_daily_trading",
+              "unit": "shares"
+            },
+            "dealer_net_shares": {
+              "available_at": "2026-11-17T06:53:38.832137+08:00",
+              "period": "2026-11-16",
+              "source": "https://www.tpex.org.tw/openapi/v1/tpex_3insti_daily_trading",
               "unit": "shares"
             }
           },
