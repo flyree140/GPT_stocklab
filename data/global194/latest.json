@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-20T05:32:13.768830+08:00",
+  "generated_at": "2026-11-20T05:51:24.120961+08:00",
   "markets": [
     {
       "key": "SPX",
@@ -909,7 +909,7 @@
       "expected_date": "2026-11-18",
       "observed_at": "2026-11-20T05:32:09.616261+08:00",
       "session_complete_after": "2026-11-19T00:44:00-05:00",
-      "age_hours": 0.0,
+      "age_hours": 0.3,
       "change_5d_bp": 9.0,
       "unit": "percent_yield"
     },
@@ -1369,7 +1369,7 @@
       "expected_date": "2026-11-18",
       "observed_at": "2026-11-20T05:32:10.422399+08:00",
       "session_complete_after": "2026-11-19T00:44:00-05:00",
-      "age_hours": 0.0,
+      "age_hours": 0.3,
       "change_5d_bp": 7.0,
       "unit": "percent_yield"
     }
@@ -5774,11 +5774,11 @@
   "source_snapshot_sha256": "a8075f0b039663bb9ff107c149dd6d1203567ba36f2958424c5ccc0c56a84f0e",
   "source_snapshot_at": "2026-11-20T05:31:27.069882+08:00",
   "collection": {
-    "quote_requests": 19,
-    "news_requests": 8,
+    "quote_requests": 17,
+    "news_requests": 2,
     "quote_limit": 19,
     "news_limit": 8,
-    "seconds": 6.24,
+    "seconds": 1.6,
     "qwen_calls": 0,
     "sources": [
       {
@@ -5902,25 +5902,25 @@
       },
       {
         "key": "quote:US10Y",
-        "state": "ok",
+        "state": "cache",
         "observed_at": "2026-11-20T05:32:09.616261+08:00",
         "rows": 80
       },
       {
         "key": "quote:US2Y",
-        "state": "ok",
+        "state": "cache",
         "observed_at": "2026-11-20T05:32:10.422399+08:00",
         "rows": 80
       },
       {
         "key": "news:Federal Reserve 官方貨幣政策",
-        "state": "ok",
+        "state": "cache",
         "observed_at": "2026-11-20T05:32:10.761117+08:00",
         "rows": 2
       },
       {
         "key": "news:ECB 官方新聞",
-        "state": "ok",
+        "state": "cache",
         "observed_at": "2026-11-20T05:32:10.866016+08:00",
         "rows": 8
       },
@@ -5933,32 +5933,32 @@
       },
       {
         "key": "news:Google News / 美股與AI產業",
-        "state": "ok",
+        "state": "cache",
         "observed_at": "2026-11-20T05:32:11.954912+08:00",
         "rows": 29
       },
       {
         "key": "news:Google News / 日本與韓國",
-        "state": "ok",
+        "state": "cache",
         "observed_at": "2026-11-20T05:32:12.368845+08:00",
         "rows": 25
       },
       {
         "key": "news:Google News / 亞洲幣值",
-        "state": "ok",
+        "state": "cache",
         "observed_at": "2026-11-20T05:32:12.666132+08:00",
         "rows": 2
       },
       {
         "key": "news:Google News / 選舉與政策",
-        "state": "ok",
+        "state": "cache",
         "observed_at": "2026-11-20T05:32:12.936586+08:00",
         "rows": 20
       },
       {
         "key": "news:Google News / 台股跨市場傳導",
         "state": "failed",
-        "error": "HTTPError: HTTP Error 429: Too Many Requests",
+        "error": "ValueError: no_eligible_records",
         "cached_observed_at": null,
         "fallback_cached": false
       }
